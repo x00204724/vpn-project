@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VPN Connectivity Analysis - Annit Maria Binu</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <h1>Comparative Analysis of Network Connectivity Solutions</h1>
+            <p>For Startups, SMEs and Enterprises</p>
+            <p>Annit Maria Binu | Student Number: x00204724 | Date: 10 September 2025</p>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section id="overview">
+            <h2>Project Overview</h2>
+            <p>Modern organisations require secure, reliable and scalable connectivity to support remote & hybrid distributed teams and cloud-based applications. This project evaluates VPNs, SD-WAN, VDI, and cloud/SaaS solutions in terms of security, speed, cost, scalability, and ease of management for startups, SMEs, and enterprises.</p>
+            <div class="objectives">
+                <h3>Project Objectives</h3>
+                <ul>
+                    <li>Design and implement a simulated enterprise network using GNS3</li>
+                    <li>Configure and test GRE, IPSec, SSL and OpenVPN tunnels</li>
+                    <li>Measure tunnel performance using file transfer metrics</li>
+                    <li>Analyse packet behaviour using Wireshark</li>
+                    <li>Implement a hybrid cloud VPN using Azure</li>
+                    <li>Compare suitability for startups, SMEs and enterprises</li>
+                </ul>
+            </div>
+            <div class="objectives">
+                <h3>Industry Context</h3>
+                <p>During my internship at the Department of Agriculture, Food and the Marine (DAFM), I observed how IPSec VPNs and Citrix VDI are used to securely connect over 200 sites across the country. I helped with basic network troubleshooting, setting up Cisco switches, and supporting staff working remotely.</p>
+            </div>
+        </section>
+
+        <section id="topology">
+            <h2>GNS3 Lab Topology</h2>
+            <div class="topology-diagram">
+                <svg viewBox="0 0 800 400" style="max-width: 100%; border: 2px solid #667eea; border-radius: 8px; background: #f8f9fa;">
+                    <!-- PC1 -->
+                    <rect x="100" y="30" width="80" height="60" fill="#4a90e2" rx="5"/>
+                    <text x="140" y="65" text-anchor="middle" fill="white" font-weight="bold">PC1</text>
+                    <text x="140" y="110" text-anchor="middle" font-size="12" fill="#333">VPCS</text>
+                    
+                    <!-- PC2 -->
+                    <rect x="620" y="30" width="80" height="60" fill="#4a90e2" rx="5"/>
+                    <text x="660" y="65" text-anchor="middle" fill="white" font-weight="bold">PC2</text>
+                    <text x="660" y="110" text-anchor="middle" font-size="12" fill="#333">VPCS</text>
+                    
+                    <!-- R1 -->
+                    <circle cx="140" cy="200" r="40" fill="#00a896"/>
+                    <text x="140" y="205" text-anchor="middle" fill="white" font-weight="bold" font-size="18">R1</text>
+                    
+                    <!-- R2 -->
+                    <circle cx="660" cy="200" r="40" fill="#00a896"/>
+                    <text x="660" y="205" text-anchor="middle" fill="white" font-weight="bold" font-size="18">R2</text>
+                    
+                    <!-- Switch1 -->
+                    <rect x="360" y="170" width="80" height="60" fill="#6c757d" rx="5"/>
+                    <text x="400" y="195" text-anchor="middle" fill="white" font-weight="bold">Switch1</text>
+                    
+                    <!-- Cloud1 -->
+                    <ellipse cx="240" cy="300" rx="60" ry="40" fill="none" stroke="#999" stroke-width="2" stroke-dasharray="5,5"/>
+                    <text x="240" y="305" text-anchor="middle" fill="#666" font-size="14">Cloud1</text>
+                    
+                    <!-- Connections -->
+                    <line x1="140" y1="90" x2="140" y2="160" stroke="#333" stroke-width="3"/>
+                    <line x1="660" y1="90" x2="660" y2="160" stroke="#333" stroke-width="3"/>
+                    <line x1="180" y1="200" x2="360" y2="200" stroke="#333" stroke-width="3"/>
+                    <line x1="440" y1="200" x2="620" y2="200" stroke="#333" stroke-width="3"/>
+                    <line x1="140" y1="240" x2="200" y2="280" stroke="#333" stroke-width="2" stroke-dasharray="5,5"/>
+                    
+                    <!-- GRE Tunnel -->
+                    <line x1="180" y1="180" x2="620" y2="180" stroke="#e74c3c" stroke-width="3" stroke-dasharray="10,5"/>
+                    <text x="400" y="170" text-anchor="middle" fill="#e74c3c" font-weight="bold" font-size="14">GRE Tunnel0</text>
+                    
+                    <!-- Labels -->
+                    <text x="140" y="280" text-anchor="middle" font-size="11" fill="#333">192.168.1.1</text>
+                    <text x="660" y="280" text-anchor="middle" font-size="11" fill="#333">192.168.2.1</text>
+                </svg>
+                <p style="text-align: center; font-style: italic; color: #666; margin-top: 1rem;">Figure: Two PCs (PC1 and PC2) connected via routers R1 and R2 through Switch1 with GRE Tunnel</p>
+            </div>
+            <div class="topology-box">
+                <p><strong>Network Configuration:</strong></p>
+                <p><strong>PC1 (VPCS):</strong> 192.168.1.10/24 (Gateway: 192.168.1.1)</p>
+                <p><strong>R1:</strong> Fa0/1: 192.168.1.1 | Fa0/0: 10.0.0.1 | Tunnel0: 172.16.0.1</p>
+                <p><strong>Switch1:</strong> Central switching fabric</p>
+                <p><strong>R2:</strong> Fa0/0: 10.0.0.2 | Fa0/1: 192.168.2.1 | Tunnel0: 172.16.0.2</p>
+                <p><strong>PC2 (VPCS):</strong> 192.168.2.10/24 (Gateway: 192.168.2.1)</p>
+                <p><strong>Cloud1:</strong> External network connectivity</p>
+                <p class="note">GRE Tunnel (Tunnel0) established between R1 and R2 for baseline testing</p>
+            </div>
+        </section>
+
+        <section id="methodology">
+            <h2>Methodology & Prototype Iterations</h2>
+            <div class="objectives">
+                <h3>Phase 1 – Research & Theoretical Analysis (Completed)</h3>
+                <p>Reviewed VPNs, SD-WAN, VDI and cloud-based solutions, examining features, strengths, limitations and suitability for different organisational types. Built theoretical foundation supported by DAFM internship experience.</p>
+                <h3>Phase 2 – Practical Network Simulation & GNS3 Lab (Completed)</h3>
+                <p>Simulated virtual network in GNS3 to test baseline connectivity. Configured routers, switches, PCs, subnets and IP addressing. Observed ARP resolution, packet behaviour and subnet isolation.</p>
+                <h3>Phase 3 – Advanced VPN Experiments & Hybrid Cloud Integration (Ongoing)</h3>
+                <p>Evaluating GRE and GRE over IPSec performance with meaningful data transfer. Testing file transfers (Alice in Wonderland text file) to measure latency, throughput, and encryption impact. Extending to Azure hybrid cloud VPN.</p>
+            </div>
+            <div class="progress-grid">
+                <div class="progress-card completed">
+                    <h3>✅ Iteration 1</h3>
+                    <p>Build GNS3 base topology</p>
+                    <p>Implement GRE tunnel</p>
+                    <p>Verify connectivity</p>
+                    <p>Baseline performance test</p>
+                </div>
+                <div class="progress-card completed">
+                    <h3>✅ Iteration 2</h3>
+                    <p>Ubuntu VMs configured</p>
+                    <p>Alice in Wonderland file transferred</p>
+                    <p>Wireshark VPN validation</p>
+                    <p>R3 added as transit router</p>
+                </div>
+                <div class="progress-card in-progress">
+                    <h3>⚠️ Iteration 3</h3>
+                    <p>GRE + IPSec implementation</p>
+                    <p>PriTunnel & WireGuard testing</p>
+                    <p>Performance comparison</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="iteration2">
+            <h2>Iteration 2 – VPN Implementation with Ubuntu VMs</h2>
+            <p>This iteration demonstrates the implementation and analysis of a site-to-site VPN using GNS3 and Ubuntu virtual machines. Ubuntu VMs were installed, updated, and configured with IP addresses and network adapters to integrate with the GNS3 topology, enabling end-to-end testing of network connectivity and VPN tunnelling.</p>
+
+            <div class="topology-diagram">
+                <svg viewBox="0 0 900 420" style="max-width:100%; border:2px solid #667eea; border-radius:8px; background:#f8f9fa;">
+                    <!-- Ubuntu Host 1 -->
+                    <rect x="30" y="30" width="100" height="50" fill="#e95420" rx="5"/>
+                    <text x="80" y="60" text-anchor="middle" fill="white" font-weight="bold" font-size="13">Ubuntu 1</text>
+
+                    <!-- Ubuntu Host 2 -->
+                    <rect x="770" y="30" width="100" height="50" fill="#e95420" rx="5"/>
+                    <text x="820" y="60" text-anchor="middle" fill="white" font-weight="bold" font-size="13">Ubuntu 2</text>
+
+                    <!-- PC1 -->
+                    <rect x="30" y="160" width="80" height="45" fill="#4a90e2" rx="5"/>
+                    <text x="70" y="188" text-anchor="middle" fill="white" font-weight="bold" font-size="12">PC1</text>
+
+                    <!-- R1 -->
+                    <circle cx="200" cy="230" r="38" fill="#00a896"/>
+                    <text x="200" y="235" text-anchor="middle" fill="white" font-weight="bold" font-size="16">R1</text>
+
+                    <!-- R2 -->
+                    <circle cx="700" cy="230" r="38" fill="#00a896"/>
+                    <text x="700" y="235" text-anchor="middle" fill="white" font-weight="bold" font-size="16">R2</text>
+
+                    <!-- R3 (transit) -->
+                    <circle cx="450" cy="310" r="38" fill="#764ba2"/>
+                    <text x="450" y="315" text-anchor="middle" fill="white" font-weight="bold" font-size="16">R3</text>
+                    <text x="450" y="365" text-anchor="middle" fill="#764ba2" font-size="11">(Transit Router)</text>
+
+                    <!-- Hub1 -->
+                    <rect x="390" y="200" width="80" height="45" fill="#6c757d" rx="5"/>
+                    <text x="430" y="228" text-anchor="middle" fill="white" font-weight="bold" font-size="12">Hub1</text>
+
+                    <!-- Cloud1 -->
+                    <ellipse cx="200" cy="360" rx="55" ry="32" fill="none" stroke="#999" stroke-width="2" stroke-dasharray="5,5"/>
+                    <text x="200" y="365" text-anchor="middle" fill="#666" font-size="12">Cloud1</text>
+
+                    <!-- Connections -->
+                    <line x1="80" y1="80" x2="180" y2="200" stroke="#e95420" stroke-width="2"/>
+                    <line x1="820" y1="80" x2="720" y2="200" stroke="#e95420" stroke-width="2"/>
+                    <line x1="70" y1="205" x2="170" y2="230" stroke="#4a90e2" stroke-width="2"/>
+                    <line x1="238" y1="230" x2="390" y2="225" stroke="#333" stroke-width="2"/>
+                    <line x1="470" y1="225" x2="662" y2="230" stroke="#333" stroke-width="2"/>
+                    <line x1="430" y1="245" x2="440" y2="272" stroke="#764ba2" stroke-width="2"/>
+                    <line x1="200" y1="268" x2="200" y2="328" stroke="#999" stroke-width="2" stroke-dasharray="4,4"/>
+
+                    <!-- GRE Tunnel -->
+                    <line x1="238" y1="215" x2="662" y2="215" stroke="#e74c3c" stroke-width="3" stroke-dasharray="10,5"/>
+                    <text x="450" y="205" text-anchor="middle" fill="#e74c3c" font-weight="bold" font-size="13">GRE Tunnel</text>
+                </svg>
+                <p style="text-align:center; font-style:italic; color:#666; margin-top:1rem;">Figure: Three routers (R1, R2, R3) connected through Hub1 with Ubuntu hosts, PC1, and Cloud1</p>
+            </div>
+
+            <div class="info-box">
+                <h3>Ubuntu VM Setup & Alice in Wonderland File Transfer</h3>
+                <p>Internet connectivity was verified by pinging google.com from the Ubuntu VM. The Alice in Wonderland text file was downloaded using the wget command and renamed to AliceInWonderland.txt. A simple HTTP server was started using Python to allow file access from other devices in the network.</p>
+                <ol>
+                    <li>Verified internet access: <code>ping google.com</code></li>
+                    <li>Downloaded file: <code>wget [url]</code></li>
+                    <li>Renamed: <code>mv [file] AliceInWonderland.txt</code></li>
+                    <li>Confirmed VM IP: <code>ip addr</code></li>
+                    <li>Started HTTP server: <code>python3 -m http.server 8000</code></li>
+                    <li>Verified file contents in terminal</li>
+                </ol>
+            </div>
+
+            <div class="info-box">
+                <h3>Wireshark VPN Tunnel Validation</h3>
+                <p>Wireshark packet captures validated VPN tunnelling. Filtering by <code>ip.addr == 172.64.155.209</code> isolated communication between the local host (192.168.1.16) and the remote VPN endpoint (172.64.155.209). Packets were transmitted over UDP port 443, indicating encapsulated VPN traffic. The payload appeared as encrypted data, confirming that original IP packets were encapsulated and protected within the tunnel.</p>
+                <p>Further analysis filtered by <code>udp.port == 443</code> confirmed encrypted payloads. The outer IP header contained the public VPN endpoints while the inner payload remained encrypted, ensuring secure transmission.</p>
+                <h3 style="margin-top:1rem;">Evidence of VPN Tunnelling</h3>
+                <ul>
+                    <li><strong>Encapsulated UDP Traffic:</strong> Packets use UDP port 443 to carry encrypted VPN tunnel data</li>
+                    <li><strong>Encrypted Payload:</strong> Data (620 bytes) appears as random hexadecimal — not readable application content</li>
+                    <li><strong>Outer IP Header:</strong> Source/destination represent VPN tunnel endpoints, not internal hosts</li>
+                </ul>
+            </div>
+
+            <div class="info-box">
+                <h3>R3 – Intermediate Transit Router</h3>
+                <p>A third router (R3) was added to the topology as an intermediate transit router, configured with basic interface addressing. This allows realistic simulation of multi-hop VPN traffic and facilitates monitoring of GRE-encapsulated packets as they traverse an external network before reaching the remote gateway.</p>
+            </div>
+
+            <h3 style="margin-top:1.5rem; color:#764ba2;">VPN Technology Comparison</h3>
+            <table>
+                <thead>
+                    <tr><th>Technology</th><th>Type</th><th>Speed</th><th>Security</th><th>Best For</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>WireGuard</td><td>Modern VPN</td><td class="rating-high">High</td><td class="rating-high">High</td><td>SMEs, performance-focused</td></tr>
+                    <tr><td>OpenVPN</td><td>Mature VPN</td><td class="rating-medium">Medium</td><td class="rating-high">High</td><td>Enterprises, firewall bypass</td></tr>
+                    <tr><td>Tailscale</td><td>SDN (WireGuard)</td><td class="rating-high">High</td><td class="rating-high">High</td><td>Remote teams, SMEs</td></tr>
+                    <tr><td>ZeroTier</td><td>SDN</td><td class="rating-medium">Medium</td><td class="rating-high">High</td><td>Complex distributed networks</td></tr>
+                    <tr><td>GRE + IPSec</td><td>Tunnel + Encrypt</td><td class="rating-medium">Medium</td><td class="rating-high">High</td><td>Site-to-site enterprise VPN</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="iteration3">
+            <h2>Iteration 3 – GRE Tunnels, IPSec, Remote Access & VPN Evaluation</h2>
+            <p>This iteration extends the project by implementing and verifying GRE tunnels, IPSec encryption, and remote VPN access. It provides practical demonstrations of secure multi-protocol communication, validated encryption, and documented performance metrics.</p>
+
+            <div class="progress-grid">
+                <div class="progress-card completed">
+                    <h3>✅ Traffic Capture</h3>
+                    <p>TCP & UDP traffic analysed</p>
+                    <p>Wireshark protocol identification</p>
+                    <p>Encryption verified via ESP headers</p>
+                </div>
+                <div class="progress-card completed">
+                    <h3>✅ GRE Tunnel</h3>
+                    <p>Tunnel setup & confirmed</p>
+                    <p>Ping & traceroute validated</p>
+                    <p>GRE headers captured</p>
+                </div>
+                <div class="progress-card in-progress">
+                    <h3>⚠️ IPSec & Remote Access</h3>
+                    <p>AES-256 & 3DES tested</p>
+                    <p>PriTunnel & WireGuard evaluated</p>
+                    <p>Performance comparison ongoing</p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h3>Traffic Capture & Protocol Analysis</h3>
+                <p>TCP traffic was simulated using file transfers and HTTP requests. UDP traffic was generated using DNS queries and custom ping tests. Wireshark confirmed the network handles both TCP and UDP over GRE tunnels — critical for environments requiring web services, VoIP, and real-time data streams.</p>
+                <p>When transmitted over an IPSec tunnel, the "Alice" payload data became unreadable in Wireshark, confirming successful encryption. Decryption at the receiving end restored the original data, confirming bidirectional encryption.</p>
+            </div>
+
+            <div class="info-box">
+                <h3>GRE Tunnel Benefits</h3>
+                <ul>
+                    <li><strong>Protocol Flexibility:</strong> Encapsulates any Layer 3 protocol over an IP network</li>
+                    <li><strong>Compatibility with Encryption:</strong> Works alongside IPSec without modifying GRE encapsulation</li>
+                    <li><strong>Simplified Routing:</strong> Supports OSPF and EIGRP over the tunnel for scalable designs</li>
+                    <li><strong>Network Segmentation:</strong> Allows logical separation of traffic for management and security</li>
+                </ul>
+            </div>
+
+            <div class="info-box">
+                <h3>Remote Access – PriTunnel vs WireGuard</h3>
+                <table style="margin-top:0.5rem;">
+                    <thead>
+                        <tr><th>Criteria</th><th>PriTunnel</th><th>WireGuard</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Setup Speed</td><td class="rating-high">Fast</td><td class="rating-medium">Moderate</td></tr>
+                        <tr><td>Latency</td><td class="rating-medium">Medium</td><td class="rating-high">Low</td></tr>
+                        <tr><td>Security</td><td class="rating-high">High</td><td class="rating-high">High</td></tr>
+                        <tr><td>Configuration</td><td class="rating-high">Simple</td><td class="rating-medium">Moderate</td></tr>
+                        <tr><td>Best For</td><td>Quick deployment</td><td>Performance-focused</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="info-box">
+                <h3>Iteration 3 Deliverables</h3>
+                <ul class="deliverables-list" style="list-style:none; padding:0;">
+                    <li>✅ Wireshark captures — TCP/UDP over GRE + IPSec tunnels</li>
+                    <li>✅ Packet Tracer simulations — IPSec encryption demonstrated</li>
+                    <li>✅ VPN configurations — PriTunnel and WireGuard client setups</li>
+                    <li>✅ Architecture diagram — updated with IP addresses and integration points</li>
+                    <li>⚠️ Performance data — latency, throughput, reliability metrics (ongoing)</li>
+                    <li>⚠️ Sample IPSec examples — documented for reproducibility (ongoing)</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="results">
+            <h2>Performance Testing & RTT Analysis</h2>
+            <p>Performance testing includes measuring round-trip time and verifying correct GRE and IPSec tunnel operation using packet captures. RTT variations over 20 ICMP packets show stable latency across the GRE tunnel under normal operation and the impact of tunnel shutdown on connectivity.</p>
+            <div class="chart-container">
+                <canvas id="rttChart"></canvas>
+            </div>
+            <p class="note">Figure 1: Round trip time (RTT) variations showing Tunnel RTT (green) maintaining connectivity and Tunnel Down measurements (red) indicating routing convergence issues during tunnel startup.</p>
+            <div class="chart-container">
+                <canvas id="transferChart"></canvas>
+            </div>
+        </section>
+
+        <section id="file-transfer">
+            <h2>File Transfer &ndash; Live Simulation</h2>
+            <p>Select a tunnel type and watch AliceInWonderland.txt transfer across the network in real time.</p>
+
+            <div class="transfer-demo">
+                <div class="tunnel-buttons">
+                    <button onclick="runTransfer('Baseline (No VPN)', 0.287, '#28a745')" style="background:#28a745">Baseline (No VPN)</button>
+                    <button onclick="runTransfer('GRE Tunnel', 0.95, '#667eea')" style="background:#667eea">GRE Tunnel</button>
+                    <button onclick="runTransfer('GRE + IPSec', 1.4, '#764ba2')" style="background:#764ba2">GRE + IPSec</button>
+                    <button onclick="runTransfer('WireGuard', 0.6, '#ffc107')" style="background:#ffc107; color:#333">WireGuard</button>
+                    <button onclick="runTransfer('PriTunnel', 0.8, '#e74c3c')" style="background:#e74c3c">PriTunnel</button>
+                </div>
+
+                <div class="network-animation">
+                    <div class="anim-node">
+                        <div style="font-size:2.5rem">&#128187;</div>
+                        <div><strong>Ubuntu VM</strong><br><small>192.168.1.33</small></div>
+                    </div>
+
+                    <div class="anim-track">
+                        <div class="anim-tunnel-label" id="tunnel-label">Select a tunnel above</div>
+                        <div class="anim-road">
+                            <div class="anim-packet" id="anim-packet">&#128196;</div>
+                        </div>
+                        <div class="anim-progress-wrap">
+                            <div class="anim-progress-fill" id="anim-fill"></div>
+                        </div>
+                    </div>
+
+                    <div class="anim-node">
+                        <div style="font-size:2.5rem">&#128421;</div>
+                        <div><strong>Windows Host</strong><br><small>192.168.1.x</small></div>
+                    </div>
+                </div>
+
+                <div class="transfer-stats">
+                    <div class="stat-box"><div class="stat-label">Tunnel</div><div class="stat-value" id="stat-tunnel">&mdash;</div></div>
+                    <div class="stat-box"><div class="stat-label">File Size</div><div class="stat-value">170 KB</div></div>
+                    <div class="stat-box"><div class="stat-label">Transfer Time</div><div class="stat-value" id="stat-time">&mdash;</div></div>
+                    <div class="stat-box"><div class="stat-label">Throughput</div><div class="stat-value" id="stat-speed">&mdash;</div></div>
+                    <div class="stat-box"><div class="stat-label">Status</div><div class="stat-value" id="stat-status">Idle</div></div>
+                </div>
+            </div>
+
+            <div class="info-box" style="margin-top:1.5rem;">
+                <h3>Real Measured Result &ndash; Baseline</h3>
+                <p><strong>Transfer time: 0.287 seconds (287ms)</strong> measured directly from Ubuntu VM (192.168.1.33) to Windows host using Python HTTP server and PowerShell Measure-Command. File size: ~170KB. Throughput: ~592 KB/s.</p>
+                <p class="note">Remaining tunnel results (GRE, GRE+IPSec, WireGuard, PriTunnel) will be updated as testing progresses.</p>
+            </div>
+        </section>
+
+        <section id="wireshark">
+            <h2>Packet Visibility Analysis (Before & After IPSec)</h2>
+            <p>To demonstrate the effect of VPN encryption on packet visibility, ICMP traffic between PC1 (192.168.1.10) and PC2 (192.168.2.10) was captured using Wireshark in two stages.</p>
+            
+            <div class="info-box">
+                <h3>Before IPSec Tunnel Activation</h3>
+                <p>Wireshark captures showed GRE encapsulated packets in transit. Only the endpoints' IP addresses were visible, while the payload remained unencrypted. The first 5 ICMP echo requests from PC1 to PC2 did not receive replies, indicating the GRE tunnel or routing path had not been fully established yet (normal during tunnel startup and routing convergence).</p>
+            </div>
+            
+            <div class="info-box">
+                <h3>After IPSec Tunnel Activation</h3>
+                <p>ICMP communication between PC1 and PC2 was successfully re-established after the GRE over IPSec tunnel became stable. Wireshark captures displayed ICMP traffic encapsulated in ESP packets, confirming the tunnel was functional and capable of supporting secure end-to-end communication.</p>
+                <p class="note">Analysis: IPSec encryption protects data confidentiality. While the GRE tunnel alone enables connectivity, adding IPSec ensures that sensitive information, such as ICMP payloads, is unreadable by third parties—a fundamental principle of secure VPN implementation.</p>
+            </div>
+        </section>
+
+        <section id="comparison">
+            <h2>VPN Technology Comparison</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tunnel Type</th>
+                        <th>Security</th>
+                        <th>Performance</th>
+                        <th>Scalability</th>
+                        <th>Management</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>GRE</td>
+                        <td class="rating-low">Low</td>
+                        <td class="rating-high">High</td>
+                        <td class="rating-medium">Medium</td>
+                        <td class="rating-medium">Medium</td>
+                    </tr>
+                    <tr>
+                        <td>GRE + IPSec</td>
+                        <td class="rating-high">High</td>
+                        <td class="rating-medium">Medium</td>
+                        <td class="rating-medium">Medium</td>
+                        <td class="rating-medium">Medium</td>
+                    </tr>
+                    <tr>
+                        <td>Hybrid VPN (Azure)</td>
+                        <td class="rating-high">High</td>
+                        <td class="rating-pending">Testing</td>
+                        <td class="rating-high">High</td>
+                        <td class="rating-medium">Medium</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="azure">
+            <h2>Azure Hybrid Cloud Integration (Phase 3)</h2>
+            <p>The project will extend the on-premises VPN into a hybrid cloud model using Microsoft Azure. Site-to-site VPNs with IPSec encrypt traffic between on-premises networks and Azure VNets, enabling secure hybrid cloud extension.</p>
+            
+            <div class="info-box warning">
+                <h3>Current Status: Planned Implementation</h3>
+                <p><strong>Architecture:</strong> A site-to-site VPN will connect the simulated enterprise network in GNS3 to an Azure Virtual Network (VNet). An Azure VPN Gateway will provide IPSec encryption to secure communication between on-site networks and cloud resources.</p>
+                
+                <p><strong>Current Challenges:</strong></p>
+                <ul>
+                    <li>IP routing configuration issues between GNS3 and Azure</li>
+                    <li>Linux VM setup in GNS3 for hybrid connectivity</li>
+                    <li>VPN gateway connectivity and tunnel establishment</li>
+                </ul>
+                
+                <p><strong>Next Steps:</strong></p>
+                <ul>
+                    <li>Finalize Linux VM environment in GNS3</li>
+                    <li>Configure proper IP routes and interfaces</li>
+                    <li>Deploy Azure VPN Gateway step-by-step</li>
+                    <li>Test Alice in Wonderland file transfer across hybrid tunnel</li>
+                    <li>Measure performance and compare with on-premises VPN</li>
+                </ul>
+                
+                <p class="note">Using a hybrid cloud setup lets organisations safely connect their internal networks to the cloud while keeping things scalable and cost-effective.</p>
+            </div>
+        </section>
+
+        <section id="deliverables">
+            <h2>Project Deliverables & Milestones</h2>
+            <p>The project will produce a complete set of materials demonstrating research, experiments and conclusions on VPN technologies, tunnelling methods, cloud connectivity and hybrid networking.</p>
+            
+            <ul class="deliverables-list">
+                <li>✅ Detailed technical report documenting all phases</li>
+                <li>✅ GNS3 simulation files (topology, router configs)</li>
+                <li>⚠️ Azure cloud networking setup (VNet, VPN Gateway) - in progress</li>
+                <li>⚠️ Wireshark packet captures (GRE, ESP, tunnel establishment) - in progress</li>
+                <li>✅ Professional network diagrams (Draw.io/Lucidchart)</li>
+                <li>⏳ Measured performance comparisons (file transfer metrics) - pending Linux VM</li>
+                <li>⏳ Final presentation with recommendations - planned</li>
+            </ul>
+            
+            <div class="objectives">
+                <h3>Technical Requirements</h3>
+                <p><strong>Hardware:</strong> PC/Laptop with ≥16GB RAM, Virtualisation-capable CPU</p>
+                <p><strong>Software:</strong> GNS3, Cisco IOS images, Wireshark, Azure portal tools</p>
+                <p><strong>Cloud Resources:</strong> Azure Virtual Network, Azure VPN Gateway</p>
+                <p><strong>Access:</strong> Azure student subscription, Cisco images (lab use)</p>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2025 Annit Maria Binu | Fourth Year Project</p>
+        <p>Department of Agriculture, Food and the Marine (DAFM) Internship Experience</p>
+        <p>12-Week Project Timeline | Word Count: 2251</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
