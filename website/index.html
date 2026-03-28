@@ -379,6 +379,128 @@
             </div>
         </section>
 
+        <section id="company-comparison">
+            <h2>VPN Suitability by Company Size</h2>
+            <p>Based on lab testing and research, different VPN technologies suit different organisation sizes depending on budget, technical resources, scalability needs, and security requirements.</p>
+
+            <div class="company-grid">
+                <div class="company-card startup">
+                    <div class="company-icon">🚀</div>
+                    <h3>Startup</h3>
+                    <p class="company-size">1–20 employees</p>
+                    <div class="company-rec">Recommended</div>
+                    <p><strong>WireGuard / Tailscale</strong></p>
+                    <ul>
+                        <li>Low cost / free tier</li>
+                        <li>Simple setup — no IT team needed</li>
+                        <li>Fast performance</li>
+                        <li>Cloud-friendly</li>
+                        <li>Scales easily as team grows</li>
+                    </ul>
+                    <div class="company-avoid">Avoid: GRE+IPSec (too complex)</div>
+                </div>
+
+                <div class="company-card sme">
+                    <div class="company-icon">🏢</div>
+                    <h3>SME</h3>
+                    <p class="company-size">20–250 employees</p>
+                    <div class="company-rec">Recommended</div>
+                    <p><strong>GRE + IPSec / OpenVPN</strong></p>
+                    <ul>
+                        <li>Site-to-site connectivity</li>
+                        <li>Strong encryption (AES-256)</li>
+                        <li>Role-based access control</li>
+                        <li>Supports multiple office locations</li>
+                        <li>Manageable with small IT team</li>
+                    </ul>
+                    <div class="company-avoid">Avoid: Basic GRE (no encryption)</div>
+                </div>
+
+                <div class="company-card enterprise">
+                    <div class="company-icon">🏭</div>
+                    <h3>Enterprise</h3>
+                    <p class="company-size">250+ employees</p>
+                    <div class="company-rec">Recommended</div>
+                    <p><strong>GRE + IPSec + Azure Hybrid VPN</strong></p>
+                    <ul>
+                        <li>High availability & redundancy</li>
+                        <li>Geographic failover</li>
+                        <li>Azure VNet integration</li>
+                        <li>Active Directory / SIEM integration</li>
+                        <li>Advanced monitoring & compliance</li>
+                    </ul>
+                    <div class="company-avoid">Requires: Dedicated network team</div>
+                </div>
+            </div>
+
+            <div class="chart-container" style="margin-top:2rem;">
+                <canvas id="companyChart"></canvas>
+            </div>
+
+            <table style="margin-top:2rem;">
+                <thead>
+                    <tr>
+                        <th>VPN Technology</th>
+                        <th>Startup</th>
+                        <th>SME</th>
+                        <th>Enterprise</th>
+                        <th>Cost</th>
+                        <th>Complexity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>WireGuard</td>
+                        <td class="rating-high">✅ Best fit</td>
+                        <td class="rating-high">✅ Good</td>
+                        <td class="rating-medium">⚠️ Limited</td>
+                        <td class="rating-high">Free</td>
+                        <td class="rating-high">Low</td>
+                    </tr>
+                    <tr>
+                        <td>Tailscale</td>
+                        <td class="rating-high">✅ Best fit</td>
+                        <td class="rating-high">✅ Good</td>
+                        <td class="rating-medium">⚠️ Limited</td>
+                        <td class="rating-high">Free/Low</td>
+                        <td class="rating-high">Very Low</td>
+                    </tr>
+                    <tr>
+                        <td>OpenVPN</td>
+                        <td class="rating-medium">⚠️ Possible</td>
+                        <td class="rating-high">✅ Best fit</td>
+                        <td class="rating-high">✅ Good</td>
+                        <td class="rating-medium">Low/Med</td>
+                        <td class="rating-medium">Medium</td>
+                    </tr>
+                    <tr>
+                        <td>GRE + IPSec</td>
+                        <td class="rating-low">❌ Too complex</td>
+                        <td class="rating-high">✅ Best fit</td>
+                        <td class="rating-high">✅ Best fit</td>
+                        <td class="rating-medium">Medium</td>
+                        <td class="rating-low">High</td>
+                    </tr>
+                    <tr>
+                        <td>Azure Hybrid VPN</td>
+                        <td class="rating-low">❌ Overkill</td>
+                        <td class="rating-medium">⚠️ Possible</td>
+                        <td class="rating-high">✅ Best fit</td>
+                        <td class="rating-low">High</td>
+                        <td class="rating-low">Very High</td>
+                    </tr>
+                    <tr>
+                        <td>PriTunnel</td>
+                        <td class="rating-high">✅ Good</td>
+                        <td class="rating-high">✅ Good</td>
+                        <td class="rating-medium">⚠️ Limited</td>
+                        <td class="rating-high">Low</td>
+                        <td class="rating-high">Low</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
         <section id="comparison">
             <h2>VPN Technology Comparison</h2>
             <table>

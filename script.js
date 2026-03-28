@@ -149,3 +149,53 @@ function runTransfer(tunnelName, duration, color) {
         statStatus.style.color = '#28a745';
     }, duration * 1000);
 }
+
+// Company Size Comparison Chart
+const companyCtx = document.getElementById('companyChart').getContext('2d');
+new Chart(companyCtx, {
+    type: 'bar',
+    data: {
+        labels: ['WireGuard', 'Tailscale', 'OpenVPN', 'GRE + IPSec', 'Azure Hybrid', 'PriTunnel'],
+        datasets: [
+            {
+                label: 'Startup Suitability',
+                data: [9, 9, 5, 2, 1, 7],
+                backgroundColor: 'rgba(40, 167, 69, 0.7)',
+                borderColor: '#28a745',
+                borderWidth: 2
+            },
+            {
+                label: 'SME Suitability',
+                data: [7, 7, 8, 9, 5, 8],
+                backgroundColor: 'rgba(102, 126, 234, 0.7)',
+                borderColor: '#667eea',
+                borderWidth: 2
+            },
+            {
+                label: 'Enterprise Suitability',
+                data: [4, 4, 7, 9, 10, 5],
+                backgroundColor: 'rgba(118, 75, 162, 0.7)',
+                borderColor: '#764ba2',
+                borderWidth: 2
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            title: {
+                display: true,
+                text: 'VPN Technology Suitability by Organisation Size (Score out of 10)',
+                font: { size: 15 }
+            },
+            legend: { position: 'bottom' }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 10,
+                title: { display: true, text: 'Suitability Score' }
+            }
+        }
+    }
+});
