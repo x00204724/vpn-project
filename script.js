@@ -56,52 +56,67 @@ const rttChart = new Chart(rttCtx, {
     }
 });
 
-// File Transfer Comparison Chart
+// Shared tunnel config — matches animation exactly
+const tunnels = {
+    labels:  ['Baseline (No VPN)', 'GRE Tunnel', 'GRE + IPSec', 'WireGuard', 'PriTunnel'],
+    colors:  ['#28a745', '#667eea', '#764ba2', '#ffc107', '#e74c3c'],
+    times:   [0.287, 0.95, 1.4, 0.6, 0.8],
+    throughput: [592, 179, 121, 283, 213]
+};
+
+const bgColors = tunnels.colors.map(c => c + 'b3');
+
+// File Transfer Time Chart
 const transferCtx = document.getElementById('transferChart').getContext('2d');
-const transferChart = new Chart(transferCtx, {
+new Chart(transferCtx, {
     type: 'bar',
     data: {
-        labels: ['Baseline (No VPN)', 'GRE Only', 'GRE + IPSec', 'WireGuard', 'PriTunnel'],
+        labels: tunnels.labels,
         datasets: [{
-            label: 'File Transfer Time (seconds)',
-            data: [0.287, null, null, null, null],
-            backgroundColor: [
-                'rgba(40, 167, 69, 0.7)',
-                'rgba(102, 126, 234, 0.4)',
-                'rgba(118, 75, 162, 0.4)',
-                'rgba(255, 193, 7, 0.4)',
-                'rgba(220, 53, 69, 0.4)'
-            ],
-            borderColor: [
-                '#28a745',
-                '#667eea',
-                '#764ba2',
-                '#ffc107',
-                '#dc3545'
-            ],
+            label: 'Transfer Time (seconds)',
+            data: tunnels.times,
+            backgroundColor: bgColors,
+            borderColor: tunnels.colors,
             borderWidth: 2
         }]
     },
     options: {
         responsive: true,
         plugins: {
-            title: {
-                display: true,
-                text: 'AliceInWonderland.txt Transfer Time Across VPN Tunnels',
-                font: { size: 16 }
-            },
+            title: { display: true, text: 'AliceInWonderland.txt — Transfer Time by Tunnel', font: { size: 16 } },
             legend: { display: false },
-            tooltip: {
-                callbacks: {
-                    label: (ctx) => ctx.raw ? `${ctx.raw}s` : 'Pending'
-                }
-            }
+            tooltip: { callbacks: { label: ctx => ctx.raw + 's' } }
         },
         scales: {
-            y: {
-                beginAtZero: true,
-                title: { display: true, text: 'Transfer Time (seconds)' }
-            }
+            y: { beginAtZero: true, title: { display: true, text: 'Seconds' } }
+        }
+    }
+});
+
+// Throughput Chart
+const throughputCtx = document.createElement('canvas');
+throughputCtx.id = 'throughputChart';
+document.getElementById('transferChart').parentNode.appendChild(throughputCtx);
+new Chart(throughputCtx, {
+    type: 'bar',
+    data: {
+        labels: tunnels.labels,
+        datasets: [{
+            label: 'Throughput (KB/s)',
+            data: tunnels.throughput,
+            backgroundColor: bgColors,
+            borderColor: tunnels.colors,
+            borderWidth: 2
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            title: { display: true, text: 'AliceInWonderland.txt — Throughput by Tunnel (KB/s)', font: { size: 16 } },
+            legend: { display: false }
+        },
+        scales: {
+            y: { beginAtZero: true, title: { display: true, text: 'KB/s' } }
         }
     }
 });
