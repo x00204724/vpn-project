@@ -217,9 +217,9 @@ new Chart(companyCtx, {
 
 // Company transfer animation data
 const companyData = {
-    startup:    { name: 'Startup',    icon: '🚀', vpn: 'WireGuard',        time: 0.6,  color: '#28a745', throughput: 283 },
-    sme:        { name: 'SME',        icon: '🏢', vpn: 'GRE + IPSec',      time: 1.4,  color: '#667eea', throughput: 121 },
-    enterprise: { name: 'Enterprise', icon: '🏭', vpn: 'Azure Hybrid VPN', time: 2.1,  color: '#764ba2', throughput: 81  }
+    startup:    { name: 'Startup',    icon: 'Startup',    vpn: 'WireGuard',        time: 0.6,  color: '#4a7c59', throughput: 283 },
+    sme:        { name: 'SME',        icon: 'SME',        vpn: 'GRE + IPSec',      time: 1.4,  color: '#1a2e4a', throughput: 121 },
+    enterprise: { name: 'Enterprise', icon: 'Enterprise', vpn: 'Azure Hybrid VPN', time: 2.1,  color: '#c9a84c', throughput: 81  }
 };
 
 function runCompanyTransfer(type) {
