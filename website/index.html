@@ -12,25 +12,25 @@
         <div class="container">
             <h1>Comparative Analysis of Network Connectivity Solutions</h1>
             <p>For Startups, SMEs and Enterprises</p>
-            <p>Annit Maria Binu | Student Number: x00204724 | Date: 10 September 2025</p>
+            <p>Annit Maria Binu | Student Number: x00204724</p>
         </div>
     </nav>
 
     <aside class="sidebar">
         <div class="sidebar-title">Contents</div>
-        <a href="#overview">📋 Overview</a>
-        <a href="#topology">🖧 Topology</a>
-        <a href="#methodology">📐 Methodology</a>
-        <a href="#iteration2">🔁 Iteration 2</a>
-        <a href="#iteration3">🔁 Iteration 3</a>
-        <a href="#results">📊 RTT Results</a>
-        <a href="#file-transfer">📁 File Transfer</a>
-        <a href="#wireshark">🔍 Wireshark</a>
-        <a href="#company-comparison">🏢 By Company</a>
-        <a href="#comparison">⚖️ VPN Compare</a>
-        <a href="#azure">☁️ Azure</a>
-        <a href="#conclusion">🎯 Conclusion</a>
-        <a href="#deliverables">✅ Deliverables</a>
+        <a href="#overview">Overview</a>
+        <a href="#topology">Topology</a>
+        <a href="#methodology">Methodology</a>
+        <a href="#iteration2">Iteration 2</a>
+        <a href="#iteration3">Iteration 3</a>
+        <a href="#results">RTT Results</a>
+        <a href="#file-transfer">File Transfer</a>
+        <a href="#wireshark">Wireshark</a>
+        <a href="#company-comparison">By Company</a>
+        <a href="#comparison">VPN Compare</a>
+        <a href="#azure">Azure</a>
+        <a href="#conclusion">Conclusion</a>
+        <a href="#deliverables">Deliverables</a>
     </aside>
 
     <div class="container">
@@ -160,21 +160,21 @@
             </div>
             <div class="progress-grid">
                 <div class="progress-card completed">
-                    <h3>✅ Iteration 1</h3>
+                    <h3>Iteration 1 — Complete</h3>
                     <p>Build GNS3 base topology</p>
                     <p>Implement GRE tunnel</p>
                     <p>Verify connectivity</p>
                     <p>Baseline performance test</p>
                 </div>
                 <div class="progress-card completed">
-                    <h3>✅ Iteration 2</h3>
+                    <h3>Iteration 2 — Complete</h3>
                     <p>Ubuntu VMs configured</p>
                     <p>Alice in Wonderland file transferred</p>
                     <p>Wireshark VPN validation</p>
                     <p>R3 added as transit router</p>
                 </div>
                 <div class="progress-card in-progress">
-                    <h3>⚠️ Iteration 3</h3>
+                    <h3>Iteration 3 — In Progress</h3>
                     <p>GRE + IPSec implementation</p>
                     <p>PriTunnel & WireGuard testing</p>
                     <p>Performance comparison</p>
@@ -267,7 +267,7 @@
                 <p>A third router (R3) was added to the topology as an intermediate transit router, configured with basic interface addressing. This allows realistic simulation of multi-hop VPN traffic and facilitates monitoring of GRE-encapsulated packets as they traverse an external network before reaching the remote gateway.</p>
             </div>
 
-            <h3 style="margin-top:1.5rem; color:#764ba2;">VPN Technology Comparison</h3>
+            <h3 style="margin-top:1.5rem;">VPN Technology Comparison</h3>
             <table>
                 <thead>
                     <tr><th>Technology</th><th>Type</th><th>Speed</th><th>Security</th><th>Best For</th></tr>
@@ -288,19 +288,19 @@
 
             <div class="progress-grid">
                 <div class="progress-card completed">
-                    <h3>✅ Traffic Capture</h3>
+                    <h3>Traffic Capture</h3>
                     <p>TCP & UDP traffic analysed</p>
                     <p>Wireshark protocol identification</p>
                     <p>Encryption verified via ESP headers</p>
                 </div>
                 <div class="progress-card completed">
-                    <h3>✅ GRE Tunnel</h3>
+                    <h3>GRE Tunnel</h3>
                     <p>Tunnel setup & confirmed</p>
                     <p>Ping & traceroute validated</p>
                     <p>GRE headers captured</p>
                 </div>
                 <div class="progress-card in-progress">
-                    <h3>⚠️ IPSec & Remote Access</h3>
+                    <h3>IPSec &amp; Remote Access</h3>
                     <p>AES-256 & 3DES tested</p>
                     <p>PriTunnel & WireGuard evaluated</p>
                     <p>Performance comparison ongoing</p>
@@ -342,12 +342,12 @@
             <div class="info-box">
                 <h3>Iteration 3 Deliverables</h3>
                 <ul class="deliverables-list" style="list-style:none; padding:0;">
-                    <li>✅ Wireshark captures — TCP/UDP over GRE + IPSec tunnels</li>
-                    <li>✅ Packet Tracer simulations — IPSec encryption demonstrated</li>
-                    <li>✅ VPN configurations — PriTunnel and WireGuard client setups</li>
-                    <li>✅ Architecture diagram — updated with IP addresses and integration points</li>
-                    <li>⚠️ Performance data — latency, throughput, reliability metrics (ongoing)</li>
-                    <li>⚠️ Sample IPSec examples — documented for reproducibility (ongoing)</li>
+                    <li>Complete — Wireshark captures: TCP/UDP over GRE + IPSec tunnels</li>
+                    <li>Complete — Packet Tracer simulations: IPSec encryption demonstrated</li>
+                    <li>Complete — VPN configurations: PriTunnel and WireGuard client setups</li>
+                    <li>Complete — Architecture diagram: updated with IP addresses</li>
+                    <li>Ongoing — Performance data: latency, throughput, reliability metrics</li>
+                    <li>Ongoing — Sample IPSec examples: documented for reproducibility</li>
                 </ul>
             </div>
         </section>
@@ -379,14 +379,14 @@
 
                 <div class="network-animation">
                     <div class="anim-node">
-                        <div style="font-size:2.5rem">&#128187;</div>
+                        <div style="font-size:0.85rem; font-weight:600; color:#333; text-transform:uppercase; letter-spacing:0.5px;">Ubuntu VM</div>
                         <div><strong>Ubuntu VM</strong><br><small>192.168.1.33</small></div>
                     </div>
 
                     <div class="anim-track">
                         <div class="anim-tunnel-label" id="tunnel-label">Select a tunnel above</div>
                         <div class="anim-road">
-                            <div class="anim-packet" id="anim-packet">&#128196;</div>
+                            <div class="anim-packet" id="anim-packet" style="font-size:0.75rem; background:#4a6fa5; color:white; padding:2px 6px; border-radius:3px; white-space:nowrap;">alice.txt</div>
                         </div>
                         <div class="anim-progress-wrap">
                             <div class="anim-progress-fill" id="anim-fill"></div>
@@ -394,7 +394,7 @@
                     </div>
 
                     <div class="anim-node">
-                        <div style="font-size:2.5rem">&#128421;</div>
+                        <div style="font-size:0.85rem; font-weight:600; color:#333; text-transform:uppercase; letter-spacing:0.5px;">Windows</div>
                         <div><strong>Windows Host (My Laptop)</strong><br><small>192.168.1.16</small></div>
                     </div>
                 </div>
@@ -437,7 +437,7 @@
 
             <div class="company-grid">
                 <div class="company-card startup">
-                    <div class="company-icon">🚀</div>
+                    <div class="company-icon">Startup</div>
                     <h3>Startup</h3>
                     <p class="company-size">1–20 employees</p>
                     <div class="company-rec">Recommended</div>
@@ -453,7 +453,7 @@
                 </div>
 
                 <div class="company-card sme">
-                    <div class="company-icon">🏢</div>
+                    <div class="company-icon">SME</div>
                     <h3>SME</h3>
                     <p class="company-size">20–250 employees</p>
                     <div class="company-rec">Recommended</div>
@@ -469,7 +469,7 @@
                 </div>
 
                 <div class="company-card enterprise">
-                    <div class="company-icon">🏭</div>
+                    <div class="company-icon">Enterprise</div>
                     <h3>Enterprise</h3>
                     <p class="company-size">250+ employees</p>
                     <div class="company-rec">Recommended</div>
@@ -486,26 +486,26 @@
             </div>
 
             <!-- Company Transfer Animation -->
-            <h3 style="margin-top:2rem; color:#667eea;">AliceInWonderland.txt Transfer Speed by Company Type</h3>
+            <h3 style="margin-top:2rem; color:var(--navy);">AliceInWonderland.txt Transfer Speed by Company Type</h3>
             <p>Each company type uses its recommended VPN. Click a company to simulate the file transfer.</p>
 
             <div class="transfer-demo" style="margin-top:1rem;">
                 <div class="tunnel-buttons">
-                    <button onclick="runCompanyTransfer('startup')"  style="background:#28a745">🚀 Startup (WireGuard)</button>
-                    <button onclick="runCompanyTransfer('sme')"      style="background:#667eea">🏢 SME (GRE + IPSec)</button>
-                    <button onclick="runCompanyTransfer('enterprise')" style="background:#764ba2">🏭 Enterprise (Azure Hybrid)</button>
+                    <button onclick="runCompanyTransfer('startup')"  style="background:#28a745">Startup — WireGuard</button>
+                    <button onclick="runCompanyTransfer('sme')"      style="background:#667eea">SME — GRE + IPSec</button>
+                    <button onclick="runCompanyTransfer('enterprise')" style="background:#764ba2">Enterprise — Azure Hybrid</button>
                 </div>
 
                 <div class="network-animation">
                     <div class="anim-node">
-                        <div style="font-size:2.5rem" id="co-sender-icon">🏢</div>
+                        <div style="font-size:1rem; font-weight:600; color:#333;" id="co-sender-icon">—</div>
                         <div><strong id="co-sender-label">Company</strong><br><small id="co-sender-vpn">Select above</small></div>
                     </div>
 
                     <div class="anim-track">
                         <div class="anim-tunnel-label" id="co-tunnel-label">Select a company type</div>
                         <div class="anim-road">
-                            <div class="anim-packet" id="co-packet">📄</div>
+                            <div class="anim-packet" id="co-packet" style="font-size:0.75rem; background:#4a6fa5; color:white; padding:2px 6px; border-radius:3px; white-space:nowrap;">alice.txt</div>
                         </div>
                         <div class="anim-progress-wrap">
                             <div class="anim-progress-fill" id="co-fill"></div>
@@ -513,7 +513,7 @@
                     </div>
 
                     <div class="anim-node">
-                        <div style="font-size:2.5rem">🌐</div>
+                        <div style="font-size:1rem; font-weight:600; color:#333;">Remote</div>
                         <div><strong>Remote Site</strong><br><small>Branch Office</small></div>
                     </div>
                 </div>
@@ -537,68 +537,6 @@
             </div>
 
             <table style="margin-top:2rem;">
-                <thead>
-                    <tr>
-                        <th>VPN Technology</th>
-                        <th>Startup</th>
-                        <th>SME</th>
-                        <th>Enterprise</th>
-                        <th>Cost</th>
-                        <th>Complexity</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>WireGuard</td>
-                        <td class="rating-high">✅ Best fit</td>
-                        <td class="rating-high">✅ Good</td>
-                        <td class="rating-medium">⚠️ Limited</td>
-                        <td class="rating-high">Free</td>
-                        <td class="rating-high">Low</td>
-                    </tr>
-                    <tr>
-                        <td>Tailscale</td>
-                        <td class="rating-high">✅ Best fit</td>
-                        <td class="rating-high">✅ Good</td>
-                        <td class="rating-medium">⚠️ Limited</td>
-                        <td class="rating-high">Free/Low</td>
-                        <td class="rating-high">Very Low</td>
-                    </tr>
-                    <tr>
-                        <td>OpenVPN</td>
-                        <td class="rating-medium">⚠️ Possible</td>
-                        <td class="rating-high">✅ Best fit</td>
-                        <td class="rating-high">✅ Good</td>
-                        <td class="rating-medium">Low/Med</td>
-                        <td class="rating-medium">Medium</td>
-                    </tr>
-                    <tr>
-                        <td>GRE + IPSec</td>
-                        <td class="rating-low">❌ Too complex</td>
-                        <td class="rating-high">✅ Best fit</td>
-                        <td class="rating-high">✅ Best fit</td>
-                        <td class="rating-medium">Medium</td>
-                        <td class="rating-low">High</td>
-                    </tr>
-                    <tr>
-                        <td>Azure Hybrid VPN</td>
-                        <td class="rating-low">❌ Overkill</td>
-                        <td class="rating-medium">⚠️ Possible</td>
-                        <td class="rating-high">✅ Best fit</td>
-                        <td class="rating-low">High</td>
-                        <td class="rating-low">Very High</td>
-                    </tr>
-                    <tr>
-                        <td>PriTunnel</td>
-                        <td class="rating-high">✅ Good</td>
-                        <td class="rating-high">✅ Good</td>
-                        <td class="rating-medium">⚠️ Limited</td>
-                        <td class="rating-high">Low</td>
-                        <td class="rating-high">Low</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
                 <thead>
                     <tr>
                         <th>VPN Technology</th>
@@ -733,11 +671,11 @@
 
             <div class="progress-grid">
                 <div class="progress-card completed">
-                    <h3>🎯 Goal</h3>
+                    <h3>Goal</h3>
                     <p>Compare VPN connectivity solutions for startups, SMEs and enterprises using real lab testing — not just theory. Measure actual file transfer performance across GRE, IPSec, WireGuard and hybrid cloud VPN tunnels using the AliceInWonderland.txt file as a real-world data payload.</p>
                 </div>
                 <div class="progress-card completed">
-                    <h3>✅ Accomplished</h3>
+                    <h3>Accomplished</h3>
                     <ul style="text-align:left; padding-left:1rem;">
                         <li>Built full GNS3 topology with 3 routers, switch, Ubuntu VMs</li>
                         <li>Established and verified GRE tunnel between R1 and R2</li>
@@ -752,7 +690,7 @@
 
             <div class="progress-grid" style="margin-top:1.5rem;">
                 <div class="progress-card in-progress">
-                    <h3>🔮 Future Improvements</h3>
+                    <h3>Future Improvements</h3>
                     <ul style="text-align:left; padding-left:1rem;">
                         <li>Complete Azure hybrid VPN connection and file transfer test</li>
                         <li>Measure real GRE, IPSec, WireGuard transfer times (not estimated)</li>
@@ -764,7 +702,7 @@
                     </ul>
                 </div>
                 <div class="progress-card completed">
-                    <h3>💡 Benefits of This Project</h3>
+                    <h3>Benefits of This Project</h3>
                     <ul style="text-align:left; padding-left:1rem;">
                         <li>Gives organisations evidence-based VPN recommendations</li>
                         <li>Shows real performance impact of encryption overhead</li>
@@ -783,13 +721,13 @@
             <p>The project will produce a complete set of materials demonstrating research, experiments and conclusions on VPN technologies, tunnelling methods, cloud connectivity and hybrid networking.</p>
             
             <ul class="deliverables-list">
-                <li>✅ Detailed technical report documenting all phases</li>
-                <li>✅ GNS3 simulation files (topology, router configs)</li>
-                <li>⚠️ Azure cloud networking setup (VNet, VPN Gateway) - in progress</li>
-                <li>⚠️ Wireshark packet captures (GRE, ESP, tunnel establishment) - in progress</li>
-                <li>✅ Professional network diagrams (Draw.io/Lucidchart)</li>
-                <li>⏳ Measured performance comparisons (file transfer metrics) - pending Linux VM</li>
-                <li>⏳ Final presentation with recommendations - planned</li>
+                <li>Complete — Detailed technical report documenting all phases</li>
+                <li>Complete — GNS3 simulation files (topology, router configs)</li>
+                <li>In Progress — Azure cloud networking setup (VNet, VPN Gateway)</li>
+                <li>In Progress — Wireshark packet captures (GRE, ESP, tunnel establishment)</li>
+                <li>Complete — Professional network diagrams</li>
+                <li>Pending — Measured performance comparisons (file transfer metrics)</li>
+                <li>Planned — Final presentation with recommendations</li>
             </ul>
             
             <div class="objectives">
