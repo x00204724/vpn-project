@@ -16,6 +16,23 @@
         </div>
     </nav>
 
+    <aside class="sidebar">
+        <div class="sidebar-title">Contents</div>
+        <a href="#overview">📋 Overview</a>
+        <a href="#topology">🖧 Topology</a>
+        <a href="#methodology">📐 Methodology</a>
+        <a href="#iteration2">🔁 Iteration 2</a>
+        <a href="#iteration3">🔁 Iteration 3</a>
+        <a href="#results">📊 RTT Results</a>
+        <a href="#file-transfer">📁 File Transfer</a>
+        <a href="#wireshark">🔍 Wireshark</a>
+        <a href="#company-comparison">🏢 By Company</a>
+        <a href="#comparison">⚖️ VPN Compare</a>
+        <a href="#azure">☁️ Azure</a>
+        <a href="#conclusion">🎯 Conclusion</a>
+        <a href="#deliverables">✅ Deliverables</a>
+    </aside>
+
     <div class="container">
         <section id="overview">
             <h2>Project Overview</h2>
@@ -40,59 +57,91 @@
         <section id="topology">
             <h2>GNS3 Lab Topology</h2>
             <div class="topology-diagram">
-                <svg viewBox="0 0 800 400" style="max-width: 100%; border: 2px solid #667eea; border-radius: 8px; background: #f8f9fa;">
-                    <!-- PC1 -->
-                    <rect x="100" y="30" width="80" height="60" fill="#4a90e2" rx="5"/>
-                    <text x="140" y="65" text-anchor="middle" fill="white" font-weight="bold">PC1</text>
-                    <text x="140" y="110" text-anchor="middle" font-size="12" fill="#333">VPCS</text>
-                    
-                    <!-- PC2 -->
-                    <rect x="620" y="30" width="80" height="60" fill="#4a90e2" rx="5"/>
-                    <text x="660" y="65" text-anchor="middle" fill="white" font-weight="bold">PC2</text>
-                    <text x="660" y="110" text-anchor="middle" font-size="12" fill="#333">VPCS</text>
-                    
-                    <!-- R1 -->
-                    <circle cx="140" cy="200" r="40" fill="#00a896"/>
-                    <text x="140" y="205" text-anchor="middle" fill="white" font-weight="bold" font-size="18">R1</text>
-                    
-                    <!-- R2 -->
-                    <circle cx="660" cy="200" r="40" fill="#00a896"/>
-                    <text x="660" y="205" text-anchor="middle" fill="white" font-weight="bold" font-size="18">R2</text>
-                    
-                    <!-- Switch1 -->
-                    <rect x="360" y="170" width="80" height="60" fill="#6c757d" rx="5"/>
-                    <text x="400" y="195" text-anchor="middle" fill="white" font-weight="bold">Switch1</text>
-                    
-                    <!-- Cloud1 -->
-                    <ellipse cx="240" cy="300" rx="60" ry="40" fill="none" stroke="#999" stroke-width="2" stroke-dasharray="5,5"/>
-                    <text x="240" y="305" text-anchor="middle" fill="#666" font-size="14">Cloud1</text>
-                    
+                <svg viewBox="0 0 900 550" style="max-width: 100%; border: 2px solid #667eea; border-radius: 8px; background: #f8f9fa;">
+
+                    <!-- Cloud1 (top center) -->
+                    <ellipse cx="450" cy="50" rx="70" ry="35" fill="none" stroke="#999" stroke-width="2" stroke-dasharray="5,5"/>
+                    <text x="450" y="55" text-anchor="middle" fill="#666" font-size="13" font-weight="bold">Cloud1</text>
+
+                    <!-- Switch1 (left) -->
+                    <rect x="30" y="240" width="90" height="45" fill="#6c757d" rx="5"/>
+                    <text x="75" y="268" text-anchor="middle" fill="white" font-weight="bold" font-size="12">Switch1</text>
+
+                    <!-- ubuntunew-9 (left of R3) -->
+                    <rect x="230" y="130" width="100" height="45" fill="#e95420" rx="5"/>
+                    <text x="280" y="158" text-anchor="middle" fill="white" font-weight="bold" font-size="11">ubuntunew-9</text>
+
+                    <!-- R3 (top center) -->
+                    <circle cx="450" cy="160" r="38" fill="#764ba2"/>
+                    <text x="450" y="165" text-anchor="middle" fill="white" font-weight="bold" font-size="16">R3</text>
+
+                    <!-- ubuntunew-1 (right of R3) -->
+                    <rect x="570" y="130" width="100" height="45" fill="#e95420" rx="5"/>
+                    <text x="620" y="158" text-anchor="middle" fill="white" font-weight="bold" font-size="11">ubuntunew-1</text>
+
+                    <!-- R1 (bottom left) -->
+                    <circle cx="300" cy="300" r="38" fill="#00a896"/>
+                    <text x="300" y="305" text-anchor="middle" fill="white" font-weight="bold" font-size="16">R1</text>
+
+                    <!-- Hub1 (center) -->
+                    <rect x="410" y="278" width="80" height="45" fill="#6c757d" rx="5"/>
+                    <text x="450" y="305" text-anchor="middle" fill="white" font-weight="bold" font-size="12">Hub1</text>
+
+                    <!-- R2 (bottom right) -->
+                    <circle cx="600" cy="300" r="38" fill="#00a896"/>
+                    <text x="600" y="305" text-anchor="middle" fill="white" font-weight="bold" font-size="16">R2</text>
+
+                    <!-- PC1 VPCS (bottom center) -->
+                    <rect x="410" y="430" width="80" height="45" fill="#4a90e2" rx="5"/>
+                    <text x="450" y="450" text-anchor="middle" fill="white" font-weight="bold" font-size="12">PC1</text>
+                    <text x="450" y="466" text-anchor="middle" fill="white" font-size="10">VPCS</text>
+
                     <!-- Connections -->
-                    <line x1="140" y1="90" x2="140" y2="160" stroke="#333" stroke-width="3"/>
-                    <line x1="660" y1="90" x2="660" y2="160" stroke="#333" stroke-width="3"/>
-                    <line x1="180" y1="200" x2="360" y2="200" stroke="#333" stroke-width="3"/>
-                    <line x1="440" y1="200" x2="620" y2="200" stroke="#333" stroke-width="3"/>
-                    <line x1="140" y1="240" x2="200" y2="280" stroke="#333" stroke-width="2" stroke-dasharray="5,5"/>
-                    
-                    <!-- GRE Tunnel -->
-                    <line x1="180" y1="180" x2="620" y2="180" stroke="#e74c3c" stroke-width="3" stroke-dasharray="10,5"/>
-                    <text x="400" y="170" text-anchor="middle" fill="#e74c3c" font-weight="bold" font-size="14">GRE Tunnel0</text>
-                    
-                    <!-- Labels -->
-                    <text x="140" y="280" text-anchor="middle" font-size="11" fill="#333">192.168.1.1</text>
-                    <text x="660" y="280" text-anchor="middle" font-size="11" fill="#333">192.168.2.1</text>
+                    <!-- Cloud1 to R3 -->
+                    <line x1="450" y1="85" x2="450" y2="122" stroke="#999" stroke-width="2" stroke-dasharray="5,5"/>
+
+                    <!-- ubuntunew-9 to R1 -->
+                    <line x1="280" y1="175" x2="300" y2="262" stroke="#e95420" stroke-width="2"/>
+
+                    <!-- R3 to Hub1 -->
+                    <line x1="450" y1="198" x2="450" y2="278" stroke="#764ba2" stroke-width="2"/>
+
+                    <!-- ubuntunew-1 to R2 -->
+                    <line x1="620" y1="175" x2="600" y2="262" stroke="#e95420" stroke-width="2"/>
+
+                    <!-- R1 to Hub1 -->
+                    <line x1="338" y1="300" x2="410" y2="300" stroke="#333" stroke-width="2"/>
+
+                    <!-- R2 to Hub1 -->
+                    <line x1="562" y1="300" x2="490" y2="300" stroke="#333" stroke-width="2"/>
+
+                    <!-- Hub1 to PC1 -->
+                    <line x1="450" y1="323" x2="450" y2="430" stroke="#333" stroke-width="2"/>
+
+                    <!-- GRE Tunnel R1 to R2 -->
+                    <line x1="338" y1="285" x2="562" y2="285" stroke="#e74c3c" stroke-width="3" stroke-dasharray="10,5"/>
+                    <text x="450" y="275" text-anchor="middle" fill="#e74c3c" font-weight="bold" font-size="12">GRE Tunnel</text>
+
+                    <!-- IP Labels -->
+                    <text x="280" y="320" text-anchor="middle" font-size="10" fill="#333">192.168.1.1</text>
+                    <text x="600" y="350" text-anchor="middle" font-size="10" fill="#333">192.168.2.1</text>
+                    <text x="490" y="165" text-anchor="middle" font-size="10" fill="#764ba2">Transit</text>
+
                 </svg>
-                <p style="text-align: center; font-style: italic; color: #666; margin-top: 1rem;">Figure: Two PCs (PC1 and PC2) connected via routers R1 and R2 through Switch1 with GRE Tunnel</p>
+                <p style="text-align: center; font-style: italic; color: #666; margin-top: 1rem;">Figure: R1, R2, R3 connected through Hub1 with Ubuntu VMs, PC1 (VPCS), Switch1 and Cloud1</p>
             </div>
             <div class="topology-box">
                 <p><strong>Network Configuration:</strong></p>
-                <p><strong>PC1 (VPCS):</strong> 192.168.1.10/24 (Gateway: 192.168.1.1)</p>
+                <p><strong>ubuntunew-9:</strong> Connected to R1 — Site A host (192.168.1.33)</p>
                 <p><strong>R1:</strong> Fa0/1: 192.168.1.1 | Fa0/0: 10.0.0.1 | Tunnel0: 172.16.0.1</p>
-                <p><strong>Switch1:</strong> Central switching fabric</p>
+                <p><strong>R3:</strong> Transit/intermediate router connected to Hub1 and Cloud1</p>
+                <p><strong>Hub1:</strong> Central Layer 2 hub connecting R1, R2, R3 and PC1</p>
                 <p><strong>R2:</strong> Fa0/0: 10.0.0.2 | Fa0/1: 192.168.2.1 | Tunnel0: 172.16.0.2</p>
-                <p><strong>PC2 (VPCS):</strong> 192.168.2.10/24 (Gateway: 192.168.2.1)</p>
-                <p><strong>Cloud1:</strong> External network connectivity</p>
-                <p class="note">GRE Tunnel (Tunnel0) established between R1 and R2 for baseline testing</p>
+                <p><strong>ubuntunew-1:</strong> Connected to R2 — Site B host</p>
+                <p><strong>PC1 (VPCS):</strong> Connected to Hub1 for basic connectivity testing</p>
+                <p><strong>Switch1:</strong> Available for additional network segmentation</p>
+                <p><strong>Cloud1:</strong> External network / internet bridge</p>
+                <p class="note">GRE Tunnel (Tunnel0) established between R1 and R2 through Hub1</p>
             </div>
         </section>
 

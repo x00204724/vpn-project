@@ -304,3 +304,17 @@ new Chart(coTransferCtx, {
         }
     }
 });
+
+// Sidebar active section highlight
+const sidebarLinks = document.querySelectorAll('.sidebar a');
+const sections = document.querySelectorAll('section[id]');
+
+window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    sidebarLinks.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+});
