@@ -214,3 +214,93 @@ new Chart(companyCtx, {
         }
     }
 });
+
+// Company transfer animation data
+const companyData = {
+    startup:    { name: 'Startup',    icon: '🚀', vpn: 'WireGuard',        time: 0.6,  color: '#28a745', throughput: 283 },
+    sme:        { name: 'SME',        icon: '🏢', vpn: 'GRE + IPSec',      time: 1.4,  color: '#667eea', throughput: 121 },
+    enterprise: { name: 'Enterprise', icon: '🏭', vpn: 'Azure Hybrid VPN', time: 2.1,  color: '#764ba2', throughput: 81  }
+};
+
+function runCompanyTransfer(type) {
+    const d = companyData[type];
+    const packet  = document.getElementById('co-packet');
+    const fill    = document.getElementById('co-fill');
+    const label   = document.getElementById('co-tunnel-label');
+    const senderIcon  = document.getElementById('co-sender-icon');
+    const senderLabel = document.getElementById('co-sender-label');
+    const senderVpn   = document.getElementById('co-sender-vpn');
+
+    // Reset
+    packet.style.transition = 'none';
+    packet.style.left = '-30px';
+    fill.style.transition = 'none';
+    fill.style.width = '0%';
+    fill.style.background = d.color;
+
+    senderIcon.textContent  = d.icon;
+    senderLabel.textContent = d.name;
+    senderVpn.textContent   = d.vpn;
+    label.textContent       = `${d.name} — ${d.vpn}`;
+    label.style.color       = d.color;
+
+    document.getElementById('co-stat-company').textContent = d.name;
+    document.getElementById('co-stat-vpn').textContent     = d.vpn;
+    document.getElementById('co-stat-time').textContent    = d.time + 's';
+    document.getElementById('co-stat-speed').textContent   = d.throughput + ' KB/s';
+    document.getElementById('co-stat-status').textContent  = 'Transferring...';
+    document.getElementById('co-stat-status').style.color  = d.color;
+
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            packet.style.transition = `left ${d.time}s linear`;
+            packet.style.left = 'calc(100% + 10px)';
+            fill.style.transition = `width ${d.time}s linear`;
+            fill.style.width = '100%';
+        });
+    });
+
+    setTimeout(() => {
+        document.getElementById('co-stat-status').textContent = '✅ Complete';
+        document.getElementById('co-stat-status').style.color = '#28a745';
+    }, d.time * 1000);
+}
+
+// Company Transfer Time Chart
+const coTransferCtx = document.getElementById('companyTransferChart').getContext('2d');
+new Chart(coTransferCtx, {
+    type: 'bar',
+    data: {
+        labels: ['🚀 Startup (WireGuard)', '🏢 SME (GRE + IPSec)', '🏭 Enterprise (Azure Hybrid)'],
+        datasets: [
+            {
+                label: 'Transfer Time (seconds)',
+                data: [0.6, 1.4, 2.1],
+                backgroundColor: ['rgba(40,167,69,0.7)', 'rgba(102,126,234,0.7)', 'rgba(118,75,162,0.7)'],
+                borderColor: ['#28a745', '#667eea', '#764ba2'],
+                borderWidth: 2,
+                yAxisID: 'y'
+            },
+            {
+                label: 'Throughput (KB/s)',
+                data: [283, 121, 81],
+                backgroundColor: ['rgba(40,167,69,0.3)', 'rgba(102,126,234,0.3)', 'rgba(118,75,162,0.3)'],
+                borderColor: ['#28a745', '#667eea', '#764ba2'],
+                borderWidth: 2,
+                borderDash: [5,5],
+                yAxisID: 'y1'
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            title: { display: true, text: 'AliceInWonderland.txt Transfer — By Company Type & Recommended VPN', font: { size: 15 } },
+            legend: { position: 'bottom' }
+        },
+        scales: {
+            y:  { beginAtZero: true, title: { display: true, text: 'Transfer Time (s)' }, position: 'left' },
+            y1: { beginAtZero: true, title: { display: true, text: 'Throughput (KB/s)' }, position: 'right', grid: { drawOnChartArea: false } }
+        }
+    }
+});

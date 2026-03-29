@@ -433,11 +433,120 @@
                 </div>
             </div>
 
+            <!-- Company Transfer Animation -->
+            <h3 style="margin-top:2rem; color:#667eea;">AliceInWonderland.txt Transfer Speed by Company Type</h3>
+            <p>Each company type uses its recommended VPN. Click a company to simulate the file transfer.</p>
+
+            <div class="transfer-demo" style="margin-top:1rem;">
+                <div class="tunnel-buttons">
+                    <button onclick="runCompanyTransfer('startup')"  style="background:#28a745">🚀 Startup (WireGuard)</button>
+                    <button onclick="runCompanyTransfer('sme')"      style="background:#667eea">🏢 SME (GRE + IPSec)</button>
+                    <button onclick="runCompanyTransfer('enterprise')" style="background:#764ba2">🏭 Enterprise (Azure Hybrid)</button>
+                </div>
+
+                <div class="network-animation">
+                    <div class="anim-node">
+                        <div style="font-size:2.5rem" id="co-sender-icon">🏢</div>
+                        <div><strong id="co-sender-label">Company</strong><br><small id="co-sender-vpn">Select above</small></div>
+                    </div>
+
+                    <div class="anim-track">
+                        <div class="anim-tunnel-label" id="co-tunnel-label">Select a company type</div>
+                        <div class="anim-road">
+                            <div class="anim-packet" id="co-packet">📄</div>
+                        </div>
+                        <div class="anim-progress-wrap">
+                            <div class="anim-progress-fill" id="co-fill"></div>
+                        </div>
+                    </div>
+
+                    <div class="anim-node">
+                        <div style="font-size:2.5rem">🌐</div>
+                        <div><strong>Remote Site</strong><br><small>Branch Office</small></div>
+                    </div>
+                </div>
+
+                <div class="transfer-stats">
+                    <div class="stat-box"><div class="stat-label">Company</div><div class="stat-value" id="co-stat-company">&mdash;</div></div>
+                    <div class="stat-box"><div class="stat-label">VPN Used</div><div class="stat-value" id="co-stat-vpn">&mdash;</div></div>
+                    <div class="stat-box"><div class="stat-label">File Size</div><div class="stat-value">170 KB</div></div>
+                    <div class="stat-box"><div class="stat-label">Transfer Time</div><div class="stat-value" id="co-stat-time">&mdash;</div></div>
+                    <div class="stat-box"><div class="stat-label">Throughput</div><div class="stat-value" id="co-stat-speed">&mdash;</div></div>
+                    <div class="stat-box"><div class="stat-label">Status</div><div class="stat-value" id="co-stat-status">Idle</div></div>
+                </div>
+            </div>
+
+            <div class="chart-container" style="margin-top:2rem;">
+                <canvas id="companyTransferChart"></canvas>
+            </div>
+
             <div class="chart-container" style="margin-top:2rem;">
                 <canvas id="companyChart"></canvas>
             </div>
 
             <table style="margin-top:2rem;">
+                <thead>
+                    <tr>
+                        <th>VPN Technology</th>
+                        <th>Startup</th>
+                        <th>SME</th>
+                        <th>Enterprise</th>
+                        <th>Cost</th>
+                        <th>Complexity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>WireGuard</td>
+                        <td class="rating-high">✅ Best fit</td>
+                        <td class="rating-high">✅ Good</td>
+                        <td class="rating-medium">⚠️ Limited</td>
+                        <td class="rating-high">Free</td>
+                        <td class="rating-high">Low</td>
+                    </tr>
+                    <tr>
+                        <td>Tailscale</td>
+                        <td class="rating-high">✅ Best fit</td>
+                        <td class="rating-high">✅ Good</td>
+                        <td class="rating-medium">⚠️ Limited</td>
+                        <td class="rating-high">Free/Low</td>
+                        <td class="rating-high">Very Low</td>
+                    </tr>
+                    <tr>
+                        <td>OpenVPN</td>
+                        <td class="rating-medium">⚠️ Possible</td>
+                        <td class="rating-high">✅ Best fit</td>
+                        <td class="rating-high">✅ Good</td>
+                        <td class="rating-medium">Low/Med</td>
+                        <td class="rating-medium">Medium</td>
+                    </tr>
+                    <tr>
+                        <td>GRE + IPSec</td>
+                        <td class="rating-low">❌ Too complex</td>
+                        <td class="rating-high">✅ Best fit</td>
+                        <td class="rating-high">✅ Best fit</td>
+                        <td class="rating-medium">Medium</td>
+                        <td class="rating-low">High</td>
+                    </tr>
+                    <tr>
+                        <td>Azure Hybrid VPN</td>
+                        <td class="rating-low">❌ Overkill</td>
+                        <td class="rating-medium">⚠️ Possible</td>
+                        <td class="rating-high">✅ Best fit</td>
+                        <td class="rating-low">High</td>
+                        <td class="rating-low">Very High</td>
+                    </tr>
+                    <tr>
+                        <td>PriTunnel</td>
+                        <td class="rating-high">✅ Good</td>
+                        <td class="rating-high">✅ Good</td>
+                        <td class="rating-medium">⚠️ Limited</td>
+                        <td class="rating-high">Low</td>
+                        <td class="rating-high">Low</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
                 <thead>
                     <tr>
                         <th>VPN Technology</th>
