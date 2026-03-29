@@ -67,6 +67,9 @@
                     <rect x="30" y="240" width="90" height="45" fill="#6c757d" rx="5"/>
                     <text x="75" y="268" text-anchor="middle" fill="white" font-weight="bold" font-size="12">Switch1</text>
 
+                    <!-- Switch1 to R1 connection -->
+                    <line x1="120" y1="262" x2="262" y2="300" stroke="#333" stroke-width="2"/>
+
                     <!-- ubuntunew-9 (left of R3) -->
                     <rect x="230" y="130" width="100" height="45" fill="#e95420" rx="5"/>
                     <text x="280" y="158" text-anchor="middle" fill="white" font-weight="bold" font-size="11">ubuntunew-9</text>
@@ -139,7 +142,7 @@
                 <p><strong>R2:</strong> Fa0/0: 10.0.0.2 | Fa0/1: 192.168.2.1 | Tunnel0: 172.16.0.2</p>
                 <p><strong>ubuntunew-1:</strong> Connected to R2 — Site B host</p>
                 <p><strong>PC1 (VPCS):</strong> Connected to Hub1 for basic connectivity testing</p>
-                <p><strong>Switch1:</strong> Available for additional network segmentation</p>
+                <p><strong>Switch1:</strong> Connected to R1 — provides additional network segmentation for Site A</p>
                 <p><strong>Cloud1:</strong> External network / internet bridge</p>
                 <p class="note">GRE Tunnel (Tunnel0) established between R1 and R2 through Hub1</p>
             </div>
