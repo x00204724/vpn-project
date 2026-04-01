@@ -1,60 +1,93 @@
+// Navigation - Show/Hide Sections
+const sidebarLinks = document.querySelectorAll('.sidebar a');
+const sections = document.querySelectorAll('section[id]');
+
+sidebarLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href').substring(1);
+        
+        // Hide all sections
+        sections.forEach(s => s.classList.remove('active'));
+        
+        // Show target section
+        const target = document.getElementById(targetId);
+        if (target) {
+            target.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // Update active link
+        sidebarLinks.forEach(a => a.classList.remove('active'));
+        link.classList.add('active');
+    });
+});
+
+// Show overview section by default
+if (sections.length > 0) {
+    sections[0].classList.add('active');
+    sidebarLinks[1].classList.add('active');
+}
+
 // RTT Chart - Real Data from Testing
-const rttCtx = document.getElementById('rttChart').getContext('2d');
-const rttChart = new Chart(rttCtx, {
-    type: 'line',
-    data: {
-        labels: Array.from({length: 20}, (_, i) => i + 1),
-        datasets: [
-            {
-                label: 'Tunnel RTT (ms)',
-                data: [36, 40, 42, 48, 52, 55, 50, 54, 60, 58, 62, 52, 56, 60, 64, 68, 72, 65, 70, 80],
-                borderColor: '#28a745',
-                backgroundColor: 'rgba(40, 167, 69, 0.1)',
-                tension: 0.4,
-                fill: true,
-                pointRadius: 4
-            },
-            {
-                label: 'Tunnel Down (ms)',
-                data: [0, 0, 92.8, 75.644, 75.704, 0, 0, 62.48, 60.945, 61.513, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                borderColor: '#dc3545',
-                backgroundColor: 'rgba(220, 53, 69, 0.1)',
-                tension: 0.4,
-                fill: true,
-                pointRadius: 4
-            }
-        ]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            title: {
-                display: true,
-                text: 'Tunnel0 RTT Over 20 ICMP Packets',
-                font: { size: 16 }
-            },
-            legend: {
-                display: true,
-                position: 'bottom'
-            }
+const rttCtx = document.getElementById('rttChart');
+if (rttCtx) {
+    const rttChart = new Chart(rttCtx.getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: Array.from({length: 20}, (_, i) => i + 1),
+            datasets: [
+                {
+                    label: 'Tunnel RTT (ms)',
+                    data: [36, 40, 42, 48, 52, 55, 50, 54, 60, 58, 62, 52, 56, 60, 64, 68, 72, 65, 70, 80],
+                    borderColor: '#28a745',
+                    backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                    tension: 0.4,
+                    fill: true,
+                    pointRadius: 4
+                },
+                {
+                    label: 'Tunnel Down (ms)',
+                    data: [0, 0, 92.8, 75.644, 75.704, 0, 0, 62.48, 60.945, 61.513, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    borderColor: '#dc3545',
+                    backgroundColor: 'rgba(220, 53, 69, 0.1)',
+                    tension: 0.4,
+                    fill: true,
+                    pointRadius: 4
+                }
+            ]
         },
-        scales: {
-            y: {
-                beginAtZero: true,
+        options: {
+            responsive: true,
+            plugins: {
                 title: {
                     display: true,
-                    text: 'RTT (ms)'
+                    text: 'Tunnel0 RTT Over 20 ICMP Packets',
+                    font: { size: 16 }
+                },
+                legend: {
+                    display: true,
+                    position: 'bottom'
                 }
             },
-            x: {
-                title: {
-                    display: true,
-                    text: 'ICMP Sequence'
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'RTT (ms)'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'ICMP Sequence'
+                    }
                 }
             }
         }
-    }
-});
+    });
+}
 
 // Shared tunnel config — matches animation exactly
 const tunnels = {
@@ -67,59 +100,33 @@ const tunnels = {
 const bgColors = tunnels.colors.map(c => c + 'b3');
 
 // File Transfer Time Chart
-const transferCtx = document.getElementById('transferChart').getContext('2d');
-new Chart(transferCtx, {
-    type: 'bar',
-    data: {
-        labels: tunnels.labels,
-        datasets: [{
-            label: 'Transfer Time (seconds)',
-            data: tunnels.times,
-            backgroundColor: bgColors,
-            borderColor: tunnels.colors,
-            borderWidth: 2
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            title: { display: true, text: 'AliceInWonderland.txt — Transfer Time by Tunnel', font: { size: 16 } },
-            legend: { display: false },
-            tooltip: { callbacks: { label: ctx => ctx.raw + 's' } }
+const transferCtx = document.getElementById('transferChart');
+if (transferCtx) {
+    new Chart(transferCtx.getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: tunnels.labels,
+            datasets: [{
+                label: 'Transfer Time (seconds)',
+                data: tunnels.times,
+                backgroundColor: bgColors,
+                borderColor: tunnels.colors,
+                borderWidth: 2
+            }]
         },
-        scales: {
-            y: { beginAtZero: true, title: { display: true, text: 'Seconds' } }
+        options: {
+            responsive: true,
+            plugins: {
+                title: { display: true, text: 'AliceInWonderland.txt — Transfer Time by Tunnel', font: { size: 16 } },
+                legend: { display: false },
+                tooltip: { callbacks: { label: ctx => ctx.raw + 's' } }
+            },
+            scales: {
+                y: { beginAtZero: true, title: { display: true, text: 'Seconds' } }
+            }
         }
-    }
-});
-
-// Throughput Chart
-const throughputCtx = document.createElement('canvas');
-throughputCtx.id = 'throughputChart';
-document.getElementById('transferChart').parentNode.appendChild(throughputCtx);
-new Chart(throughputCtx, {
-    type: 'bar',
-    data: {
-        labels: tunnels.labels,
-        datasets: [{
-            label: 'Throughput (KB/s)',
-            data: tunnels.throughput,
-            backgroundColor: bgColors,
-            borderColor: tunnels.colors,
-            borderWidth: 2
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            title: { display: true, text: 'AliceInWonderland.txt — Throughput by Tunnel (KB/s)', font: { size: 16 } },
-            legend: { display: false }
-        },
-        scales: {
-            y: { beginAtZero: true, title: { display: true, text: 'KB/s' } }
-        }
-    }
-});
+    });
+}
 
 // File Transfer Animation
 function runTransfer(tunnelName, duration, color) {
@@ -166,54 +173,56 @@ function runTransfer(tunnelName, duration, color) {
 }
 
 // Company Size Comparison Chart
-const companyCtx = document.getElementById('companyChart').getContext('2d');
-new Chart(companyCtx, {
-    type: 'bar',
-    data: {
-        labels: ['WireGuard', 'Tailscale', 'OpenVPN', 'GRE + IPSec', 'Azure Hybrid', 'PriTunnel'],
-        datasets: [
-            {
-                label: 'Startup Suitability',
-                data: [9, 9, 5, 2, 1, 7],
-                backgroundColor: 'rgba(40, 167, 69, 0.7)',
-                borderColor: '#28a745',
-                borderWidth: 2
-            },
-            {
-                label: 'SME Suitability',
-                data: [7, 7, 8, 9, 5, 8],
-                backgroundColor: 'rgba(102, 126, 234, 0.7)',
-                borderColor: '#667eea',
-                borderWidth: 2
-            },
-            {
-                label: 'Enterprise Suitability',
-                data: [4, 4, 7, 9, 10, 5],
-                backgroundColor: 'rgba(118, 75, 162, 0.7)',
-                borderColor: '#764ba2',
-                borderWidth: 2
-            }
-        ]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            title: {
-                display: true,
-                text: 'VPN Technology Suitability by Organisation Size (Score out of 10)',
-                font: { size: 15 }
-            },
-            legend: { position: 'bottom' }
+const companyCtx = document.getElementById('companyChart');
+if (companyCtx) {
+    new Chart(companyCtx.getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: ['WireGuard', 'Tailscale', 'OpenVPN', 'GRE + IPSec', 'Azure Hybrid', 'PriTunnel'],
+            datasets: [
+                {
+                    label: 'Startup Suitability',
+                    data: [9, 9, 5, 2, 1, 7],
+                    backgroundColor: 'rgba(40, 167, 69, 0.7)',
+                    borderColor: '#28a745',
+                    borderWidth: 2
+                },
+                {
+                    label: 'SME Suitability',
+                    data: [7, 7, 8, 9, 5, 8],
+                    backgroundColor: 'rgba(102, 126, 234, 0.7)',
+                    borderColor: '#667eea',
+                    borderWidth: 2
+                },
+                {
+                    label: 'Enterprise Suitability',
+                    data: [4, 4, 7, 9, 10, 5],
+                    backgroundColor: 'rgba(118, 75, 162, 0.7)',
+                    borderColor: '#764ba2',
+                    borderWidth: 2
+                }
+            ]
         },
-        scales: {
-            y: {
-                beginAtZero: true,
-                max: 10,
-                title: { display: true, text: 'Suitability Score' }
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'VPN Technology Suitability by Organisation Size (Score out of 10)',
+                    font: { size: 15 }
+                },
+                legend: { position: 'bottom' }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 10,
+                    title: { display: true, text: 'Suitability Score' }
+                }
             }
         }
-    }
-});
+    });
+}
 
 // Company transfer animation data
 const companyData = {
@@ -267,54 +276,42 @@ function runCompanyTransfer(type) {
 }
 
 // Company Transfer Time Chart
-const coTransferCtx = document.getElementById('companyTransferChart').getContext('2d');
-new Chart(coTransferCtx, {
-    type: 'bar',
-    data: {
-        labels: ['🚀 Startup (WireGuard)', '🏢 SME (GRE + IPSec)', '🏭 Enterprise (Azure Hybrid)'],
-        datasets: [
-            {
-                label: 'Transfer Time (seconds)',
-                data: [0.6, 1.4, 2.1],
-                backgroundColor: ['rgba(40,167,69,0.7)', 'rgba(102,126,234,0.7)', 'rgba(118,75,162,0.7)'],
-                borderColor: ['#28a745', '#667eea', '#764ba2'],
-                borderWidth: 2,
-                yAxisID: 'y'
-            },
-            {
-                label: 'Throughput (KB/s)',
-                data: [283, 121, 81],
-                backgroundColor: ['rgba(40,167,69,0.3)', 'rgba(102,126,234,0.3)', 'rgba(118,75,162,0.3)'],
-                borderColor: ['#28a745', '#667eea', '#764ba2'],
-                borderWidth: 2,
-                borderDash: [5,5],
-                yAxisID: 'y1'
-            }
-        ]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            title: { display: true, text: 'AliceInWonderland.txt Transfer — By Company Type & Recommended VPN', font: { size: 15 } },
-            legend: { position: 'bottom' }
+const coTransferCtx = document.getElementById('companyTransferChart');
+if (coTransferCtx) {
+    new Chart(coTransferCtx.getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: ['🚀 Startup (WireGuard)', '🏢 SME (GRE + IPSec)', '🏭 Enterprise (Azure Hybrid)'],
+            datasets: [
+                {
+                    label: 'Transfer Time (seconds)',
+                    data: [0.6, 1.4, 2.1],
+                    backgroundColor: ['rgba(40,167,69,0.7)', 'rgba(102,126,234,0.7)', 'rgba(118,75,162,0.7)'],
+                    borderColor: ['#28a745', '#667eea', '#764ba2'],
+                    borderWidth: 2,
+                    yAxisID: 'y'
+                },
+                {
+                    label: 'Throughput (KB/s)',
+                    data: [283, 121, 81],
+                    backgroundColor: ['rgba(40,167,69,0.3)', 'rgba(102,126,234,0.3)', 'rgba(118,75,162,0.3)'],
+                    borderColor: ['#28a745', '#667eea', '#764ba2'],
+                    borderWidth: 2,
+                    borderDash: [5,5],
+                    yAxisID: 'y1'
+                }
+            ]
         },
-        scales: {
-            y:  { beginAtZero: true, title: { display: true, text: 'Transfer Time (s)' }, position: 'left' },
-            y1: { beginAtZero: true, title: { display: true, text: 'Throughput (KB/s)' }, position: 'right', grid: { drawOnChartArea: false } }
+        options: {
+            responsive: true,
+            plugins: {
+                title: { display: true, text: 'AliceInWonderland.txt Transfer — By Company Type & Recommended VPN', font: { size: 15 } },
+                legend: { position: 'bottom' }
+            },
+            scales: {
+                y:  { beginAtZero: true, title: { display: true, text: 'Transfer Time (s)' }, position: 'left' },
+                y1: { beginAtZero: true, title: { display: true, text: 'Throughput (KB/s)' }, position: 'right', grid: { drawOnChartArea: false } }
+            }
         }
-    }
-});
-
-// Sidebar active section highlight
-const sidebarLinks = document.querySelectorAll('.sidebar a');
-const sections = document.querySelectorAll('section[id]');
-
-window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(s => {
-        if (window.scrollY >= s.offsetTop - 100) current = s.id;
     });
-    sidebarLinks.forEach(a => {
-        a.classList.toggle('active', a.getAttribute('href') === '#' + current);
-    });
-});
+}
