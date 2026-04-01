@@ -30,9 +30,14 @@ function initSearch() {
         { title: 'RTT Results', id: 'results' },
         { title: 'File Transfer', id: 'file-transfer' },
         { title: 'Wireshark Analysis', id: 'wireshark' },
+        { title: 'VPN Calculator', id: 'calculator' },
         { title: 'Company Comparison', id: 'company-comparison' },
         { title: 'VPN Comparison', id: 'comparison' },
         { title: 'Azure Integration', id: 'azure' },
+        { title: 'FAQ', id: 'faq' },
+        { title: 'Compliance', id: 'compliance' },
+        { title: 'Cost Calculator', id: 'cost-calculator' },
+        { title: 'Troubleshooting', id: 'troubleshooting' },
         { title: 'Conclusion', id: 'conclusion' },
         { title: 'Deliverables', id: 'deliverables' }
     ];
@@ -418,4 +423,162 @@ if (coTransferCtx) {
             }
         }
     });
+}
+
+// VPN Performance Calculator
+function runCalculator() {
+    const fileSize = parseFloat(document.getElementById('fileSize').value) || 170;
+    const baseLatency = parseFloat(document.getElementById('baseLatency').value) || 10;
+    const bandwidth = parseFloat(document.getElementById('bandwidth').value) || 100;
+    const cpuOverhead = parseFloat(document.getElementById('cpuOverhead').value) || 5;
+    
+    // VPN profiles with overhead multipliers
+    const vpns = [
+        { name: 'Baseline (No VPN)', encryption: 'None', overhead: 1.0, latencyAdd: 0, cpuFactor: 0 },
+        { name: 'GRE', encryption: 'None', overhead: 1.05, latencyAdd: 2, cpuFactor: 0.2 },
+        { name: 'GRE + IPSec', encryption: 'AES-256', overhead: 1.35, latencyAdd: 5, cpuFactor: 1.0 },
+        { name: 'WireGuard', encryption: 'ChaCha20', overhead: 1.10, latencyAdd: 3, cpuFactor: 0.5 },
+        { name: 'OpenVPN', encryption: 'AES-256', overhead: 1.25, latencyAdd: 4, cpuFactor: 0.8 },
+        { name: 'Azure Hybrid VPN', encryption: 'AES-256', overhead: 1.40, latencyAdd: 50, cpuFactor: 1.2 }
+    ];
+    
+    const table = document.getElementById('calcTable');
+    table.innerHTML = '';
+    
+    const results = [];
+    
+    vpns.forEach(vpn => {
+        // Calculate effective throughput
+        const effectiveBandwidth = bandwidth / vpn.overhead;
+        const throughput = (effectiveBandwidth * 1000) / 8; // Convert Mbps to KB/s
+        
+        // Calculate latency
+        const effectiveLatency = baseLatency + vpn.latencyAdd + (cpuOverhead * vpn.cpuFactor);
+        
+        // Calculate transfer time (file size / throughput + latency)
+        const transferTime = (fileSize / throughput) + (effectiveLatency / 1000);
+        
+        // Calculate efficiency (baseline throughput / actual throughput)
+        const baselineThroughput = (bandwidth * 1000) / 8;
+        const efficiency = ((baselineThroughput / throughput) * 100).toFixed(1);
+        
+        results.push({
+            name: vpn.name,
+            encryption: vpn.encryption,
+            overhead: (vpn.overhead * 100).toFixed(0) + '%',
+            latency: effectiveLatency.toFixed(1),
+            throughput: throughput.toFixed(0),
+            transferTime: transferTime.toFixed(2),
+            efficiency: efficiency
+        });
+        
+        const row = `
+            <tr>
+                <td><strong>${vpn.name}</strong></td>
+                <td>${vpn.encryption}</td>
+                <td>${(vpn.overhead * 100).toFixed(0)}%</td>
+                <td>${effectiveLatency.toFixed(1)}</td>
+                <td>${throughput.toFixed(0)}</td>
+                <td>${transferTime.toFixed(2)}</td>
+                <td class="${efficiency < 80 ? 'rating-low' : efficiency < 95 ? 'rating-medium' : 'rating-high'}">${efficiency}%</td>
+            </tr>
+        `;
+        table.innerHTML += row;
+    });
+    
+    document.getElementById('calcResults').style.display = 'block';
+    
+    // Update charts
+    updateCalculatorCharts(results, vpns);
+}
+
+function updateCalculatorCharts(results, vpns) {
+    const names = results.map(r => r.name);
+    const latencies = results.map(r => parseFloat(r.latency));
+    const throughputs = results.map(r => parseFloat(r.throughput));
+    const transferTimes = results.map(r => parseFloat(r.transferTime));
+    
+    const colors = ['#28a745', '#667eea', '#764ba2', '#ffc107', '#e74c3c', '#17a2b8'];
+    const bgColors = colors.map(c => c + '80');
+    
+    // Latency Chart
+    const latencyCtx = document.getElementById('calcLatencyChart');
+    if (latencyCtx && latencyCtx.chart) latencyCtx.chart.destroy();
+    if (latencyCtx) {
+        latencyCtx.chart = new Chart(latencyCtx.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: names,
+                datasets: [{
+                    label: 'Latency (ms)',
+                    data: latencies,
+                    backgroundColor: bgColors,
+                    borderColor: colors,
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: { display: true, text: 'Latency Comparison', font: { size: 14 } },
+                    legend: { display: false }
+                },
+                scales: { y: { beginAtZero: true, title: { display: true, text: 'ms' } } }
+            }
+        });
+    }
+    
+    // Throughput Chart
+    const throughputCtx = document.getElementById('calcThroughputChart');
+    if (throughputCtx && throughputCtx.chart) throughputCtx.chart.destroy();
+    if (throughputCtx) {
+        throughputCtx.chart = new Chart(throughputCtx.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: names,
+                datasets: [{
+                    label: 'Throughput (KB/s)',
+                    data: throughputs,
+                    backgroundColor: bgColors,
+                    borderColor: colors,
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: { display: true, text: 'Throughput Comparison', font: { size: 14 } },
+                    legend: { display: false }
+                },
+                scales: { y: { beginAtZero: true, title: { display: true, text: 'KB/s' } } }
+            }
+        });
+    }
+    
+    // Transfer Time Chart
+    const transferCtx = document.getElementById('calcTransferChart');
+    if (transferCtx && transferCtx.chart) transferCtx.chart.destroy();
+    if (transferCtx) {
+        transferCtx.chart = new Chart(transferCtx.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: names,
+                datasets: [{
+                    label: 'Transfer Time (seconds)',
+                    data: transferTimes,
+                    backgroundColor: bgColors,
+                    borderColor: colors,
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: { display: true, text: 'File Transfer Time', font: { size: 14 } },
+                    legend: { display: false }
+                },
+                scales: { y: { beginAtZero: true, title: { display: true, text: 'seconds' } } }
+            }
+        });
+    }
 }

@@ -24,6 +24,7 @@
         <a href="#results">RTT Results</a>
         <a href="#file-transfer">File Transfer</a>
         <a href="#wireshark">Wireshark</a>
+        <a href="#calculator">Calculator</a>
         <a href="#company-comparison">By Company</a>
         <a href="#comparison">VPN Compare</a>
         <a href="#azure">Azure</a>
@@ -429,8 +430,83 @@
             </div>
         </section>
 
+        <section id="calculator">
+            <h2>VPN Performance Calculator</h2>
+            <p>Simulate file transfer performance across different VPN technologies based on your network parameters.</p>
+            
+            <div class="calc-section">
+                <h3>Network Parameters</h3>
+                <div class="calc-grid">
+                    <div class="calc-input">
+                        <label>File Size (KB):</label>
+                        <input type="number" id="fileSize" value="170" min="10" max="10000" step="10">
+                        <small>Default: 170 KB (Alice in Wonderland)</small>
+                    </div>
+                    <div class="calc-input">
+                        <label>Base Latency (ms):</label>
+                        <input type="number" id="baseLatency" value="10" min="1" max="500" step="1">
+                        <small>Network RTT without VPN</small>
+                    </div>
+                    <div class="calc-input">
+                        <label>Bandwidth (Mbps):</label>
+                        <input type="number" id="bandwidth" value="100" min="1" max="10000" step="10">
+                        <small>Available network speed</small>
+                    </div>
+                    <div class="calc-input">
+                        <label>CPU Overhead (%):</label>
+                        <input type="number" id="cpuOverhead" value="5" min="0" max="50" step="1">
+                        <small>Encryption processing impact</small>
+                    </div>
+                </div>
+                <button onclick="runCalculator()" style="background:#667eea; color:white; padding:0.8rem 1.5rem; border:none; border-radius:4px; cursor:pointer; font-weight:600; margin-top:1rem; font-size:0.9rem;">Calculate Performance</button>
+            </div>
+
+            <div id="calcResults" style="margin-top:2rem; display:none;">
+                <h3>Performance Results</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>VPN Technology</th>
+                            <th>Encryption</th>
+                            <th>Overhead</th>
+                            <th>Latency (ms)</th>
+                            <th>Throughput (KB/s)</th>
+                            <th>Transfer Time (s)</th>
+                            <th>Efficiency</th>
+                        </tr>
+                    </thead>
+                    <tbody id="calcTable"></tbody>
+                </table>
+            </div>
+
+            <div class="calc-section" style="margin-top:2rem;">
+                <h3>Comparison Charts</h3>
+                <div class="chart-container">
+                    <canvas id="calcLatencyChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <canvas id="calcThroughputChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <canvas id="calcTransferChart"></canvas>
+                </div>
+            </div>
+
+            <div class="info-box" style="margin-top:1.5rem;">
+                <h3>How This Calculator Works</h3>
+                <ul>
+                    <li><strong>Baseline (No VPN):</strong> Pure network speed, no encryption overhead</li>
+                    <li><strong>GRE:</strong> Adds 24-byte header, minimal CPU impact (~2%)</li>
+                    <li><strong>GRE + IPSec:</strong> Adds encryption, ~15-20% CPU overhead</li>
+                    <li><strong>WireGuard:</strong> Modern, efficient encryption (~5-10% overhead)</li>
+                    <li><strong>OpenVPN:</strong> Mature but heavier (~10-15% overhead)</li>
+                    <li><strong>Azure Hybrid:</strong> Cloud-based, includes latency to Azure (~50ms added)</li>
+                </ul>
+                <p class="note">Results are estimates based on typical configurations. Actual performance depends on hardware, network conditions, and encryption algorithms used.</p>
+            </div>
+        </section>
+
         <section id="company-comparison">
-            <h2>VPN Suitability by Company Size</h2>
             <p>Based on lab testing and research, different VPN technologies suit different organisation sizes depending on budget, technical resources, scalability needs, and security requirements.</p>
 
             <div class="company-grid">
