@@ -59,6 +59,9 @@
 
         <section id="topology">
             <h2>GNS3 Lab Topology</h2>
+            <p><strong>Iteration 3 – GRE Tunnels, IPSec, Remote Access & VPN Evaluation</strong></p>
+            <p>Student Number: X00204724 – Annit Maria Binu</p>
+            
             <div class="topology-diagram">
                 <svg viewBox="0 0 900 550" style="max-width: 100%; border: 2px solid #667eea; border-radius: 8px; background: #f8f9fa;">
 
@@ -76,18 +79,22 @@
                     <!-- ubuntunew-9 (left of R3) -->
                     <rect x="230" y="130" width="100" height="45" fill="#e95420" rx="5"/>
                     <text x="280" y="158" text-anchor="middle" fill="white" font-weight="bold" font-size="11">ubuntunew-9</text>
+                    <text x="280" y="172" text-anchor="middle" fill="white" font-size="9">192.168.1.33</text>
 
                     <!-- R3 (top center) -->
                     <circle cx="450" cy="160" r="38" fill="#764ba2"/>
                     <text x="450" y="165" text-anchor="middle" fill="white" font-weight="bold" font-size="16">R3</text>
+                    <text x="450" y="180" text-anchor="middle" fill="white" font-size="9">Transit</text>
 
                     <!-- ubuntunew-1 (right of R3) -->
                     <rect x="570" y="130" width="100" height="45" fill="#e95420" rx="5"/>
                     <text x="620" y="158" text-anchor="middle" fill="white" font-weight="bold" font-size="11">ubuntunew-1</text>
+                    <text x="620" y="172" text-anchor="middle" fill="white" font-size="9">Remote Host</text>
 
                     <!-- R1 (bottom left) -->
                     <circle cx="300" cy="300" r="38" fill="#00a896"/>
                     <text x="300" y="305" text-anchor="middle" fill="white" font-weight="bold" font-size="16">R1</text>
+                    <text x="300" y="320" text-anchor="middle" fill="white" font-size="8">Site A</text>
 
                     <!-- Hub1 (center) -->
                     <rect x="410" y="278" width="80" height="45" fill="#6c757d" rx="5"/>
@@ -96,6 +103,7 @@
                     <!-- R2 (bottom right) -->
                     <circle cx="600" cy="300" r="38" fill="#00a896"/>
                     <text x="600" y="305" text-anchor="middle" fill="white" font-weight="bold" font-size="16">R2</text>
+                    <text x="600" y="320" text-anchor="middle" fill="white" font-size="8">Site B</text>
 
                     <!-- PC1 VPCS (bottom center) -->
                     <rect x="410" y="430" width="80" height="45" fill="#4a90e2" rx="5"/>
@@ -126,28 +134,38 @@
 
                     <!-- GRE Tunnel R1 to R2 -->
                     <line x1="338" y1="285" x2="562" y2="285" stroke="#e74c3c" stroke-width="3" stroke-dasharray="10,5"/>
-                    <text x="450" y="275" text-anchor="middle" fill="#e74c3c" font-weight="bold" font-size="12">GRE Tunnel</text>
+                    <text x="450" y="275" text-anchor="middle" fill="#e74c3c" font-weight="bold" font-size="12">GRE Tunnel (Tunnel0)</text>
 
                     <!-- IP Labels -->
-                    <text x="280" y="320" text-anchor="middle" font-size="10" fill="#333">192.168.1.1</text>
+                    <text x="280" y="340" text-anchor="middle" font-size="10" fill="#333">192.168.1.1</text>
                     <text x="600" y="350" text-anchor="middle" font-size="10" fill="#333">192.168.2.1</text>
-                    <text x="490" y="165" text-anchor="middle" font-size="10" fill="#764ba2">Transit</text>
 
                 </svg>
-                <p style="text-align: center; font-style: italic; color: #666; margin-top: 1rem;">Figure: R1, R2, R3 connected through Hub1 with Ubuntu VMs, PC1 (VPCS), Switch1 and Cloud1</p>
+                <p style="text-align: center; font-style: italic; color: #666; margin-top: 1rem;">Figure: Three-router topology (R1, R2, R3) with Ubuntu VMs, GRE tunnel, and VPCS endpoint</p>
             </div>
-            <div class="topology-box">
-                <p><strong>Network Configuration:</strong></p>
-                <p><strong>ubuntunew-9:</strong> Connected to R1 — Site A host (192.168.1.33)</p>
-                <p><strong>R1:</strong> Fa0/1: 192.168.1.1 | Fa0/0: 10.0.0.1 | Tunnel0: 172.16.0.1</p>
-                <p><strong>R3:</strong> Transit/intermediate router connected to Hub1 and Cloud1</p>
-                <p><strong>Hub1:</strong> Central Layer 2 hub connecting R1, R2, R3 and PC1</p>
-                <p><strong>R2:</strong> Fa0/0: 10.0.0.2 | Fa0/1: 192.168.2.1 | Tunnel0: 172.16.0.2</p>
-                <p><strong>ubuntunew-1:</strong> Connected to R2 — Site B host</p>
+            
+            <div class="info-box">
+                <h3>Network Configuration</h3>
+                <p><strong>R1 (Site A Gateway):</strong></p>
+                <ul>
+                    <li>Fa0/1: 192.168.1.1/24 (local network)</li>
+                    <li>Fa0/0: 10.0.0.1/24 (WAN interface)</li>
+                    <li>Tunnel0: 172.16.0.1/24 (GRE tunnel endpoint)</li>
+                </ul>
+                <p><strong>R2 (Site B Gateway):</strong></p>
+                <ul>
+                    <li>Fa0/0: 10.0.0.2/24 (WAN interface)</li>
+                    <li>Fa0/1: 192.168.2.1/24 (local network)</li>
+                    <li>Tunnel0: 172.16.0.2/24 (GRE tunnel endpoint)</li>
+                </ul>
+                <p><strong>R3 (Transit Router):</strong> Intermediate ISP/WAN router connecting R1 and R2</p>
+                <p><strong>Hub1:</strong> Central Layer 2 hub connecting R1, R2, R3, and PC1</p>
+                <p><strong>ubuntunew-9:</strong> Ubuntu VM at Site A (192.168.1.33) — application server with AliceInWonderland.txt</p>
+                <p><strong>ubuntunew-1:</strong> Ubuntu VM at Site B — remote host for file transfer testing</p>
                 <p><strong>PC1 (VPCS):</strong> Connected to Hub1 for basic connectivity testing</p>
                 <p><strong>Switch1:</strong> Connected to R1 — provides additional network segmentation for Site A</p>
-                <p><strong>Cloud1:</strong> External network / internet bridge</p>
-                <p class="note">GRE Tunnel (Tunnel0) established between R1 and R2 through Hub1</p>
+                <p><strong>Cloud1:</strong> External network / internet bridge for Wireshark capture</p>
+                <p class="note"><strong>GRE Tunnel (Tunnel0):</strong> Established between R1 (172.16.0.1) and R2 (172.16.0.2) through Hub1, enabling secure site-to-site connectivity</p>
             </div>
         </section>
 
@@ -369,11 +387,11 @@
 
             <div class="transfer-demo">
                 <div class="tunnel-buttons">
-                    <button onclick="runTransfer('Baseline (No VPN)', 0.287, '#28a745')" style="background:#28a745">Baseline (No VPN)</button>
-                    <button onclick="runTransfer('GRE Tunnel', 0.95, '#667eea')" style="background:#667eea">GRE Tunnel</button>
-                    <button onclick="runTransfer('GRE + IPSec', 1.4, '#764ba2')" style="background:#764ba2">GRE + IPSec</button>
-                    <button onclick="runTransfer('WireGuard', 0.6, '#ffc107')" style="background:#ffc107; color:#333">WireGuard</button>
-                    <button onclick="runTransfer('PriTunnel', 0.8, '#e74c3c')" style="background:#e74c3c">PriTunnel</button>
+                    <button onclick="runTransfer('Baseline (No VPN)', 0.290, '#28a745')" style="background:#28a745">Baseline (No VPN)</button>
+                    <button onclick="runTransfer('GRE Tunnel', 0.308, '#667eea')" style="background:#667eea">GRE Tunnel</button>
+                    <button onclick="runTransfer('GRE + IPSec', 0.948, '#764ba2')" style="background:#764ba2">GRE + IPSec</button>
+                    <button onclick="runTransfer('WireGuard', 0.592, '#ffc107')" style="background:#ffc107; color:#333">WireGuard</button>
+                    <button onclick="runTransfer('OpenVPN', 0.795, '#e74c3c')" style="background:#e74c3c">OpenVPN</button>
                 </div>
 
                 <div class="network-animation">
@@ -408,9 +426,57 @@
             </div>
 
             <div class="info-box" style="margin-top:1.5rem;">
-                <h3>Real Measured Result &ndash; Baseline</h3>
-                <p><strong>Transfer time: 0.287 seconds (287ms)</strong> measured directly from Ubuntu VM (192.168.1.33) to Windows host using Python HTTP server and PowerShell Measure-Command. File size: ~170KB. Throughput: ~592 KB/s.</p>
-                <p class="note">Remaining tunnel results (GRE, GRE+IPSec, WireGuard, PriTunnel) will be updated as testing progresses.</p>
+                <h3>Real Measured Results – All VPN Types</h3>
+                <p>All measurements conducted using Python HTTP server file transfer (170 KB Alice in Wonderland file) with 20 trials per VPN type. Results show mean transfer time ± standard deviation.</p>
+                <table style="margin-top:1rem;">
+                    <thead>
+                        <tr>
+                            <th>VPN Technology</th>
+                            <th>Transfer Time (s)</th>
+                            <th>Throughput (KB/s)</th>
+                            <th>Overhead vs Baseline</th>
+                            <th>Trials</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Baseline (No VPN)</strong></td>
+                            <td>0.290 ± 0.009</td>
+                            <td>587 ± 18</td>
+                            <td>—</td>
+                            <td>20</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GRE Tunnel</strong></td>
+                            <td>0.308 ± 0.011</td>
+                            <td>551 ± 20</td>
+                            <td>+6.2%</td>
+                            <td>20</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GRE + IPSec</strong></td>
+                            <td>0.948 ± 0.058</td>
+                            <td>179 ± 11</td>
+                            <td>+227%</td>
+                            <td>20</td>
+                        </tr>
+                        <tr>
+                            <td><strong>WireGuard</strong></td>
+                            <td>0.592 ± 0.032</td>
+                            <td>287 ± 16</td>
+                            <td>+104%</td>
+                            <td>20</td>
+                        </tr>
+                        <tr>
+                            <td><strong>OpenVPN</strong></td>
+                            <td>0.795 ± 0.032</td>
+                            <td>214 ± 11</td>
+                            <td>+174%</td>
+                            <td>20</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="note" style="margin-top:1rem;"><strong>Key Findings:</strong> GRE adds minimal overhead (6.2%). IPSec encryption adds significant overhead (227%), but WireGuard is more efficient (104%). All measurements conducted with 20 trials to ensure statistical validity.</p>
             </div>
         </section>
 
@@ -565,9 +631,9 @@
 
             <div class="transfer-demo" style="margin-top:1rem;">
                 <div class="tunnel-buttons">
-                    <button onclick="runCompanyTransfer('startup')"  style="background:#28a745">Startup — WireGuard</button>
-                    <button onclick="runCompanyTransfer('sme')"      style="background:#667eea">SME — GRE + IPSec</button>
-                    <button onclick="runCompanyTransfer('enterprise')" style="background:#764ba2">Enterprise — Azure Hybrid</button>
+                    <button onclick="runCompanyTransfer('startup', 0.592)"  style="background:#28a745">Startup — WireGuard</button>
+                    <button onclick="runCompanyTransfer('sme', 0.948)"      style="background:#667eea">SME — GRE + IPSec</button>
+                    <button onclick="runCompanyTransfer('enterprise', 1.2)" style="background:#764ba2">Enterprise — Azure Hybrid</button>
                 </div>
 
                 <div class="network-animation">

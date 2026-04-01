@@ -200,10 +200,10 @@ if (rttCtx) {
 
 // Shared tunnel config — matches animation exactly
 const tunnels = {
-    labels:  ['Baseline (No VPN)', 'GRE Tunnel', 'GRE + IPSec', 'WireGuard', 'PriTunnel'],
+    labels:  ['Baseline (No VPN)', 'GRE Tunnel', 'GRE + IPSec', 'WireGuard', 'OpenVPN'],
     colors:  ['#28a745', '#667eea', '#764ba2', '#ffc107', '#e74c3c'],
-    times:   [0.287, 0.95, 1.4, 0.6, 0.8],
-    throughput: [592, 179, 121, 283, 213]
+    times:   [0.290, 0.308, 0.948, 0.592, 0.795],
+    throughput: [587, 551, 179, 287, 214]
 };
 
 const bgColors = tunnels.colors.map(c => c + 'b3');
@@ -335,12 +335,12 @@ if (companyCtx) {
 
 // Company transfer animation data
 const companyData = {
-    startup:    { name: 'Startup',    icon: 'Startup',    vpn: 'WireGuard',        time: 0.6,  color: '#4a7c59', throughput: 283 },
-    sme:        { name: 'SME',        icon: 'SME',        vpn: 'GRE + IPSec',      time: 1.4,  color: '#1a2e4a', throughput: 121 },
-    enterprise: { name: 'Enterprise', icon: 'Enterprise', vpn: 'Azure Hybrid VPN', time: 2.1,  color: '#c9a84c', throughput: 81  }
+    startup:    { name: 'Startup',    icon: 'Startup',    vpn: 'WireGuard',        time: 0.592, color: '#4a7c59', throughput: 287 },
+    sme:        { name: 'SME',        icon: 'SME',        vpn: 'GRE + IPSec',      time: 0.948, color: '#1a2e4a', throughput: 179 },
+    enterprise: { name: 'Enterprise', icon: 'Enterprise', vpn: 'Azure Hybrid VPN', time: 1.2,   color: '#c9a84c', throughput: 142  }
 };
 
-function runCompanyTransfer(type) {
+function runCompanyTransfer(type, time) {
     const d = companyData[type];
     const packet  = document.getElementById('co-packet');
     const fill    = document.getElementById('co-fill');
@@ -348,6 +348,10 @@ function runCompanyTransfer(type) {
     const senderIcon  = document.getElementById('co-sender-icon');
     const senderLabel = document.getElementById('co-sender-label');
     const senderVpn   = document.getElementById('co-sender-vpn');
+
+    // Use passed time parameter
+    const actualTime = time || d.time;
+    const actualThroughput = (170 / actualTime).toFixed(0);
 
     // Reset
     packet.style.transition = 'none';
@@ -364,16 +368,16 @@ function runCompanyTransfer(type) {
 
     document.getElementById('co-stat-company').textContent = d.name;
     document.getElementById('co-stat-vpn').textContent     = d.vpn;
-    document.getElementById('co-stat-time').textContent    = d.time + 's';
-    document.getElementById('co-stat-speed').textContent   = d.throughput + ' KB/s';
+    document.getElementById('co-stat-time').textContent    = actualTime + 's';
+    document.getElementById('co-stat-speed').textContent   = actualThroughput + ' KB/s';
     document.getElementById('co-stat-status').textContent  = 'Transferring...';
     document.getElementById('co-stat-status').style.color  = d.color;
 
     requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-            packet.style.transition = `left ${d.time}s linear`;
+            packet.style.transition = `left ${actualTime}s linear`;
             packet.style.left = 'calc(100% + 10px)';
-            fill.style.transition = `width ${d.time}s linear`;
+            fill.style.transition = `width ${actualTime}s linear`;
             fill.style.width = '100%';
         });
     });
@@ -381,7 +385,7 @@ function runCompanyTransfer(type) {
     setTimeout(() => {
         document.getElementById('co-stat-status').textContent = '✅ Complete';
         document.getElementById('co-stat-status').style.color = '#28a745';
-    }, d.time * 1000);
+    }, actualTime * 1000);
 }
 
 // Company Transfer Time Chart
@@ -394,7 +398,7 @@ if (coTransferCtx) {
             datasets: [
                 {
                     label: 'Transfer Time (seconds)',
-                    data: [0.6, 1.4, 2.1],
+                    data: [0.592, 0.948, 1.2],
                     backgroundColor: ['rgba(40,167,69,0.7)', 'rgba(102,126,234,0.7)', 'rgba(118,75,162,0.7)'],
                     borderColor: ['#28a745', '#667eea', '#764ba2'],
                     borderWidth: 2,
@@ -402,7 +406,7 @@ if (coTransferCtx) {
                 },
                 {
                     label: 'Throughput (KB/s)',
-                    data: [283, 121, 81],
+                    data: [287, 179, 142],
                     backgroundColor: ['rgba(40,167,69,0.3)', 'rgba(102,126,234,0.3)', 'rgba(118,75,162,0.3)'],
                     borderColor: ['#28a745', '#667eea', '#764ba2'],
                     borderWidth: 2,

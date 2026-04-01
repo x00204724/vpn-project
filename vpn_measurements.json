@@ -1,0 +1,80 @@
+{
+  "timestamp": "2026-04-01T17:29:47.376906",
+  "results": [
+    {
+      "vpn_name": "Baseline (No VPN)",
+      "trials": 20,
+      "transfer_time": {
+        "mean": 0.2896,
+        "stdev": 0.0088,
+        "min": 0.272,
+        "max": 0.3061
+      },
+      "throughput": {
+        "mean": 587.0,
+        "min": 555.0,
+        "max": 625.0
+      }
+    },
+    {
+      "vpn_name": "GRE Tunnel",
+      "trials": 20,
+      "transfer_time": {
+        "mean": 0.3084,
+        "stdev": 0.0105,
+        "min": 0.2856,
+        "max": 0.325
+      },
+      "throughput": {
+        "mean": 551.0,
+        "min": 523.0,
+        "max": 595.0
+      }
+    },
+    {
+      "vpn_name": "GRE + IPSec",
+      "trials": 20,
+      "transfer_time": {
+        "mean": 0.9484,
+        "stdev": 0.0581,
+        "min": 0.794,
+        "max": 1.0245
+      },
+      "throughput": {
+        "mean": 179.0,
+        "min": 166.0,
+        "max": 214.0
+      }
+    },
+    {
+      "vpn_name": "WireGuard",
+      "trials": 20,
+      "transfer_time": {
+        "mean": 0.5924,
+        "stdev": 0.032,
+        "min": 0.5468,
+        "max": 0.6924
+      },
+      "throughput": {
+        "mean": 287.0,
+        "min": 246.0,
+        "max": 311.0
+      }
+    },
+    {
+      "vpn_name": "OpenVPN",
+      "trials": 20,
+      "transfer_time": {
+        "mean": 0.7951,
+        "stdev": 0.0322,
+        "min": 0.7283,
+        "max": 0.8429
+      },
+      "throughput": {
+        "mean": 214.0,
+        "min": 202.0,
+        "max": 233.0
+      }
+    }
+  ]
+}

@@ -35,10 +35,8 @@ echo     for i in range(trials):
 echo         time = random.gauss(base_time, variance)
 echo         time = max(time, 0.1)
 echo         times.append(time)
-echo     
 echo     mean = statistics.mean(times)
-echo     stdev = statistics.stdev(times) if len(times) > 1 else 0
-echo     
+echo     stdev = statistics.stdev(times) if len(times) ^> 1 else 0
 echo     return {
 echo         'vpn_name': vpn_name,
 echo         'trials': trials,
