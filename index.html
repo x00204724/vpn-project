@@ -27,6 +27,10 @@
         <a href="#company-comparison">By Company</a>
         <a href="#comparison">VPN Compare</a>
         <a href="#azure">Azure</a>
+        <a href="#faq">FAQ</a>
+        <a href="#compliance">Compliance</a>
+        <a href="#cost-calculator">Costs</a>
+        <a href="#troubleshooting">Troubleshooting</a>
         <a href="#conclusion">Conclusion</a>
         <a href="#deliverables">Deliverables</a>
     </aside>
@@ -660,8 +664,214 @@
             </div>
         </section>
 
+        <section id="faq">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <h3>What's the difference between GRE and IPSec?</h3>
+                    <p>GRE (Generic Routing Encapsulation) is a tunneling protocol that encapsulates packets but doesn't encrypt them. IPSec adds encryption and authentication on top. GRE + IPSec combines both for secure, flexible tunneling.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Which VPN is best for my startup?</h3>
+                    <p>For startups (1-20 people), WireGuard or Tailscale are ideal: low cost, easy setup, fast performance. No IT team needed. Avoid complex solutions like GRE+IPSec unless you have specific enterprise requirements.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>How much does encryption slow down my network?</h3>
+                    <p>Based on our testing: GRE (no encryption) = 0.287s baseline. GRE+IPSec adds ~3.8x overhead (1.4s). WireGuard is more efficient (~2x overhead). Modern CPUs with AES-NI hardware acceleration minimize impact.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Can I use Azure VPN with on-premises networks?</h3>
+                    <p>Yes. Azure Site-to-Site VPN connects your on-premises network to Azure VNets using IPSec tunnels. This enables hybrid cloud deployments where you extend your network into the cloud securely.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>What's the difference between site-to-site and remote access VPN?</h3>
+                    <p>Site-to-site VPN connects entire networks (office to office). Remote access VPN connects individual users/devices to a network. This project focuses on site-to-site; remote access uses clients like WireGuard or OpenVPN.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>How do I choose between OpenVPN and WireGuard?</h3>
+                    <p>WireGuard: Newer, faster, simpler code, lower latency. OpenVPN: Mature, widely supported, firewall-friendly (uses UDP/TCP 443). For performance: WireGuard. For compatibility: OpenVPN.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="compliance">
+            <h2>Compliance & Security Checklist</h2>
+            <p>Use this checklist to evaluate VPN solutions against regulatory requirements (GDPR, HIPAA, SOC2).</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Requirement</th>
+                        <th>GDPR</th>
+                        <th>HIPAA</th>
+                        <th>SOC2</th>
+                        <th>GRE+IPSec</th>
+                        <th>WireGuard</th>
+                        <th>OpenVPN</th>
+                        <th>Azure VPN</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Encryption in Transit</strong></td>
+                        <td class="rating-high">✅</td>
+                        <td class="rating-high">✅</td>
+                        <td class="rating-high">✅</td>
+                        <td class="rating-high">✅ AES-256</td>
+                        <td class="rating-high">✅ ChaCha20</td>
+                        <td class="rating-high">✅ AES-256</td>
+                        <td class="rating-high">✅ AES-256</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Authentication</strong></td>
+                        <td class="rating-high">✅</td>
+                        <td class="rating-high">✅</td>
+                        <td class="rating-high">✅</td>
+                        <td class="rating-high">✅ IKEv2</td>
+                        <td class="rating-high">✅ Curve25519</td>
+                        <td class="rating-high">✅ TLS</td>
+                        <td class="rating-high">✅ IKEv2/PSK</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Perfect Forward Secrecy</strong></td>
+                        <td class="rating-high">✅</td>
+                        <td class="rating-high">✅</td>
+                        <td class="rating-high">✅</td>
+                        <td class="rating-high">✅</td>
+                        <td class="rating-high">✅</td>
+                        <td class="rating-high">✅</td>
+                        <td class="rating-high">✅</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Audit Logging</strong></td>
+                        <td class="rating-high">✅</td>
+                        <td class="rating-high">✅</td>
+                        <td class="rating-high">✅</td>
+                        <td class="rating-medium">⚠️ Manual</td>
+                        <td class="rating-medium">⚠️ Manual</td>
+                        <td class="rating-medium">⚠️ Manual</td>
+                        <td class="rating-high">✅ Built-in</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data Residency Control</strong></td>
+                        <td class="rating-high">✅</td>
+                        <td class="rating-high">✅</td>
+                        <td class="rating-high">✅</td>
+                        <td class="rating-medium">⚠️ Limited</td>
+                        <td class="rating-medium">⚠️ Limited</td>
+                        <td class="rating-medium">⚠️ Limited</td>
+                        <td class="rating-high">✅ Full</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Incident Response</strong></td>
+                        <td class="rating-high">✅</td>
+                        <td class="rating-high">✅</td>
+                        <td class="rating-high">✅</td>
+                        <td class="rating-low">❌ Manual</td>
+                        <td class="rating-low">❌ Manual</td>
+                        <td class="rating-low">❌ Manual</td>
+                        <td class="rating-high">✅ Automated</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Recommended For</strong></td>
+                        <td colspan="3" style="text-align:center; font-weight:600;">All regulated industries</td>
+                        <td class="rating-medium">Enterprise</td>
+                        <td class="rating-high">Startups/SMEs</td>
+                        <td class="rating-high">SMEs/Enterprise</td>
+                        <td class="rating-high">Enterprise</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="info-box" style="margin-top:1.5rem;">
+                <h3>Compliance Notes</h3>
+                <ul>
+                    <li><strong>GDPR:</strong> Requires encryption of personal data in transit and at rest. All VPNs listed support this with proper configuration.</li>
+                    <li><strong>HIPAA:</strong> Requires AES-256 encryption, audit logging, and access controls. Azure VPN has built-in compliance; others need manual setup.</li>
+                    <li><strong>SOC2:</strong> Requires documented security controls, monitoring, and incident response. Azure VPN provides SOC2 Type II certification.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="cost-calculator">
+            <h2>VPN Cost Analysis Calculator</h2>
+            <p>Estimate annual VPN costs for your organization based on company size and requirements.</p>
+            <div class="calculator">
+                <div class="calc-input">
+                    <label>Number of Sites/Offices:</label>
+                    <input type="number" id="numSites" value="2" min="1" max="100">
+                </div>
+                <div class="calc-input">
+                    <label>Number of Remote Users:</label>
+                    <input type="number" id="numUsers" value="10" min="0" max="1000">
+                </div>
+                <div class="calc-input">
+                    <label>Average Bandwidth (Mbps):</label>
+                    <input type="number" id="bandwidth" value="100" min="10" max="1000">
+                </div>
+                <button onclick="calculateCosts()" style="background:#667eea; color:white; padding:0.8rem 1.5rem; border:none; border-radius:4px; cursor:pointer; font-weight:600; margin-top:1rem;">Calculate Costs</button>
+            </div>
+            <div id="costResults" style="margin-top:1.5rem; display:none;">
+                <h3>Annual Cost Estimates</h3>
+                <table>
+                    <thead>
+                        <tr><th>Solution</th><th>Setup</th><th>Monthly</th><th>Annual</th><th>Best For</th></tr>
+                    </thead>
+                    <tbody id="costTable"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="troubleshooting">
+            <h2>Troubleshooting Guide</h2>
+            <div class="troubleshooting-item">
+                <h3>VPN Tunnel Won't Connect</h3>
+                <p><strong>Symptoms:</strong> Tunnel status shows "down" or "inactive"</p>
+                <p><strong>Solutions:</strong></p>
+                <ul>
+                    <li>Check IP addresses match on both ends (R1 Tunnel0 vs R2 Tunnel0)</li>
+                    <li>Verify routing: <code>show ip route</code> should show tunnel route</li>
+                    <li>Check firewall rules allow GRE (protocol 47) or IPSec (UDP 500, 4500)</li>
+                    <li>Verify pre-shared keys match (for IPSec)</li>
+                    <li>Check interface is up: <code>show interface tunnel0</code></li>
+                </ul>
+            </div>
+            <div class="troubleshooting-item">
+                <h3>High Latency Over VPN</h3>
+                <p><strong>Symptoms:</strong> RTT > 100ms, slow file transfers</p>
+                <p><strong>Solutions:</strong></p>
+                <ul>
+                    <li>Check CPU usage on VPN gateway (encryption is CPU-intensive)</li>
+                    <li>Enable hardware acceleration (AES-NI) if available</li>
+                    <li>Switch to faster algorithm (ChaCha20 vs AES-256)</li>
+                    <li>Check network congestion: <code>show interface</code></li>
+                    <li>Consider WireGuard for better performance</li>
+                </ul>
+            </div>
+            <div class="troubleshooting-item">
+                <h3>Packet Loss Over Tunnel</h3>
+                <p><strong>Symptoms:</strong> Intermittent connectivity, dropped packets</p>
+                <p><strong>Solutions:</strong></p>
+                <ul>
+                    <li>Check MTU size (GRE adds 24 bytes overhead): <code>ping -df -s 1472</code></li>
+                    <li>Verify no fragmentation: adjust MTU to 1400 if needed</li>
+                    <li>Check for QoS issues on intermediate routers</li>
+                    <li>Monitor tunnel statistics: <code>show crypto session brief</code></li>
+                </ul>
+            </div>
+            <div class="troubleshooting-item">
+                <h3>Can't Reach Remote Subnet</h3>
+                <p><strong>Symptoms:</strong> Tunnel is up but can't ping remote hosts</p>
+                <p><strong>Solutions:</strong></p>
+                <ul>
+                    <li>Verify routing on both sides includes remote subnet</li>
+                    <li>Check ACL (access control list) allows traffic</li>
+                    <li>Verify remote host is on correct subnet (e.g., 192.168.2.0/24)</li>
+                    <li>Check firewall on remote host allows ICMP</li>
+                    <li>Use traceroute to identify where packets are dropped</li>
+                </ul>
+            </div>
+        </section>
+
         <section id="conclusion">
-            <h2>Project Summary</h2>
 
             <div class="progress-grid">
                 <div class="progress-card completed">

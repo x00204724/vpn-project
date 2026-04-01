@@ -2,6 +2,110 @@
 const sidebarLinks = document.querySelectorAll('.sidebar a');
 const sections = document.querySelectorAll('section[id]');
 
+// Dark Mode Toggle
+function initDarkMode() {
+    const isDark = localStorage.getItem('darkMode') === 'true';
+    if (isDark) {
+        document.body.classList.add('dark-mode');
+    }
+}
+
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    const isDark = document.body.classList.contains('dark-mode');
+    localStorage.setItem('darkMode', isDark);
+}
+
+// Search Functionality
+function initSearch() {
+    const searchBox = document.querySelector('.search-box input');
+    const searchResults = document.querySelector('.search-results');
+    
+    if (!searchBox) return;
+    
+    const searchableItems = [
+        { title: 'Overview', id: 'overview' },
+        { title: 'Topology', id: 'topology' },
+        { title: 'Methodology & Iterations', id: 'methodology' },
+        { title: 'RTT Results', id: 'results' },
+        { title: 'File Transfer', id: 'file-transfer' },
+        { title: 'Wireshark Analysis', id: 'wireshark' },
+        { title: 'Company Comparison', id: 'company-comparison' },
+        { title: 'VPN Comparison', id: 'comparison' },
+        { title: 'Azure Integration', id: 'azure' },
+        { title: 'Conclusion', id: 'conclusion' },
+        { title: 'Deliverables', id: 'deliverables' }
+    ];
+    
+    searchBox.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase();
+        searchResults.innerHTML = '';
+        
+        if (query.length < 2) {
+            searchResults.classList.remove('active');
+            return;
+        }
+        
+        const matches = searchableItems.filter(item => 
+            item.title.toLowerCase().includes(query)
+        );
+        
+        if (matches.length === 0) {
+            searchResults.classList.remove('active');
+            return;
+        }
+        
+        matches.forEach(match => {
+            const div = document.createElement('div');
+            div.className = 'search-result-item';
+            div.textContent = match.title;
+            div.onclick = () => {
+                const link = document.querySelector(`a[href="#${match.id}"]`);
+                if (link) link.click();
+                searchBox.value = '';
+                searchResults.classList.remove('active');
+            };
+            searchResults.appendChild(div);
+        });
+        
+        searchResults.classList.add('active');
+    });
+    
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.search-box') && !e.target.closest('.search-results')) {
+            searchResults.classList.remove('active');
+        }
+    });
+}
+
+// Initialize on load
+window.addEventListener('DOMContentLoaded', () => {
+    initDarkMode();
+    initSearch();
+});
+
+// Create dark mode toggle button
+if (!document.querySelector('.dark-mode-toggle')) {
+    const toggle = document.createElement('button');
+    toggle.className = 'dark-mode-toggle';
+    toggle.innerHTML = '🌙';
+    toggle.title = 'Toggle Dark Mode';
+    toggle.onclick = toggleDarkMode;
+    document.body.appendChild(toggle);
+}
+
+// Create search box
+if (!document.querySelector('.search-box')) {
+    const searchContainer = document.createElement('div');
+    searchContainer.className = 'search-box';
+    searchContainer.innerHTML = '<input type="text" placeholder="Search sections...">';
+    document.body.appendChild(searchContainer);
+    
+    const searchResults = document.createElement('div');
+    searchResults.className = 'search-results';
+    document.body.appendChild(searchResults);
+}
+
 sidebarLinks.forEach(link => {
     link.addEventListener('click', (e) => {
         e.preventDefault();
