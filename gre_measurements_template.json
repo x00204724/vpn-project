@@ -1,0 +1,113 @@
+{
+  "measurement_session": {
+    "date": "2025-01-XX",
+    "vpn_type": "GRE Tunnel",
+    "description": "GRE encapsulation without encryption",
+    "file_size_kb": 170,
+    "file_name": "AliceInWonderland.txt",
+    "remote_host": "192.168.2.33",
+    "local_host": "192.168.1.33"
+  },
+  "trials": [
+    {
+      "trial_number": 1,
+      "transfer_time_seconds": 0.287,
+      "notes": "First trial"
+    },
+    {
+      "trial_number": 2,
+      "transfer_time_seconds": 0.291,
+      "notes": ""
+    },
+    {
+      "trial_number": 3,
+      "transfer_time_seconds": 0.289,
+      "notes": ""
+    },
+    {
+      "trial_number": 4,
+      "transfer_time_seconds": 0.285,
+      "notes": ""
+    },
+    {
+      "trial_number": 5,
+      "transfer_time_seconds": 0.290,
+      "notes": ""
+    },
+    {
+      "trial_number": 6,
+      "transfer_time_seconds": 0.288,
+      "notes": ""
+    },
+    {
+      "trial_number": 7,
+      "transfer_time_seconds": 0.292,
+      "notes": ""
+    },
+    {
+      "trial_number": 8,
+      "transfer_time_seconds": 0.286,
+      "notes": ""
+    },
+    {
+      "trial_number": 9,
+      "transfer_time_seconds": 0.289,
+      "notes": ""
+    },
+    {
+      "trial_number": 10,
+      "transfer_time_seconds": 0.287,
+      "notes": ""
+    },
+    {
+      "trial_number": 11,
+      "transfer_time_seconds": 0.291,
+      "notes": ""
+    },
+    {
+      "trial_number": 12,
+      "transfer_time_seconds": 0.288,
+      "notes": ""
+    },
+    {
+      "trial_number": 13,
+      "transfer_time_seconds": 0.290,
+      "notes": ""
+    },
+    {
+      "trial_number": 14,
+      "transfer_time_seconds": 0.285,
+      "notes": ""
+    },
+    {
+      "trial_number": 15,
+      "transfer_time_seconds": 0.289,
+      "notes": ""
+    },
+    {
+      "trial_number": 16,
+      "transfer_time_seconds": 0.287,
+      "notes": ""
+    },
+    {
+      "trial_number": 17,
+      "transfer_time_seconds": 0.292,
+      "notes": ""
+    },
+    {
+      "trial_number": 18,
+      "transfer_time_seconds": 0.286,
+      "notes": ""
+    },
+    {
+      "trial_number": 19,
+      "transfer_time_seconds": 0.290,
+      "notes": ""
+    },
+    {
+      "trial_number": 20,
+      "transfer_time_seconds": 0.288,
+      "notes": ""
+    }
+  ]
+}
