@@ -681,3 +681,226 @@ footer {
     .search-box { display: none; }
     .dark-mode-toggle { top: 50px; right: 5px; width: 35px; height: 35px; font-size: 1rem; }
 }
+
+
+/* SECURITY MATRIX */
+.security-filters {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 0.5rem 1rem;
+    border: 2px solid var(--border);
+    background: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    color: var(--navy);
+}
+
+.filter-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.filter-btn.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+}
+
+.security-matrix-container {
+    overflow-x: auto;
+    margin-bottom: 2rem;
+}
+
+.security-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.security-table thead {
+    background: var(--navy);
+    color: #e2e8f0;
+}
+
+.security-table th {
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--accent);
+}
+
+.security-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.5;
+}
+
+.security-row {
+    transition: background 0.2s;
+    cursor: pointer;
+}
+
+.security-row:hover {
+    background: #f8f9fb;
+}
+
+.vpn-name {
+    font-weight: 600;
+    color: var(--navy);
+    min-width: 150px;
+}
+
+.security-details {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: #f8f9fb;
+    border-radius: 4px;
+    border-left: 4px solid var(--accent);
+}
+
+.security-detail-card {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: white;
+    border-radius: 4px;
+    border-left: 3px solid var(--accent);
+}
+
+.security-detail-card h4 {
+    color: var(--navy);
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.detail-section {
+    line-height: 1.8;
+}
+
+.detail-section p {
+    margin-bottom: 0.8rem;
+    font-size: 0.9rem;
+}
+
+.detail-section ul {
+    margin-left: 1.5rem;
+    margin-bottom: 0.8rem;
+}
+
+.detail-section li {
+    margin-bottom: 0.4rem;
+    font-size: 0.9rem;
+}
+
+
+/* LITERATURE REVIEW */
+.literature-item {
+    background: white;
+    padding: 1.2rem;
+    margin: 1rem 0;
+    border-left: 4px solid #667eea;
+    border-radius: 0 4px 4px 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.literature-item h4 {
+    color: var(--navy);
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.literature-item p {
+    margin-bottom: 0.6rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.literature-item strong {
+    color: var(--navy);
+    font-weight: 600;
+}
+
+.literature-item em {
+    font-style: italic;
+    color: var(--muted);
+}
+
+
+/* FORMAL METHODOLOGY */
+.methodology-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+}
+
+.methodology-table thead {
+    background: var(--navy);
+    color: #e2e8f0;
+}
+
+.methodology-table th {
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--accent);
+}
+
+.methodology-table td {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.5;
+}
+
+.methodology-table tbody tr:hover {
+    background: #f8f9fb;
+}
+
+.methodology-table strong {
+    color: var(--navy);
+    font-weight: 600;
+}
+
+.methodology-table code {
+    background: #f0f0f0;
+    padding: 0.2rem 0.4rem;
+    border-radius: 2px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+}
+
+#methodology-formal h4 {
+    color: var(--navy);
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+#methodology-formal ol {
+    margin-left: 1.5rem;
+    margin-top: 0.8rem;
+}
+
+#methodology-formal ol li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+}
+
+#methodology-formal ul li {
+    margin-bottom: 0.4rem;
+    line-height: 1.6;
+}

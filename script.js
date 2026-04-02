@@ -586,3 +586,65 @@ function updateCalculatorCharts(results, vpns) {
         });
     }
 }
+
+
+// SECURITY MATRIX INTERACTIVITY
+function initSecurityMatrix() {
+    const rows = document.querySelectorAll('.security-row');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    
+    // Click on row to show details
+    rows.forEach(row => {
+        row.addEventListener('click', () => {
+            const vpn = row.getAttribute('data-vpn');
+            showSecurityDetail(vpn);
+        });
+    });
+    
+    // Filter buttons
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const filter = btn.getAttribute('onclick').match(/'([^']+)'/)[1];
+            filterSecurityRows(filter);
+        });
+    });
+}
+
+function showSecurityDetail(vpn) {
+    // Hide all detail cards
+    document.querySelectorAll('.security-detail-card').forEach(card => {
+        card.style.display = 'none';
+    });
+    
+    // Show selected detail card
+    const detailCard = document.getElementById(`detail-${vpn}`);
+    if (detailCard) {
+        detailCard.style.display = 'block';
+        detailCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+}
+
+function filterSecurity(filter) {
+    const rows = document.querySelectorAll('.security-row');
+    
+    rows.forEach(row => {
+        if (filter === 'all') {
+            row.style.display = '';
+        } else {
+            // Show all rows for now (can be extended with specific filtering)
+            row.style.display = '';
+        }
+    });
+}
+
+function filterSecurityRows(filter) {
+    // Placeholder for future filtering logic
+    console.log('Filter:', filter);
+}
+
+// Initialize security matrix when page loads
+document.addEventListener('DOMContentLoaded', () => {
+    initSecurityMatrix();
+});
