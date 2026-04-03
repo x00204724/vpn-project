@@ -318,3 +318,169 @@ window.addEventListener('scroll', () => {
         a.classList.toggle('active', a.getAttribute('href') === '#' + current);
     });
 });
+
+// Literature Review filter
+document.querySelectorAll('.lit-filter').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.lit-filter').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const topic = btn.dataset.topic;
+        document.querySelectorAll('.lit-card').forEach(card => {
+            card.classList.toggle('hidden', topic !== 'all' && card.dataset.topic !== topic);
+        });
+    });
+});
+
+// Security Matrix filter
+document.querySelectorAll('.sec-filter').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.sec-filter').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const sec = btn.dataset.sec;
+        document.querySelectorAll('#security-table tbody tr').forEach(row => {
+            if (sec === 'all') { row.style.display = ''; return; }
+            row.style.display = (row.dataset.sec || '').split(' ').includes(sec) ? '' : 'none';
+        });
+    });
+});
+
+// Security Radar Chart
+const radarCtx = document.getElementById('securityRadarChart').getContext('2d');
+new Chart(radarCtx, {
+    type: 'radar',
+    data: {
+        labels: ['Encryption Strength', 'Key Exchange', 'Authentication', 'PFS', 'FIPS Compliance', 'Low Overhead', 'Audit Maturity'],
+        datasets: [
+            {
+                label: 'GRE + IPSec',
+                data: [10, 9, 9, 8, 10, 4, 10],
+                borderColor: '#764ba2',
+                backgroundColor: 'rgba(118,75,162,0.15)',
+                pointBackgroundColor: '#764ba2',
+                borderWidth: 2
+            },
+            {
+                label: 'WireGuard',
+                data: [9, 10, 8, 10, 3, 9, 6],
+                borderColor: '#ffc107',
+                backgroundColor: 'rgba(255,193,7,0.15)',
+                pointBackgroundColor: '#ffc107',
+                borderWidth: 2
+            },
+            {
+                label: 'OpenVPN',
+                data: [10, 9, 10, 8, 10, 5, 9],
+                borderColor: '#667eea',
+                backgroundColor: 'rgba(102,126,234,0.15)',
+                pointBackgroundColor: '#667eea',
+                borderWidth: 2
+            },
+            {
+                label: 'GRE (No IPSec)',
+                data: [0, 0, 0, 0, 0, 9, 7],
+                borderColor: '#e74c3c',
+                backgroundColor: 'rgba(231,76,60,0.1)',
+                pointBackgroundColor: '#e74c3c',
+                borderWidth: 2
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            title: { display: true, text: 'Security Profile Comparison — All VPN Technologies', font: { size: 15 } },
+            legend: { position: 'bottom' }
+        },
+        scales: {
+            r: {
+                beginAtZero: true,
+                max: 10,
+                ticks: { stepSize: 2, font: { size: 10 } },
+                pointLabels: { font: { size: 11 } }
+            }
+        }
+    }
+});
+
+// Real VPN System Performance Chart
+const vpnPerfCtx = document.getElementById('vpnPerformanceChart');
+if (vpnPerfCtx) {
+    new Chart(vpnPerfCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Baseline (No VPN)', 'VPN Encrypted'],
+            datasets: [
+                {
+                    label: 'Transfer Time (seconds)',
+                    data: [0.0007, 0.0094],
+                    backgroundColor: ['rgba(40,167,69,0.7)', 'rgba(220,53,69,0.7)'],
+                    borderColor: ['#28a745', '#dc3545'],
+                    borderWidth: 2,
+                    yAxisID: 'y'
+                },
+                {
+                    label: 'Throughput (KB/s)',
+                    data: [261662, 18036],
+                    backgroundColor: ['rgba(40,167,69,0.3)', 'rgba(220,53,69,0.3)'],
+                    borderColor: ['#28a745', '#dc3545'],
+                    borderWidth: 2,
+                    borderDash: [5,5],
+                    yAxisID: 'y1'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: { display: true, text: 'Real VPN System — Performance Overhead (AliceInWonderland.txt, 170 KB)', font: { size: 15 } },
+                legend: { position: 'bottom' }
+            },
+            scales: {
+                y:  { beginAtZero: true, title: { display: true, text: 'Transfer Time (s)' }, position: 'left' },
+                y1: { beginAtZero: true, title: { display: true, text: 'Throughput (KB/s)' }, position: 'right', grid: { drawOnChartArea: false } }
+            }
+        }
+    });
+}
+
+
+// Working VPN Systems Chart
+const workingVpnCtx = document.getElementById('workingVpnChart');
+if (workingVpnCtx) {
+    new Chart(workingVpnCtx, {
+        type: 'bar',
+        data: {
+            labels: ['VPN Server', 'VPN Dashboard', 'Quick Start Menu'],
+            datasets: [
+                {
+                    label: 'Setup Time (minutes)',
+                    data: [1, 1, 0.5],
+                    backgroundColor: ['rgba(40,167,69,0.7)', 'rgba(102,126,234,0.7)', 'rgba(118,75,162,0.7)'],
+                    borderColor: ['#28a745', '#667eea', '#764ba2'],
+                    borderWidth: 2,
+                    yAxisID: 'y'
+                },
+                {
+                    label: 'Max Clients',
+                    data: [100, 100, 100],
+                    backgroundColor: ['rgba(40,167,69,0.3)', 'rgba(102,126,234,0.3)', 'rgba(118,75,162,0.3)'],
+                    borderColor: ['#28a745', '#667eea', '#764ba2'],
+                    borderWidth: 2,
+                    borderDash: [5,5],
+                    yAxisID: 'y1'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: { display: true, text: 'Working VPN Systems — Setup Time & Scalability', font: { size: 15 } },
+                legend: { position: 'bottom' }
+            },
+            scales: {
+                y:  { beginAtZero: true, title: { display: true, text: 'Setup Time (minutes)' }, position: 'left' },
+                y1: { beginAtZero: true, title: { display: true, text: 'Max Clients' }, position: 'right', grid: { drawOnChartArea: false } }
+            }
+        }
+    });
+}

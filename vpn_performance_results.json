@@ -1,0 +1,14 @@
+[
+  {
+    "type": "baseline",
+    "avg_time": 0.0013018449147542317,
+    "throughput_kbps": 130759.44276906173,
+    "file_size_kb": 170.228515625
+  },
+  {
+    "type": "vpn_encrypted",
+    "avg_time": 0.015139341354370117,
+    "throughput_kbps": 11244.11634828895,
+    "file_size_kb": 170.228515625
+  }
+]
