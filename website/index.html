@@ -778,91 +778,7 @@
                     </div>
                 </div>
             </div>
-            <script>
-                let serverRunning = false, clientConnected = false, dataTransferred = 0, startTime = null, uptimeInterval = null;
-                function log(msg, type = 'info') {
-                    const logBox = document.getElementById('log');
-                    const div = document.createElement('div');
-                    div.style.marginBottom = '5px';
-                    div.style.color = type === 'success' ? '#00ff00' : type === 'error' ? '#ff4444' : type === 'warning' ? '#ffaa00' : '#4488ff';
-                    div.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
-                    logBox.appendChild(div);
-                    logBox.scrollTop = logBox.scrollHeight;
-                }
-                function startServer() {
-                    if (serverRunning) { log('Server already running', 'warning'); return; }
-                    serverRunning = true;
-                    startTime = Date.now();
-                    document.getElementById('server-status').textContent = 'ONLINE';
-                    log('VPN Server started on 0.0.0.0:8443', 'success');
-                    log('VPN Network: 10.8.0.0/24', 'info');
-                    uptimeInterval = setInterval(() => {
-                        const uptime = Math.floor((Date.now() - startTime) / 1000);
-                        document.getElementById('client-count').textContent = clientConnected ? '1' : '0';
-                    }, 1000);
-                }
-                function connectClient() {
-                    if (!serverRunning) { log('Start server first', 'error'); return; }
-                    if (clientConnected) { log('Client already connected', 'warning'); return; }
-                    clientConnected = true;
-                    document.getElementById('client-status').textContent = 'CONNECTED';
-                    document.getElementById('client-count').textContent = '1';
-                    log('Client connecting...', 'info');
-                    setTimeout(() => {
-                        log('VPN IP assigned: 10.8.0.2', 'success');
-                        log('Encryption: AES-128 + HMAC-SHA256', 'success');
-                    }, 500);
-                }
-                function sendData() {
-                    if (!clientConnected) { log('Connect client first', 'error'); return; }
-                    log('Sending encrypted data...', 'info');
-                    setTimeout(() => {
-                        dataTransferred += 1024;
-                        document.getElementById('data-transferred').textContent = (dataTransferred / 1024).toFixed(1) + ' KB';
-                        log('Data sent and received', 'success');
-                    }, 300);
-                }
-                function simulateTransfer() {
-                    if (!clientConnected) { log('Connect client first', 'error'); return; }
-                    log('Starting file transfer: AliceInWonderland.txt (170 KB)', 'info');
-                    const fill = document.getElementById('transfer-fill');
-                    const speed = document.getElementById('transfer-speed');
-                    const time = document.getElementById('transfer-time');
-                    let progress = 0, startTime = Date.now();
-                    const interval = setInterval(() => {
-                        const elapsed = Date.now() - startTime;
-                        progress = Math.min((elapsed / 3000) * 100, 100);
-                        fill.style.width = progress + '%';
-                        fill.textContent = Math.floor(progress) + '%';
-                        speed.textContent = (170 * (progress / 100) / (elapsed / 1000)).toFixed(1) + ' KB/s';
-                        time.textContent = (elapsed / 1000).toFixed(1) + 's';
-                        if (progress >= 100) { clearInterval(interval); log('Transfer complete: 170 KB', 'success'); }
-                    }, 50);
-                }
-            </script>
-        </section>
-
-        <section id="literature">
-            <h2>Literature Review</h2>
-            <p>This review synthesises peer-reviewed research on VPN performance, encryption overhead, and network tunnelling protocols to contextualise the experimental findings of this project. Sources were drawn from IEEE Xplore, ACM Digital Library, ResearchGate, and NIST publications.</p>
-
-            <div class="lit-filter-bar">
-                <span class="lit-filter-label">Filter by topic:</span>
-                <button class="lit-filter active" data-topic="all">All</button>
-                <button class="lit-filter" data-topic="performance">Performance</button>
-                <button class="lit-filter" data-topic="security">Security</button>
-                <button class="lit-filter" data-topic="cloud">Cloud VPN</button>
-                <button class="lit-filter" data-topic="protocol">Protocols</button>
-            </div>
-
-            <div class="lit-grid" id="lit-grid">
-
-                <div class="lit-card" data-topic="protocol">
-                    <div class="lit-badge protocol">Protocol</div>
-                    <h4>Generic Routing Encapsulation (GRE)</h4>
-                    <p class="lit-authors">Farinacci, D., Li, T., Hanks, S., Meyer, D., &amp; Traina, P. (2000)</p>
-                    <p class="lit-source">RFC 2784 — Internet Engineering Task Force (IETF)</p>
-                    <p class="lit-summary">Defines the GRE tunnelling protocol, which encapsulates arbitrary network layer protocols over IP. GRE provides a lightweight mechanism for creating point-to-point virtual links but offers no inherent security — a key limitation addressed in this project by combining GRE with IPSec.</p>
+            <!-- Removed duplicate and nested script blocks for VPN Live Demo -->
                     <div class="lit-relevance">Relevance: Foundational protocol used in GNS3 lab topology (R1–R2 tunnel)</div>
                 </div>
 
@@ -1223,35 +1139,223 @@
         </section>
 
         <section id="deliverables">
-            <h2>Project Deliverables & Milestones</h2>
-            <p>The project will produce a complete set of materials demonstrating research, experiments and conclusions on VPN technologies, tunnelling methods, cloud connectivity and hybrid networking.</p>
-            
-            <ul class="deliverables-list">
-                <li>Complete — Detailed technical report documenting all phases</li>
-                <li>Complete — GNS3 simulation files (topology, router configs)</li>
-                <li>In Progress — Azure cloud networking setup (VNet, VPN Gateway)</li>
-                <li>In Progress — Wireshark packet captures (GRE, ESP, tunnel establishment)</li>
-                <li>Complete — Professional network diagrams</li>
-                <li>Pending — Measured performance comparisons (file transfer metrics)</li>
-                <li>Planned — Final presentation with recommendations</li>
-            </ul>
-            
-            <div class="objectives">
-                <h3>Technical Requirements</h3>
-                <p><strong>Hardware:</strong> PC/Laptop with ≥16GB RAM, Virtualisation-capable CPU</p>
-                <p><strong>Software:</strong> GNS3, Cisco IOS images, Wireshark, Azure portal tools</p>
-                <p><strong>Cloud Resources:</strong> Azure Virtual Network, Azure VPN Gateway</p>
-                <p><strong>Access:</strong> Azure student subscription, Cisco images (lab use)</p>
+            <h2>VPN Live Demo – User Experience</h2>
+            <div class="info-box" style="margin-bottom:1.5rem;">
+                <h3>How to Use This VPN System</h3>
+                <ol>
+                    <li>Start the VPN server by clicking <strong>Start Server</strong>.</li>
+                    <li>Enter your username and password, then click <strong>Connect Client</strong> to join the VPN.</li>
+                    <li>Once connected, you can send encrypted data or transfer files securely.</li>
+                    <li>Monitor real-time status, logs, and transfer progress below.</li>
+                </ol>
+                <p>Download the <a href="../vpn_quickstart.py" download>VPN Client Script</a> to connect from your own device.</p>
             </div>
-        </section>
-    </div>
+            <div style="background: rgba(255,255,255,0.95); padding: 30px; border-radius: 10px; box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37); margin-bottom: 20px;">
+                <div style="display: flex; flex-wrap: wrap; gap: 30px; margin-bottom: 20px; align-items: flex-start;">
+                    <div style="flex:1; min-width:260px;">
+                        <div style="margin-bottom:1rem;">
+                            <button onclick="startServer()" style="background:#28a745; color:#fff; padding:10px 20px; border:none; border-radius:5px; font-weight:bold;">Start Server</button>
+                            <span style="margin-left:1rem; font-weight:bold;">Server Status: <span id="server-status" style="color:#28a745;">OFFLINE</span></span>
+                        </div>
+                        <form id="auth-form" onsubmit="event.preventDefault(); connectClient();" style="margin-bottom:1rem;">
+                            <label for="username">Username:</label>
+                            <input type="text" id="username" name="username" value="user" required style="margin-right:0.5rem;">
+                            <label for="password">Password:</label>
+                            <div style="display:inline-flex; align-items:center;">
+                                <input type="password" id="password" name="password" value="pass" required style="margin-right:0.5rem;">
+                                <button type="button" id="toggle-pw" style="margin-left:0.2rem; background:none; border:none; cursor:pointer; color:#007bff; font-size:1em;">Show</button>
+                            </div>
+                            <button type="submit" id="connect-btn" style="background:#007bff; color:#fff; padding:6px 16px; border:none; border-radius:5px; font-weight:bold;">Connect Client</button>
+                            <div id="account-state" style="margin-top:0.5rem; font-size:13px; color:#764ba2;"></div>
+                        </form>
+                        <div style="margin-bottom:1rem;">
+                            <button onclick="sendData()" style="background:#ffc107; color:#333; padding:8px 18px; border:none; border-radius:5px; font-weight:bold;">Send Encrypted Data</button>
+                            <button onclick="simulateTransfer()" style="background:#764ba2; color:#fff; padding:8px 18px; border:none; border-radius:5px; font-weight:bold; margin-left:0.5rem;">Transfer File</button>
+                        </div>
+                        <div style="margin-bottom:1rem;">
+                            <span style="font-weight:bold;">Client Status:</span> <span id="client-status" style="color:#dc3545;">DISCONNECTED</span>
+                        </div>
+                        <div style="margin-bottom:1rem;">
+                            <span style="font-weight:bold;">Data Transferred:</span> <span id="data-transferred">0 KB</span> | <span style="font-weight:bold;">Clients:</span> <span id="client-count">0</span>
+                        </div>
+                    </div>
+                    <div style="flex:2; min-width:320px;">
+                        <div style="padding: 15px; background: #f0f0f0; border-radius: 8px; margin-bottom: 15px;">
+                            <strong>Transfer Progress:</strong>
+                            <div style="height: 30px; background: #fff; border-radius: 15px; overflow: hidden; border: 2px solid #667eea; margin-top: 10px;">
+                                <div id="transfer-fill" style="height:100%; width:0%; background:#28a745; transition:width 0.3s;"></div>
+                            </div>
+                            <div style="margin-top: 10px; font-size: 12px; color: #666;">
+                                <span id="transfer-speed">Speed: --</span> | <span id="transfer-time">Time: --</span>
+                            </div>
+                        </div>
+                        <div style="padding: 15px; background: #f9f9f9; border-radius: 8px;">
+                            <strong>Live Log:</strong>
+                            <div id="security-tips" style="background:#e3f2fd; color:#1565c0; border-left:4px solid #1976d2; border-radius:5px; padding:8px 12px; margin-bottom:8px; font-size:13px;">
+                                <b>Security Tips:</b> <ul style="margin:0 0 0 1.2em; padding:0;">
+                                    <li>Use strong, unique passwords for each account.</li>
+                                    <li>Never share your credentials with anyone.</li>
+                                    <li>Change your password regularly.</li>
+                                    <li>Enable multi-factor authentication where possible.</li>
+                                    <li>Log out after each session.</li>
+                                </ul>
+                            </div>
+                            <div id="log" style="height: 120px; overflow-y: auto; background: #fff; border: 1px solid #ccc; border-radius: 5px; padding: 8px; font-size: 13px;"></div>
+                            <div style="margin-top:8px; display:flex; gap:6px;">
+                                <input id="user-log-input" type="text" placeholder="Type a message..." style="flex:1; padding:4px 8px; border-radius:4px; border:1px solid #ccc; font-size:13px;">
+                                <button type="button" onclick="userLogSubmit()" style="padding:4px 14px; border-radius:4px; background:#667eea; color:#fff; border:none; font-size:13px; font-weight:bold;">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Removed duplicate script block for VPN Live Demo -->
+<script>
+// VPN Live Demo global variables and functions (single source of truth)
+var serverRunning = false;
+var clientConnected = false;
+var dataTransferred = 0;
+var startTime = null;
+var uptimeInterval = null;
+var failedAttempts = 0;
+var lastLogin = localStorage.getItem('vpnLastLogin') || 'Never';
 
-    <footer>
-        <p>© 2025 Annit Maria Binu | Fourth Year Project</p>
-        <p>Department of Agriculture, Food and the Marine (DAFM) Internship Experience</p>
-        <p>12-Week Project Timeline | Word Count: 2251</p>
-    </footer>
+function log(msg, type = 'info') {
+    const logBox = document.getElementById('log');
+    const div = document.createElement('div');
+    div.style.marginBottom = '5px';
+    div.style.color = type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : type === 'warning' ? '#ffc107' : '#007bff';
+    div.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+    logBox.appendChild(div);
+    logBox.scrollTop = logBox.scrollHeight;
+}
+function startServer() {
+    if (serverRunning) { log('Server already running', 'warning'); return; }
+    serverRunning = true;
+    startTime = Date.now();
+    document.getElementById('server-status').textContent = 'ONLINE';
+    document.getElementById('server-status').style.color = '#28a745';
+    log('VPN Server started on 0.0.0.0:8443', 'success');
+    log('VPN Network: 10.8.0.0/24', 'info');
+    uptimeInterval = setInterval(() => {
+        document.getElementById('client-count').textContent = clientConnected ? '1' : '0';
+    }, 1000);
+}
+function connectClient() {
+    if (!serverRunning) { log('Start server first', 'error'); return; }
+    if (clientConnected) { log('Client already connected', 'warning'); return; }
+    const username = document.getElementById('username').value;
+    // Simple authentication (no MFA)
+    // Simulate account lock after 3 failed attempts
+    var accountState = document.getElementById('account-state');
+    var password = document.getElementById('password').value;
+    if (failedAttempts >= 3) {
+        log('Account locked due to too many failed attempts.', 'error');
+        accountState.textContent = 'Account locked. Please contact support.';
+        return;
+    }
+    if (username !== 'user' || password !== 'pass') {
+        failedAttempts++;
+        log('Login failed. Invalid username or password.', 'error');
+        accountState.textContent = `Failed attempts: ${failedAttempts} / 3`;
+        return;
+    }
+    // Success
+    clientConnected = true;
+    document.getElementById('client-status').textContent = 'CONNECTED';
+    document.getElementById('client-status').style.color = '#28a745';
+    document.getElementById('client-count').textContent = '1';
+    var now = new Date().toLocaleString();
+    log(`Client '${username || 'user'}' connecting...`, 'info');
+    setTimeout(() => {
+        log('Client connected and authenticated', 'success');
+        log('Encryption: AES-128 + HMAC-SHA256', 'success');
+        log(`Last login: ${lastLogin}`, 'info');
+        lastLogin = now;
+        localStorage.setItem('vpnLastLogin', now);
+        accountState.textContent = `Last login: ${lastLogin}`;
+        failedAttempts = 0;
+    }, 500);
+    // Always enable user log input after authentication
+    var userLogInput = document.getElementById('user-log-input');
+    if (userLogInput) {
+        userLogInput.disabled = false;
+        userLogInput.style.pointerEvents = 'auto';
+    }
+    // Always enable user log input after authentication
+    var userLogInput = document.getElementById('user-log-input');
+    if (userLogInput) {
+        userLogInput.disabled = false;
+        userLogInput.style.pointerEvents = 'auto';
+    }
+}
+function sendData() {
+    if (!clientConnected) { log('Connect client first', 'error'); return; }
+    log('Sending encrypted data...', 'info');
+    setTimeout(() => {
+        dataTransferred += 10;
+        document.getElementById('data-transferred').textContent = dataTransferred + ' KB';
+        log('Data sent and received', 'success');
+    }, 300);
+}
+function simulateTransfer() {
+    if (!clientConnected) { log('Connect client first', 'error'); return; }
+    log('Starting file transfer: AliceInWonderland.txt (170 KB)', 'info');
+    const fill = document.getElementById('transfer-fill');
+    const speed = document.getElementById('transfer-speed');
+    const time = document.getElementById('transfer-time');
+    let progress = 0, startTime = Date.now();
+    fill.style.width = '0%';
+    speed.textContent = 'Speed: --';
+    time.textContent = 'Time: --';
+    const interval = setInterval(() => {
+        progress += 5 + Math.random() * 10;
+        if (progress > 100) progress = 100;
+        fill.style.width = progress + '%';
+        const elapsed = (Date.now() - startTime) / 1000;
+        speed.textContent = 'Speed: ' + (170 / (elapsed || 1)).toFixed(1) + ' KB/s';
+        time.textContent = 'Time: ' + elapsed.toFixed(2) + ' s';
+        if (progress >= 100) {
+            clearInterval(interval);
+            dataTransferred += 170;
+            document.getElementById('data-transferred').textContent = dataTransferred + ' KB';
+            log('Transfer complete: 170 KB', 'success');
+        }
+    }, 50);
+}
 
-    <script src="script.js"></script>
-</body>
-</html>
+// Allow user to type in the activity log
+function userLogSubmit() {
+    var input = document.getElementById('user-log-input');
+    var msg = input.value.trim();
+    if (msg) {
+        log(msg, 'info');
+        input.value = '';
+    }
+}
+// Optional: allow Enter key to submit
+document.addEventListener('DOMContentLoaded', function() {
+        // Show/hide password toggle
+        var pw = document.getElementById('password');
+        var toggle = document.getElementById('toggle-pw');
+        if (toggle && pw) {
+            toggle.addEventListener('click', function() {
+                if (pw.type === 'password') {
+                    pw.type = 'text';
+                    toggle.textContent = 'Hide';
+                } else {
+                    pw.type = 'password';
+                    toggle.textContent = 'Show';
+                }
+            });
+        }
+    var input = document.getElementById('user-log-input');
+    if (input) {
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                userLogSubmit();
+            }
+        });
+    }
+});
+</script>
