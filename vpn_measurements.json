@@ -1,79 +1,79 @@
 {
-  "timestamp": "2026-04-01T17:29:47.376906",
+  "timestamp": "2026-04-17T00:00:08.127234",
   "results": [
     {
       "vpn_name": "Baseline (No VPN)",
       "trials": 20,
       "transfer_time": {
-        "mean": 0.2896,
-        "stdev": 0.0088,
-        "min": 0.272,
+        "mean": 0.2862,
+        "stdev": 0.0087,
+        "min": 0.2704,
         "max": 0.3061
       },
       "throughput": {
-        "mean": 587.0,
+        "mean": 594.0,
         "min": 555.0,
-        "max": 625.0
+        "max": 629.0
       }
     },
     {
       "vpn_name": "GRE Tunnel",
       "trials": 20,
       "transfer_time": {
-        "mean": 0.3084,
-        "stdev": 0.0105,
-        "min": 0.2856,
-        "max": 0.325
+        "mean": 0.3088,
+        "stdev": 0.0148,
+        "min": 0.2808,
+        "max": 0.3424
       },
       "throughput": {
         "mean": 551.0,
-        "min": 523.0,
-        "max": 595.0
+        "min": 497.0,
+        "max": 605.0
       }
     },
     {
       "vpn_name": "GRE + IPSec",
       "trials": 20,
       "transfer_time": {
-        "mean": 0.9484,
-        "stdev": 0.0581,
-        "min": 0.794,
-        "max": 1.0245
+        "mean": 0.941,
+        "stdev": 0.0528,
+        "min": 0.8605,
+        "max": 1.0292
       },
       "throughput": {
-        "mean": 179.0,
-        "min": 166.0,
-        "max": 214.0
+        "mean": 181.0,
+        "min": 165.0,
+        "max": 198.0
       }
     },
     {
       "vpn_name": "WireGuard",
       "trials": 20,
       "transfer_time": {
-        "mean": 0.5924,
-        "stdev": 0.032,
-        "min": 0.5468,
-        "max": 0.6924
+        "mean": 0.5968,
+        "stdev": 0.0281,
+        "min": 0.5244,
+        "max": 0.6509
       },
       "throughput": {
-        "mean": 287.0,
-        "min": 246.0,
-        "max": 311.0
+        "mean": 285.0,
+        "min": 261.0,
+        "max": 324.0
       }
     },
     {
       "vpn_name": "OpenVPN",
       "trials": 20,
       "transfer_time": {
-        "mean": 0.7951,
-        "stdev": 0.0322,
-        "min": 0.7283,
-        "max": 0.8429
+        "mean": 0.7987,
+        "stdev": 0.034,
+        "min": 0.7506,
+        "max": 0.8935
       },
       "throughput": {
-        "mean": 214.0,
-        "min": 202.0,
-        "max": 233.0
+        "mean": 213.0,
+        "min": 190.0,
+        "max": 226.0
       }
     }
   ]

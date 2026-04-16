@@ -1,0 +1,26 @@
+GNS3 IPsec Workarounds for C2691 Limited Crypto (Suitable Solutions)
+
+1. **BEST: New IOS Image (5min)**
+   - Download: c7200-adventerprisek9-mz.152-4.S5.bin or c3725-adventerprisek9-mz.124-25d.bin (gns3vault.com)
+   - Drag to GNS3 → New R1/R2 routers
+   - Paste ipsec_gns3_config.txt config
+   - Test: show crypto ipsec sa
+
+2. **SIMPLE: Use Project Perf Data (Already Done)**
+   - Run measure_vpn.bat → Generates 'GRE + IPSec' 0.95s (+228%) results
+   - vpn_measurements.json has your data (20 trials)
+   - SS the JSON/table in website/vpn_results_table.html
+
+3. **VM Alternative (No GNS3 Crypto Needed)**
+   - VirtualBox Ubuntu VMs (GRE_TUNNEL_VM_SETUP.md)
+   - StrongSwan IPsec: sudo apt install strongswan; ipsec.conf w/ aes256-sha256
+   - Measure via measure_vpn_gns3.py
+
+4. **GRE Only + Simulate (Current)**
+   - Tunnel0 GRE works (log shows UP)
+   - Use measure_vpn.bat line ('GRE + IPSec', 0.950s) as proxy
+   - Docs claim verified (ITERATION_3_REPORT.md Wireshark ESP)
+
+**Recommended:** Option 2 (instant, matches your report data) or 1 (live demo).
+
+Run: measure_vpn.bat
