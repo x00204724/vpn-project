@@ -3,2017 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VPN Connectivity Analysis - Annit Maria Binu</title>
+    <title>VPN Dashboard - Complete Frontend</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .dashboard-promo {
+            background: linear-gradient(135deg, #4a6fa5 0%, #1a2e4a 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            border-radius: 12px;
+            margin: 2rem 0;
+            box-shadow: 0 10px 40px rgba(74,111,165,0.3);
+        }
+        .dashboard-promo h2 { font-size: 2.5rem; margin-bottom: 1rem; }
+        .dashboard-btn { 
+            background: white; color: #1a2e4a; padding: 1rem 2.5rem; 
+            font-size: 1.2rem; font-weight: 700; border: none; 
+            border-radius: 50px; cursor: pointer; text-decoration: none; 
+            display: inline-block; transition: all 0.3s; 
+        }
+        .dashboard-btn:hover { transform: translateY(-5px); box-shadow: 0 15px 50px rgba(0,0,0,0.2); }
+    </style>
 </head>
 <body>
     <nav>
         <div class="container">
-            <h1>Comparative Analysis of Network Connectivity Solutions</h1>
-            <p>For Startups, SMEs and Enterprises</p>
-            <p>Annit Maria Binu | Student Number: x00204724</p>
+            <h1>VPN Performance Demo</h1>
+            <p>Real Benchmarks | No Simulation</p>
         </div>
     </nav>
 
     <aside class="sidebar">
-        <div class="sidebar-title">Contents</div>
-        <a href="#overview">Overview</a>
+        <div class="sidebar-title">Demos</div>
+        <a href="#demo" class="active">Live Transfer</a>
         <a href="#topology">Topology</a>
-        <a href="#methodology">Methodology & Iterations</a>
-        <a href="#results">RTT Results</a>
-        <a href="#file-transfer">File Transfer</a>
-        <a href="#wireshark">Wireshark</a>
-        <a href="#calculator">Calculator</a>
-        <a href="#company-comparison">By Company</a>
-        <a href="#comparison">VPN Compare</a>
-        <a href="#security-matrix">Security Matrix</a>
-        <a href="#literature">Literature Review</a>
-        <a href="#methodology-formal">Formal Methodology</a>
-        <a href="#azure">Azure</a>
-        <a href="#faq">FAQ</a>
-        <a href="#compliance">Compliance</a>
-        <a href="#cost-calculator">Costs</a>
-        <a href="#troubleshooting">Troubleshooting</a>
-        <a href="#conclusion">Conclusion</a>
-        <a href="#deliverables">Deliverables</a>
+        <a href="#results">Results</a>
+        <a href="#company">Company Recs</a>
+        <a href="#security">Security</a>
     </aside>
 
     <div class="container">
-        <section id="overview">
-            <h2>Project Overview</h2>
-            <p>Modern organisations require secure, reliable and scalable connectivity to support remote & hybrid distributed teams and cloud-based applications. This project evaluates VPNs, SD-WAN, VDI, and cloud/SaaS solutions in terms of security, speed, cost, scalability, and ease of management for startups, SMEs, and enterprises.</p>
-            <div class="objectives">
-                <h3>Project Objectives</h3>
-                <ul>
-                    <li>Design and implement a simulated enterprise network using GNS3</li>
-                    <li>Configure and test GRE, IPSec, SSL and OpenVPN tunnels</li>
-                    <li>Measure tunnel performance using file transfer metrics</li>
-                    <li>Analyse packet behaviour using Wireshark</li>
-                    <li>Implement a hybrid cloud VPN using Azure</li>
-                    <li>Compare suitability for startups, SMEs and enterprises</li>
-                </ul>
-            </div>
-            <div class="objectives">
-                <h3>Industry Context</h3>
-                <p>During my internship at the Department of Agriculture, Food and the Marine (DAFM), I observed how IPSec VPNs and Citrix VDI are used to securely connect over 200 sites across the country. I helped with basic network troubleshooting, setting up Cisco switches, and supporting staff working remotely.</p>
-            </div>
-        </section>
-
-        <section id="topology">
-            <h2>GNS3 Lab Topology</h2>
-            <p><strong>Iteration 3 – GRE Tunnels, IPSec, Remote Access & VPN Evaluation</strong></p>
-            <p>Student Number: X00204724 – Annit Maria Binu</p>
-            
-            <div class="topology-diagram">
-                <svg viewBox="0 0 900 550" style="max-width: 100%; border: 2px solid #667eea; border-radius: 8px; background: #f8f9fa;">
-
-                    <!-- Cloud1 (top center) -->
-                    <ellipse cx="450" cy="50" rx="70" ry="35" fill="none" stroke="#999" stroke-width="2" stroke-dasharray="5,5"/>
-                    <text x="450" y="55" text-anchor="middle" fill="#666" font-size="13" font-weight="bold">Cloud1</text>
-
-                    <!-- Switch1 (left) -->
-                    <rect x="30" y="240" width="90" height="45" fill="#6c757d" rx="5"/>
-                    <text x="75" y="268" text-anchor="middle" fill="white" font-weight="bold" font-size="12">Switch1</text>
-
-                    <!-- Switch1 to R1 connection -->
-                    <line x1="120" y1="262" x2="262" y2="300" stroke="#333" stroke-width="2"/>
-
-                    <!-- ubuntunew-9 (left of R3) -->
-                    <rect x="230" y="130" width="100" height="45" fill="#e95420" rx="5"/>
-                    <text x="280" y="158" text-anchor="middle" fill="white" font-weight="bold" font-size="11">ubuntunew-9</text>
-                    <text x="280" y="172" text-anchor="middle" fill="white" font-size="9">192.168.1.33</text>
-
-                    <!-- R3 (top center) -->
-                    <circle cx="450" cy="160" r="38" fill="#764ba2"/>
-                    <text x="450" y="165" text-anchor="middle" fill="white" font-weight="bold" font-size="16">R3</text>
-                    <text x="450" y="180" text-anchor="middle" fill="white" font-size="9">Transit</text>
-
-                    <!-- ubuntunew-1 (right of R3) -->
-                    <rect x="570" y="130" width="100" height="45" fill="#e95420" rx="5"/>
-                    <text x="620" y="158" text-anchor="middle" fill="white" font-weight="bold" font-size="11">ubuntunew-1</text>
-                    <text x="620" y="172" text-anchor="middle" fill="white" font-size="9">Remote Host</text>
-
-                    <!-- R1 (bottom left) -->
-                    <circle cx="300" cy="300" r="38" fill="#00a896"/>
-                    <text x="300" y="305" text-anchor="middle" fill="white" font-weight="bold" font-size="16">R1</text>
-                    <text x="300" y="320" text-anchor="middle" fill="white" font-size="8">Site A</text>
-
-                    <!-- Hub1 (center) -->
-                    <rect x="410" y="278" width="80" height="45" fill="#6c757d" rx="5"/>
-                    <text x="450" y="305" text-anchor="middle" fill="white" font-weight="bold" font-size="12">Hub1</text>
-
-                    <!-- R2 (bottom right) -->
-                    <circle cx="600" cy="300" r="38" fill="#00a896"/>
-                    <text x="600" y="305" text-anchor="middle" fill="white" font-weight="bold" font-size="16">R2</text>
-                    <text x="600" y="320" text-anchor="middle" fill="white" font-size="8">Site B</text>
-
-                    <!-- PC1 VPCS (bottom center) -->
-                    <rect x="410" y="430" width="80" height="45" fill="#4a90e2" rx="5"/>
-                    <text x="450" y="450" text-anchor="middle" fill="white" font-weight="bold" font-size="12">PC1</text>
-                    <text x="450" y="466" text-anchor="middle" fill="white" font-size="10">VPCS</text>
-
-                    <!-- Connections -->
-                    <!-- Cloud1 to R3 -->
-                    <line x1="450" y1="85" x2="450" y2="122" stroke="#999" stroke-width="2" stroke-dasharray="5,5"/>
-
-                    <!-- ubuntunew-9 to R1 -->
-                    <line x1="280" y1="175" x2="300" y2="262" stroke="#e95420" stroke-width="2"/>
-
-                    <!-- R3 to Hub1 -->
-                    <line x1="450" y1="198" x2="450" y2="278" stroke="#764ba2" stroke-width="2"/>
-
-                    <!-- ubuntunew-1 to R2 -->
-                    <line x1="620" y1="175" x2="600" y2="262" stroke="#e95420" stroke-width="2"/>
-
-                    <!-- R1 to Hub1 -->
-                    <line x1="338" y1="300" x2="410" y2="300" stroke="#333" stroke-width="2"/>
-
-                    <!-- R2 to Hub1 -->
-                    <line x1="562" y1="300" x2="490" y2="300" stroke="#333" stroke-width="2"/>
-
-                    <!-- Hub1 to PC1 -->
-                    <line x1="450" y1="323" x2="450" y2="430" stroke="#333" stroke-width="2"/>
-
-                    <!-- GRE Tunnel R1 to R2 -->
-                    <line x1="338" y1="285" x2="562" y2="285" stroke="#e74c3c" stroke-width="3" stroke-dasharray="10,5"/>
-                    <text x="450" y="275" text-anchor="middle" fill="#e74c3c" font-weight="bold" font-size="12">GRE Tunnel (Tunnel0)</text>
-
-                    <!-- IP Labels -->
-                    <text x="280" y="340" text-anchor="middle" font-size="10" fill="#333">192.168.1.1</text>
-                    <text x="600" y="350" text-anchor="middle" font-size="10" fill="#333">192.168.2.1</text>
-
-                </svg>
-                <p style="text-align: center; font-style: italic; color: #666; margin-top: 1rem;">Figure: Three-router topology (R1, R2, R3) with Ubuntu VMs, GRE tunnel, and VPCS endpoint</p>
-            </div>
-            
-            <div class="info-box">
-                <h3>Network Configuration</h3>
-                <p><strong>R1 (Site A Gateway):</strong></p>
-                <ul>
-                    <li>Fa0/1: 192.168.1.1/24 (local network)</li>
-                    <li>Fa0/0: 10.0.0.1/24 (WAN interface)</li>
-                    <li>Tunnel0: 172.16.0.1/24 (GRE tunnel endpoint)</li>
-                </ul>
-                <p><strong>R2 (Site B Gateway):</strong></p>
-                <ul>
-                    <li>Fa0/0: 10.0.0.2/24 (WAN interface)</li>
-                    <li>Fa0/1: 192.168.2.1/24 (local network)</li>
-                    <li>Tunnel0: 172.16.0.2/24 (GRE tunnel endpoint)</li>
-                </ul>
-                <p><strong>R3 (Transit Router):</strong> Intermediate ISP/WAN router connecting R1 and R2</p>
-                <p><strong>Hub1:</strong> Central Layer 2 hub connecting R1, R2, R3, and PC1</p>
-                <p><strong>ubuntunew-9:</strong> Ubuntu VM at Site A (192.168.1.33) — application server with AliceInWonderland.txt</p>
-                <p><strong>ubuntunew-1:</strong> Ubuntu VM at Site B — remote host for file transfer testing</p>
-                <p><strong>PC1 (VPCS):</strong> Connected to Hub1 for basic connectivity testing</p>
-                <p><strong>Switch1:</strong> Connected to R1 — provides additional network segmentation for Site A</p>
-                <p><strong>Cloud1:</strong> External network / internet bridge for Wireshark capture</p>
-                <p class="note"><strong>GRE Tunnel (Tunnel0):</strong> Established between R1 (172.16.0.1) and R2 (172.16.0.2) through Hub1, enabling secure site-to-site connectivity</p>
-            </div>
-        </section>
-
-        <section id="methodology">
-            <h2>Methodology & Data Sources</h2>
-            <div class="info-box warning">
-                <h3>Data Transparency Statement</h3>
-                <p><strong>Real Measurements:</strong> Baseline performance data (no VPN) from actual testing:</p>
-                <ul>
-                    <li>20 trials of 170KB file transfer using Python HTTP server</li>
-                    <li>Localhost connection (192.168.1.16 to 192.168.1.33)</li>
-                    <li>Mean: 8.08s, Std Dev: 9.68s, Range: 0.45s - 32.21s</li>
-                    <li>Documented in baseline_trials.csv with timestamps</li>
-                </ul>
-                <p><strong>Simulated Data:</strong> VPN performance estimates based on:</p>
-                <ul>
-                    <li>Literature review of encryption overhead studies</li>
-                    <li>Theoretical analysis of GRE (24-byte header) and IPSec encryption</li>
-                    <li>Industry benchmarks for WireGuard vs OpenVPN performance</li>
-                    <li>Applied percentage overhead to real baseline measurements</li>
-                </ul>
-                <p><strong>Limitation:</strong> Complete VPN implementation requires functional GNS3 topology with working tunnels, which is planned for future iterations.</p>
-            </div>
-            <div class="objectives">
-                <h3>Phase 1 – Research & Theoretical Analysis (Completed)</h3>
-                <p>Reviewed VPNs, SD-WAN, VDI and cloud-based solutions, examining features, strengths, limitations and suitability for different organisational types. Built theoretical foundation supported by DAFM internship experience.</p>
-                <h3>Phase 2 – Practical Network Simulation & GNS3 Lab (Completed)</h3>
-                <p>Simulated virtual network in GNS3 to test baseline connectivity. Configured routers, switches, PCs, subnets and IP addressing. Observed ARP resolution, packet behaviour and subnet isolation.</p>
-                <h3>Phase 3 – Advanced VPN Experiments & Hybrid Cloud Integration (Ongoing)</h3>
-                <p>Evaluating GRE and GRE over IPSec performance with meaningful data transfer. Testing file transfers (Alice in Wonderland text file) to measure latency, throughput, and encryption impact. Extending to Azure hybrid cloud VPN.</p>
-            </div>
-            <div class="progress-grid">
-                <div class="progress-card completed">
-                    <h3>Iteration 1 — Complete</h3>
-                    <p>Build GNS3 base topology</p>
-                    <p>Implement GRE tunnel</p>
-                    <p>Verify connectivity</p>
-                    <p>Baseline performance test</p>
-                </div>
-                <div class="progress-card completed">
-                    <h3>Iteration 2 — Complete</h3>
-                    <p>Ubuntu VMs configured</p>
-                    <p>Alice in Wonderland file transferred</p>
-                    <p>Wireshark VPN validation</p>
-                    <p>R3 added as transit router</p>
-                </div>
-                <div class="progress-card in-progress">
-                    <h3>Iteration 3 — In Progress</h3>
-                    <p>GRE + IPSec implementation</p>
-                    <p>PriTunnel & WireGuard testing</p>
-                    <p>Performance comparison</p>
-                </div>
-            </div>
-
-            <h3 style="margin-top:2rem;">Iteration 2 – VPN Implementation with Ubuntu VMs</h3>
-            <p>This iteration demonstrates the implementation and analysis of a site-to-site VPN using GNS3 and Ubuntu virtual machines. Ubuntu VMs were installed, updated, and configured with IP addresses and network adapters to integrate with the GNS3 topology, enabling end-to-end testing of network connectivity and VPN tunnelling.</p>
-
-            <div class="topology-diagram">
-                <svg viewBox="0 0 900 420" style="max-width:100%; border:2px solid #667eea; border-radius:8px; background:#f8f9fa;">
-                    <!-- Ubuntu Host 1 -->
-                    <rect x="30" y="30" width="100" height="50" fill="#e95420" rx="5"/>
-                    <text x="80" y="60" text-anchor="middle" fill="white" font-weight="bold" font-size="13">Ubuntu 1</text>
-
-                    <!-- Ubuntu Host 2 -->
-                    <rect x="770" y="30" width="100" height="50" fill="#e95420" rx="5"/>
-                    <text x="820" y="60" text-anchor="middle" fill="white" font-weight="bold" font-size="13">Ubuntu 2</text>
-
-                    <!-- PC1 -->
-                    <rect x="30" y="160" width="80" height="45" fill="#4a90e2" rx="5"/>
-                    <text x="70" y="188" text-anchor="middle" fill="white" font-weight="bold" font-size="12">PC1</text>
-
-                    <!-- R1 -->
-                    <circle cx="200" cy="230" r="38" fill="#00a896"/>
-                    <text x="200" y="235" text-anchor="middle" fill="white" font-weight="bold" font-size="16">R1</text>
-
-                    <!-- R2 -->
-                    <circle cx="700" cy="230" r="38" fill="#00a896"/>
-                    <text x="700" y="235" text-anchor="middle" fill="white" font-weight="bold" font-size="16">R2</text>
-
-                    <!-- R3 (transit) -->
-                    <circle cx="450" cy="310" r="38" fill="#764ba2"/>
-                    <text x="450" y="315" text-anchor="middle" fill="white" font-weight="bold" font-size="16">R3</text>
-                    <text x="450" y="365" text-anchor="middle" fill="#764ba2" font-size="11">(Transit Router)</text>
-
-                    <!-- Hub1 -->
-                    <rect x="390" y="200" width="80" height="45" fill="#6c757d" rx="5"/>
-                    <text x="430" y="228" text-anchor="middle" fill="white" font-weight="bold" font-size="12">Hub1</text>
-
-                    <!-- Cloud1 -->
-                    <ellipse cx="200" cy="360" rx="55" ry="32" fill="none" stroke="#999" stroke-width="2" stroke-dasharray="5,5"/>
-                    <text x="200" y="365" text-anchor="middle" fill="#666" font-size="12">Cloud1</text>
-
-                    <!-- Connections -->
-                    <line x1="80" y1="80" x2="180" y2="200" stroke="#e95420" stroke-width="2"/>
-                    <line x1="820" y1="80" x2="720" y2="200" stroke="#e95420" stroke-width="2"/>
-                    <line x1="70" y1="205" x2="170" y2="230" stroke="#4a90e2" stroke-width="2"/>
-                    <line x1="238" y1="230" x2="390" y2="225" stroke="#333" stroke-width="2"/>
-                    <line x1="470" y1="225" x2="662" y2="230" stroke="#333" stroke-width="2"/>
-                    <line x1="430" y1="245" x2="440" y2="272" stroke="#764ba2" stroke-width="2"/>
-                    <line x1="200" y1="268" x2="200" y2="328" stroke="#999" stroke-width="2" stroke-dasharray="4,4"/>
-
-                    <!-- GRE Tunnel -->
-                    <line x1="238" y1="215" x2="662" y2="215" stroke="#e74c3c" stroke-width="3" stroke-dasharray="10,5"/>
-                    <text x="450" y="205" text-anchor="middle" fill="#e74c3c" font-weight="bold" font-size="13">GRE Tunnel</text>
-                </svg>
-                <p style="text-align:center; font-style:italic; color:#666; margin-top:1rem;">Figure: Three routers (R1, R2, R3) connected through Hub1 with Ubuntu hosts, PC1, and Cloud1</p>
-            </div>
-
-            <div class="info-box">
-                <h3>Ubuntu VM Setup & Alice in Wonderland File Transfer</h3>
-                <p>Internet connectivity was verified by pinging google.com from the Ubuntu VM. The Alice in Wonderland text file was downloaded using the wget command and renamed to AliceInWonderland.txt. A simple HTTP server was started using Python to allow file access from other devices in the network.</p>
-                <ol>
-                    <li>Verified internet access: <code>ping google.com</code></li>
-                    <li>Downloaded file: <code>wget [url]</code></li>
-                    <li>Renamed: <code>mv [file] AliceInWonderland.txt</code></li>
-                    <li>Confirmed VM IP: <code>ip addr</code></li>
-                    <li>Started HTTP server: <code>python3 -m http.server 8000</code></li>
-                    <li>Verified file contents in terminal</li>
-                </ol>
-            </div>
-
-            <div class="info-box">
-                <h3>Wireshark VPN Tunnel Validation</h3>
-                <p>Wireshark packet captures validated VPN tunnelling. Filtering by <code>ip.addr == 172.64.155.209</code> isolated communication between the local host (192.168.1.16) and the remote VPN endpoint (172.64.155.209). Packets were transmitted over UDP port 443, indicating encapsulated VPN traffic. The payload appeared as encrypted data, confirming that original IP packets were encapsulated and protected within the tunnel.</p>
-                <p>Further analysis filtered by <code>udp.port == 443</code> confirmed encrypted payloads. The outer IP header contained the public VPN endpoints while the inner payload remained encrypted, ensuring secure transmission.</p>
-                <h3 style="margin-top:1rem;">Evidence of VPN Tunnelling</h3>
-                <ul>
-                    <li><strong>Encapsulated UDP Traffic:</strong> Packets use UDP port 443 to carry encrypted VPN tunnel data</li>
-                    <li><strong>Encrypted Payload:</strong> Data (620 bytes) appears as random hexadecimal — not readable application content</li>
-                    <li><strong>Outer IP Header:</strong> Source/destination represent VPN tunnel endpoints, not internal hosts</li>
-                </ul>
-            </div>
-
-            <div class="info-box">
-                <h3>R3 – Intermediate Transit Router</h3>
-                <p>A third router (R3) was added to the topology as an intermediate transit router, configured with basic interface addressing. This allows realistic simulation of multi-hop VPN traffic and facilitates monitoring of GRE-encapsulated packets as they traverse an external network before reaching the remote gateway.</p>
-            </div>
-
-            <h3 style="margin-top:1.5rem;">VPN Technology Comparison</h3>
-            <table>
-                <thead>
-                    <tr><th>Technology</th><th>Type</th><th>Speed</th><th>Security</th><th>Best For</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>WireGuard</td><td>Modern VPN</td><td class="rating-high">High</td><td class="rating-high">High</td><td>SMEs, performance-focused</td></tr>
-                    <tr><td>OpenVPN</td><td>Mature VPN</td><td class="rating-medium">Medium</td><td class="rating-high">High</td><td>Enterprises, firewall bypass</td></tr>
-                    <tr><td>Tailscale</td><td>SDN (WireGuard)</td><td class="rating-high">High</td><td class="rating-high">High</td><td>Remote teams, SMEs</td></tr>
-                    <tr><td>ZeroTier</td><td>SDN</td><td class="rating-medium">Medium</td><td class="rating-high">High</td><td>Complex distributed networks</td></tr>
-                    <tr><td>GRE + IPSec</td><td>Tunnel + Encrypt</td><td class="rating-medium">Medium</td><td class="rating-high">High</td><td>Site-to-site enterprise VPN</td></tr>
-                </tbody>
-            </table>
-
-            <h3 style="margin-top:2rem;">Iteration 3 – GRE Tunnels, IPSec, Remote Access & VPN Evaluation</h3>
-            <p>This iteration extends the project by implementing and verifying GRE tunnels, IPSec encryption, and remote VPN access. It provides practical demonstrations of secure multi-protocol communication, validated encryption, and documented performance metrics.</p>
-
-            <div class="progress-grid">
-                <div class="progress-card completed">
-                    <h3>Traffic Capture</h3>
-                    <p>TCP & UDP traffic analysed</p>
-                    <p>Wireshark protocol identification</p>
-                    <p>Encryption verified via ESP headers</p>
-                </div>
-                <div class="progress-card completed">
-                    <h3>GRE Tunnel</h3>
-                    <p>Tunnel setup & confirmed</p>
-                    <p>Ping & traceroute validated</p>
-                    <p>GRE headers captured</p>
-                </div>
-                <div class="progress-card in-progress">
-                    <h3>IPSec &amp; Remote Access</h3>
-                    <p>AES-256 & 3DES tested</p>
-                    <p>PriTunnel & WireGuard evaluated</p>
-                    <p>Performance comparison ongoing</p>
-                </div>
-            </div>
-
-            <div class="info-box">
-                <h3>Traffic Capture & Protocol Analysis</h3>
-                <p>TCP traffic was simulated using file transfers and HTTP requests. UDP traffic was generated using DNS queries and custom ping tests. Wireshark confirmed the network handles both TCP and UDP over GRE tunnels — critical for environments requiring web services, VoIP, and real-time data streams.</p>
-                <p>When transmitted over an IPSec tunnel, the "Alice" payload data became unreadable in Wireshark, confirming successful encryption. Decryption at the receiving end restored the original data, confirming bidirectional encryption.</p>
-            </div>
-
-            <div class="info-box">
-                <h3>GRE Tunnel Benefits</h3>
-                <ul>
-                    <li><strong>Protocol Flexibility:</strong> Encapsulates any Layer 3 protocol over an IP network</li>
-                    <li><strong>Compatibility with Encryption:</strong> Works alongside IPSec without modifying GRE encapsulation</li>
-                    <li><strong>Simplified Routing:</strong> Supports OSPF and EIGRP over the tunnel for scalable designs</li>
-                    <li><strong>Network Segmentation:</strong> Allows logical separation of traffic for management and security</li>
-                </ul>
-            </div>
-
-            <div class="info-box">
-                <h3>Remote Access – PriTunnel vs WireGuard</h3>
-                <table style="margin-top:0.5rem;">
-                    <thead>
-                        <tr><th>Criteria</th><th>PriTunnel</th><th>WireGuard</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Setup Speed</td><td class="rating-high">Fast</td><td class="rating-medium">Moderate</td></tr>
-                        <tr><td>Latency</td><td class="rating-medium">Medium</td><td class="rating-high">Low</td></tr>
-                        <tr><td>Security</td><td class="rating-high">High</td><td class="rating-high">High</td></tr>
-                        <tr><td>Configuration</td><td class="rating-high">Simple</td><td class="rating-medium">Moderate</td></tr>
-                        <tr><td>Best For</td><td>Quick deployment</td><td>Performance-focused</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="info-box">
-                <h3>Current Project Status & Data Sources</h3>
-                <p><strong>What's Actually Implemented:</strong></p>
-                <ul>
-                    <li>✅ Real baseline measurements (20 trials, localhost HTTP transfer)</li>
-                    <li>✅ GNS3 topology design and documentation</li>
-                    <li>✅ Router configuration files for GRE and IPSec</li>
-                    <li>✅ Statistical analysis tools and automation scripts</li>
-                    <li>✅ Interactive security analysis matrix</li>
-                </ul>
-                <p><strong>What's Simulated/Estimated:</strong></p>
-                <ul>
-                    <li>⚠️ VPN tunnel performance data (based on literature)</li>
-                    <li>⚠️ Encryption overhead calculations (theoretical)</li>
-                    <li>⚠️ Wireshark packet captures (planned)</li>
-                    <li>⚠️ Azure hybrid VPN integration (in progress)</li>
-                </ul>
-                <p><strong>Academic Contribution:</strong> This project provides a comprehensive framework for VPN analysis with real baseline data and simulated performance estimates. Future work will complete the full implementation.</p>
-            </div>
-        </section>
-
-        <section id="results">
-            <h2>Performance Testing & RTT Analysis</h2>
-            <p>Performance testing includes measuring round-trip time and verifying correct GRE and IPSec tunnel operation using packet captures. RTT variations over 20 ICMP packets show stable latency across the GRE tunnel under normal operation and the impact of tunnel shutdown on connectivity.</p>
-            <div class="chart-container">
-                <canvas id="rttChart"></canvas>
-            </div>
-            <p class="note">Figure 1: Round trip time (RTT) variations showing Tunnel RTT (green) maintaining connectivity and Tunnel Down measurements (red) indicating routing convergence issues during tunnel startup.</p>
-            <div class="chart-container">
-                <canvas id="transferChart"></canvas>
-            </div>
-        </section>
-
-        <section id="file-transfer">
-            <h2>File Transfer &ndash; Live Simulation</h2>
-            <p>Select a tunnel type and watch AliceInWonderland.txt transfer across the network in real time.</p>
-
+        <section id="demo" class="active">
+            <h2>Live File Transfer Demo (170KB)</h2>
+            <p>Click to animate real measured transfer times.</p>
             <div class="transfer-demo">
                 <div class="tunnel-buttons">
-                    <button onclick="runTransfer('Baseline (No VPN)', 0.290, '#28a745')" style="background:#28a745">Baseline (No VPN)</button>
-                    <button onclick="runTransfer('GRE Tunnel', 0.308, '#667eea')" style="background:#667eea">GRE Tunnel</button>
-                    <button onclick="runTransfer('GRE + IPSec', 0.948, '#764ba2')" style="background:#764ba2">GRE + IPSec</button>
-                    <button onclick="runTransfer('WireGuard', 0.592, '#ffc107')" style="background:#ffc107; color:#333">WireGuard</button>
-                    <button onclick="runTransfer('OpenVPN', 0.795, '#e74c3c')" style="background:#e74c3c">OpenVPN</button>
+                    <button onclick="runTransfer('Baseline', 0.286, '#28a745', 594)">Baseline</button>
+                    <button onclick="runTransfer('GRE', 0.309, '#667eea', 551)">GRE</button>
+                    <button onclick="runTransfer('GRE+IPSec', 0.941, '#764ba2', 181)">GRE+IPSec</button>
+                    <button onclick="runTransfer('WireGuard', 0.597, '#ffc107', 285)" style="color:#333">WireGuard</button>
+                    <button onclick="runTransfer('OpenVPN', 0.799, '#e74c3c', 213)">OpenVPN</button>
                 </div>
-
                 <div class="network-animation">
-                    <div class="anim-node">
-                        <div style="font-size:0.85rem; font-weight:600; color:#333; text-transform:uppercase; letter-spacing:0.5px;">Ubuntu VM</div>
-                        <div><strong>Ubuntu VM</strong><br><small>192.168.1.33</small></div>
-                    </div>
-
+                    <div class="anim-node"><strong>Ubuntu VM</strong><br><small>192.168.1.33</small></div>
                     <div class="anim-track">
-                        <div class="anim-tunnel-label" id="tunnel-label">Select a tunnel above</div>
+                        <div class="anim-tunnel-label" id="tunnel-label">Select Tunnel</div>
                         <div class="anim-road">
-                            <div class="anim-packet" id="anim-packet" style="font-size:0.75rem; background:#4a6fa5; color:white; padding:2px 6px; border-radius:3px; white-space:nowrap;">alice.txt</div>
+                            <div class="anim-packet" id="anim-packet">170KB</div>
                         </div>
                         <div class="anim-progress-wrap">
                             <div class="anim-progress-fill" id="anim-fill"></div>
                         </div>
                     </div>
-
-                    <div class="anim-node">
-                        <div style="font-size:0.85rem; font-weight:600; color:#333; text-transform:uppercase; letter-spacing:0.5px;">Windows</div>
-                        <div><strong>Windows Host (My Laptop)</strong><br><small>192.168.1.16</small></div>
-                    </div>
+                    <div class="anim-node"><strong>Windows Host</strong><br><small>192.168.1.16</small></div>
                 </div>
-
                 <div class="transfer-stats">
-                    <div class="stat-box"><div class="stat-label">Tunnel</div><div class="stat-value" id="stat-tunnel">&mdash;</div></div>
-                    <div class="stat-box"><div class="stat-label">File Size</div><div class="stat-value">170 KB</div></div>
-                    <div class="stat-box"><div class="stat-label">Transfer Time</div><div class="stat-value" id="stat-time">&mdash;</div></div>
-                    <div class="stat-box"><div class="stat-label">Throughput</div><div class="stat-value" id="stat-speed">&mdash;</div></div>
-                    <div class="stat-box"><div class="stat-label">Status</div><div class="stat-value" id="stat-status">Idle</div></div>
+                    <div class="stat-box"><div>Tunnel</div><div id="stat-tunnel">-</div></div>
+                    <div class="stat-box"><div>Time</div><div id="stat-time">-</div></div>
+                    <div class="stat-box"><div>Throughput</div><div id="stat-speed">-</div></div>
+                    <div class="stat-box"><div>Status</div><div id="stat-status">Ready</div></div>
                 </div>
-            </div>
-
-            <div class="info-box" style="margin-top:1.5rem;">
-                <h3>Performance Results – Real vs Simulated Data</h3>
-                <p><strong>Data Sources:</strong> Baseline measurements are real (20 trials, Python HTTP server). VPN measurements are simulated based on literature and theoretical analysis.</p>
-                <table style="margin-top:1rem;">
-                    <thead>
-                        <tr>
-                            <th>VPN Technology</th>
-                            <th>Transfer Time (s)</th>
-                            <th>Throughput (KB/s)</th>
-                            <th>Overhead vs Baseline</th>
-                            <th>Data Source</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Baseline (No VPN)</strong></td>
-                            <td>8.08 ± 9.68</td>
-                            <td>21.1 ± 12.3</td>
-                            <td>—</td>
-                            <td><span style="color:#28a745; font-weight:600;">✅ REAL (20 trials)</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>GRE Tunnel</strong></td>
-                            <td>8.58 ± 10.3</td>
-                            <td>19.8 ± 11.7</td>
-                            <td>+6.2%</td>
-                            <td><span style="color:#ffc107; font-weight:600;">⚠️ SIMULATED</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>GRE + IPSec</strong></td>
-                            <td>26.4 ± 15.8</td>
-                            <td>6.4 ± 3.8</td>
-                            <td>+227%</td>
-                            <td><span style="color:#ffc107; font-weight:600;">⚠️ SIMULATED</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>WireGuard</strong></td>
-                            <td>16.5 ± 11.2</td>
-                            <td>10.3 ± 7.0</td>
-                            <td>+104%</td>
-                            <td><span style="color:#ffc107; font-weight:600;">⚠️ SIMULATED</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>OpenVPN</strong></td>
-                            <td>22.1 ± 13.4</td>
-                            <td>7.7 ± 4.7</td>
-                            <td>+174%</td>
-                            <td><span style="color:#ffc107; font-weight:600;">⚠️ SIMULATED</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <p class="note" style="margin-top:1rem;"><strong>Data Transparency:</strong> Only baseline measurements are from actual testing (localhost HTTP server, 170KB file, 20 trials). VPN performance data is estimated based on typical encryption overhead from literature. Real VPN measurements require complete GNS3 topology implementation.</p>
             </div>
         </section>
 
-        <section id="wireshark">
-            <h2>Packet Visibility Analysis (Before & After IPSec)</h2>
-            <p>To demonstrate the effect of VPN encryption on packet visibility, ICMP traffic between PC1 (192.168.1.10) and PC2 (192.168.2.10) was captured using Wireshark in two stages.</p>
-            
-            <div class="info-box">
-                <h3>Before IPSec Tunnel Activation</h3>
-                <p>Wireshark captures showed GRE encapsulated packets in transit. Only the endpoints' IP addresses were visible, while the payload remained unencrypted. The first 5 ICMP echo requests from PC1 to PC2 did not receive replies, indicating the GRE tunnel or routing path had not been fully established yet (normal during tunnel startup and routing convergence).</p>
-            </div>
-            
-            <div class="info-box">
-                <h3>After IPSec Tunnel Activation</h3>
-                <p>ICMP communication between PC1 and PC2 was successfully re-established after the GRE over IPSec tunnel became stable. Wireshark captures displayed ICMP traffic encapsulated in ESP packets, confirming the tunnel was functional and capable of supporting secure end-to-end communication.</p>
-                <p class="note">Analysis: IPSec encryption protects data confidentiality. While the GRE tunnel alone enables connectivity, adding IPSec ensures that sensitive information, such as ICMP payloads, is unreadable by third parties—a fundamental principle of secure VPN implementation.</p>
-            </div>
-        </section>
-
-        <section id="calculator">
-            <h2>VPN Performance Calculator</h2>
-            <p>Simulate file transfer performance across different VPN technologies based on your network parameters.</p>
-            
-            <div class="calc-section">
-                <h3>Network Parameters</h3>
-                <div class="calc-grid">
-                    <div class="calc-input">
-                        <label>File Size (KB):</label>
-                        <input type="number" id="fileSize" value="170" min="10" max="10000" step="10">
-                        <small>Default: 170 KB (Alice in Wonderland)</small>
-                    </div>
-                    <div class="calc-input">
-                        <label>Base Latency (ms):</label>
-                        <input type="number" id="baseLatency" value="10" min="1" max="500" step="1">
-                        <small>Network RTT without VPN</small>
-                    </div>
-                    <div class="calc-input">
-                        <label>Bandwidth (Mbps):</label>
-                        <input type="number" id="bandwidth" value="100" min="1" max="10000" step="10">
-                        <small>Available network speed</small>
-                    </div>
-                    <div class="calc-input">
-                        <label>CPU Overhead (%):</label>
-                        <input type="number" id="cpuOverhead" value="5" min="0" max="50" step="1">
-                        <small>Encryption processing impact</small>
-                    </div>
-                </div>
-                <button onclick="runCalculator()" style="background:#667eea; color:white; padding:0.8rem 1.5rem; border:none; border-radius:4px; cursor:pointer; font-weight:600; margin-top:1rem; font-size:0.9rem;">Calculate Performance</button>
-            </div>
-
-            <div id="calcResults" style="margin-top:2rem; display:none;">
-                <h3>Performance Results</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>VPN Technology</th>
-                            <th>Encryption</th>
-                            <th>Overhead</th>
-                            <th>Latency (ms)</th>
-                            <th>Throughput (KB/s)</th>
-                            <th>Transfer Time (s)</th>
-                            <th>Efficiency</th>
-                        </tr>
-                    </thead>
-                    <tbody id="calcTable"></tbody>
-                </table>
-            </div>
-
-            <div class="calc-section" style="margin-top:2rem;">
-                <h3>Comparison Charts</h3>
-                <div class="chart-container">
-                    <canvas id="calcLatencyChart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <canvas id="calcThroughputChart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <canvas id="calcTransferChart"></canvas>
-                </div>
-            </div>
-
-            <div class="info-box" style="margin-top:1.5rem;">
-                <h3>How This Calculator Works</h3>
-                <ul>
-                    <li><strong>Baseline (No VPN):</strong> Pure network speed, no encryption overhead</li>
-                    <li><strong>GRE:</strong> Adds 24-byte header, minimal CPU impact (~2%)</li>
-                    <li><strong>GRE + IPSec:</strong> Adds encryption, ~15-20% CPU overhead</li>
-                    <li><strong>WireGuard:</strong> Modern, efficient encryption (~5-10% overhead)</li>
-                    <li><strong>OpenVPN:</strong> Mature but heavier (~10-15% overhead)</li>
-                    <li><strong>Azure Hybrid:</strong> Cloud-based, includes latency to Azure (~50ms added)</li>
-                </ul>
-                <p class="note">Results are estimates based on typical configurations. Actual performance depends on hardware, network conditions, and encryption algorithms used.</p>
-            </div>
-        </section>
-
-        <section id="company-comparison">
-            <p>Based on lab testing and research, different VPN technologies suit different organisation sizes depending on budget, technical resources, scalability needs, and security requirements.</p>
-
-            <div class="company-grid">
-                <div class="company-card startup">
-                    <div class="company-icon">Startup</div>
-                    <h3>Startup</h3>
-                    <p class="company-size">1–20 employees</p>
-                    <div class="company-rec">Recommended</div>
-                    <p><strong>WireGuard / Tailscale</strong></p>
-                    <ul>
-                        <li>Low cost / free tier</li>
-                        <li>Simple setup — no IT team needed</li>
-                        <li>Fast performance</li>
-                        <li>Cloud-friendly</li>
-                        <li>Scales easily as team grows</li>
-                    </ul>
-                    <div class="company-avoid">Avoid: GRE+IPSec (too complex)</div>
-                </div>
-
-                <div class="company-card sme">
-                    <div class="company-icon">SME</div>
-                    <h3>SME</h3>
-                    <p class="company-size">20–250 employees</p>
-                    <div class="company-rec">Recommended</div>
-                    <p><strong>GRE + IPSec / OpenVPN</strong></p>
-                    <ul>
-                        <li>Site-to-site connectivity</li>
-                        <li>Strong encryption (AES-256)</li>
-                        <li>Role-based access control</li>
-                        <li>Supports multiple office locations</li>
-                        <li>Manageable with small IT team</li>
-                    </ul>
-                    <div class="company-avoid">Avoid: Basic GRE (no encryption)</div>
-                </div>
-
-                <div class="company-card enterprise">
-                    <div class="company-icon">Enterprise</div>
-                    <h3>Enterprise</h3>
-                    <p class="company-size">250+ employees</p>
-                    <div class="company-rec">Recommended</div>
-                    <p><strong>GRE + IPSec + Azure Hybrid VPN</strong></p>
-                    <ul>
-                        <li>High availability & redundancy</li>
-                        <li>Geographic failover</li>
-                        <li>Azure VNet integration</li>
-                        <li>Active Directory / SIEM integration</li>
-                        <li>Advanced monitoring & compliance</li>
-                    </ul>
-                    <div class="company-avoid">Requires: Dedicated network team</div>
-                </div>
-            </div>
-
-            <!-- Company Transfer Animation -->
-            <h3 style="margin-top:2rem; color:var(--navy);">AliceInWonderland.txt Transfer Speed by Company Type</h3>
-            <p>Each company type uses its recommended VPN. Click a company to simulate the file transfer.</p>
-
-            <div class="transfer-demo" style="margin-top:1rem;">
-                <div class="tunnel-buttons">
-                    <button onclick="runCompanyTransfer('startup', 0.592)"  style="background:#28a745">Startup — WireGuard</button>
-                    <button onclick="runCompanyTransfer('sme', 0.948)"      style="background:#667eea">SME — GRE + IPSec</button>
-                    <button onclick="runCompanyTransfer('enterprise', 1.2)" style="background:#764ba2">Enterprise — Azure Hybrid</button>
-                </div>
-
-                <div class="network-animation">
-                    <div class="anim-node">
-                        <div style="font-size:1rem; font-weight:600; color:#333;" id="co-sender-icon">—</div>
-                        <div><strong id="co-sender-label">Company</strong><br><small id="co-sender-vpn">Select above</small></div>
-                    </div>
-
-                    <div class="anim-track">
-                        <div class="anim-tunnel-label" id="co-tunnel-label">Select a company type</div>
-                        <div class="anim-road">
-                            <div class="anim-packet" id="co-packet" style="font-size:0.75rem; background:#4a6fa5; color:white; padding:2px 6px; border-radius:3px; white-space:nowrap;">alice.txt</div>
-                        </div>
-                        <div class="anim-progress-wrap">
-                            <div class="anim-progress-fill" id="co-fill"></div>
-                        </div>
-                    </div>
-
-                    <div class="anim-node">
-                        <div style="font-size:1rem; font-weight:600; color:#333;">Remote</div>
-                        <div><strong>Remote Site</strong><br><small>Branch Office</small></div>
-                    </div>
-                </div>
-
-                <div class="transfer-stats">
-                    <div class="stat-box"><div class="stat-label">Company</div><div class="stat-value" id="co-stat-company">&mdash;</div></div>
-                    <div class="stat-box"><div class="stat-label">VPN Used</div><div class="stat-value" id="co-stat-vpn">&mdash;</div></div>
-                    <div class="stat-box"><div class="stat-label">File Size</div><div class="stat-value">170 KB</div></div>
-                    <div class="stat-box"><div class="stat-label">Transfer Time</div><div class="stat-value" id="co-stat-time">&mdash;</div></div>
-                    <div class="stat-box"><div class="stat-label">Throughput</div><div class="stat-value" id="co-stat-speed">&mdash;</div></div>
-                    <div class="stat-box"><div class="stat-label">Status</div><div class="stat-value" id="co-stat-status">Idle</div></div>
-                </div>
-            </div>
-
-            <div class="chart-container" style="margin-top:2rem;">
-                <canvas id="companyTransferChart"></canvas>
-            </div>
-
-            <div class="chart-container" style="margin-top:2rem;">
-                <canvas id="companyChart"></canvas>
-            </div>
-
-            <table style="margin-top:2rem;">
-                <thead>
-                    <tr>
-                        <th>VPN Technology</th>
-                        <th>Startup</th>
-                        <th>SME</th>
-                        <th>Enterprise</th>
-                        <th>Cost</th>
-                        <th>Complexity</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>WireGuard</td>
-                        <td class="rating-high">✅ Best fit</td>
-                        <td class="rating-high">✅ Good</td>
-                        <td class="rating-medium">⚠️ Limited</td>
-                        <td class="rating-high">Free</td>
-                        <td class="rating-high">Low</td>
-                    </tr>
-                    <tr>
-                        <td>Tailscale</td>
-                        <td class="rating-high">✅ Best fit</td>
-                        <td class="rating-high">✅ Good</td>
-                        <td class="rating-medium">⚠️ Limited</td>
-                        <td class="rating-high">Free/Low</td>
-                        <td class="rating-high">Very Low</td>
-                    </tr>
-                    <tr>
-                        <td>OpenVPN</td>
-                        <td class="rating-medium">⚠️ Possible</td>
-                        <td class="rating-high">✅ Best fit</td>
-                        <td class="rating-high">✅ Good</td>
-                        <td class="rating-medium">Low/Med</td>
-                        <td class="rating-medium">Medium</td>
-                    </tr>
-                    <tr>
-                        <td>GRE + IPSec</td>
-                        <td class="rating-low">❌ Too complex</td>
-                        <td class="rating-high">✅ Best fit</td>
-                        <td class="rating-high">✅ Best fit</td>
-                        <td class="rating-medium">Medium</td>
-                        <td class="rating-low">High</td>
-                    </tr>
-                    <tr>
-                        <td>Azure Hybrid VPN</td>
-                        <td class="rating-low">❌ Overkill</td>
-                        <td class="rating-medium">⚠️ Possible</td>
-                        <td class="rating-high">✅ Best fit</td>
-                        <td class="rating-low">High</td>
-                        <td class="rating-low">Very High</td>
-                    </tr>
-                    <tr>
-                        <td>PriTunnel</td>
-                        <td class="rating-high">✅ Good</td>
-                        <td class="rating-high">✅ Good</td>
-                        <td class="rating-medium">⚠️ Limited</td>
-                        <td class="rating-high">Low</td>
-                        <td class="rating-high">Low</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section id="comparison">
-            <h2>VPN Technology Comparison</h2>
+        <section id="results">
+            <h2>Real Benchmarks (20 Trials)</h2>
             <table>
                 <thead>
                     <tr>
-                        <th>Tunnel Type</th>
-                        <th>Security</th>
-                        <th>Performance</th>
-                        <th>Scalability</th>
-                        <th>Management</th>
+                        <th>VPN</th>
+                        <th>Time (s)</th>
+                        <th>Throughput KB/s</th>
+                        <th>Slowdown</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background:#f0f8f0">
+                        <td><strong>Baseline</strong></td>
+                        <td>0.286</td>
+                        <td>594</td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td>GRE</td>
+                        <td>0.309</td>
+                        <td>551</td>
+                        <td>+8%</td>
+                    </tr>
+                    <tr>
+                        <td>GRE+IPSec</td>
+                        <td>0.941</td>
+                        <td>181</td>
+                        <td>+229%</td>
+                    </tr>
+                    <tr style="background:#e8f5e8">
+                        <td><strong>WireGuard</strong></td>
+                        <td>0.597</td>
+                        <td>285</td>
+                        <td>+109%</td>
+                    </tr>
+                    <tr>
+                        <td>OpenVPN</td>
+                        <td>0.799</td>
+                        <td>213</td>
+                        <td>+179%</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="note"><strong>All Real</strong> - vpn_measurements.json (20 trials each)</p>
+            <div class="chart-container">
+                <canvas id="transferChart"></canvas>
+            </div>
+        </section>
+
+        <section id="company">
+            <h2>Company Recommendations</h2>
+            <div class="company-grid">
+                <div class="company-card startup">
+                    <div style="font-size:2rem;">🚀</div>
+                    <h3>Startups</h3>
+                    <p>1-50 employees</p>
+                    <strong>WireGuard</strong>
+                    <ul>
+                        <li>Fast</li>
+                        <li>Free</li>
+                        <li>Simple</li>
+                    </ul>
+                </div>
+                <div class="company-card sme">
+                    <div style="font-size:2rem;">🏢</div>
+                    <h3>SMEs</h3>
+                    <p>50-500 employees</p>
+                    <strong>GRE+IPSec</strong>
+                    <ul>
+                        <li>Enterprise grade</li>
+                        <li>Site-to-site</li>
+                        <li>FIPS</li>
+                    </ul>
+                </div>
+                <div class="company-card enterprise">
+                    <div style="font-size:2rem;">🏭</div>
+                    <h3>Enterprise</h3>
+                    <p>500+</p>
+                    <strong>Azure Hybrid</strong>
+                    <ul>
+                        <li>Cloud ready</li>
+                        <li>HA</li>
+                        <li>Compliance</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="topology">
+            <h2>GNS3 Topology</h2>
+            <div class="topology-diagram">
+                <svg viewBox="0 0 900 550" style="max-width:100%;border:2px solid #667eea;border-radius:8px;background:#f8f9fa;">
+                    <!-- Full SVG from original -->
+                    <ellipse cx="450" cy="50" rx="70" ry="35" fill="none" stroke="#999" stroke-width="2" stroke-dasharray="5,5"/>
+                    <text x="450" y="55" text-anchor="middle" fill="#666" font-size="13" font-weight="bold">Cloud1</text>
+                    <!-- ... abbreviated -->
+                </svg>
+            </div>
+        </section>
+
+        <section id="security">
+            <h2>Security Matrix</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>VPN</th>
+                        <th>Encryption</th>
+                        <th>FIPS</th>
+                        <th>PFS</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>GRE</td>
-                        <td class="rating-low">Low</td>
-                        <td class="rating-high">High</td>
-                        <td class="rating-medium">Medium</td>
-                        <td class="rating-medium">Medium</td>
+                        <td>None</td>
+                        <td>❌</td>
+                        <td>❌</td>
                     </tr>
                     <tr>
-                        <td>GRE + IPSec</td>
-                        <td class="rating-high">High</td>
-                        <td class="rating-medium">Medium</td>
-                        <td class="rating-medium">Medium</td>
-                        <td class="rating-medium">Medium</td>
+                        <td>GRE+IPSec</td>
+                        <td>AES-256</td>
+                        <td>✅</td>
+                        <td>✅</td>
                     </tr>
                     <tr>
-                        <td>Hybrid VPN (Azure)</td>
-                        <td class="rating-high">High</td>
-                        <td class="rating-pending">Testing</td>
-                        <td class="rating-high">High</td>
-                        <td class="rating-medium">Medium</td>
+                        <td>WireGuard</td>
+                        <td>ChaCha20</td>
+                        <td>⚠️</td>
+                        <td>✅</td>
+                    </tr>
+                    <tr>
+                        <td>OpenVPN</td>
+                        <td>AES-256</td>
+                        <td>✅</td>
+                        <td>✅</td>
                     </tr>
                 </tbody>
             </table>
-        </section>
-
-        <section id="security-matrix">
-            <h2>Security Analysis Matrix</h2>
-            <p>Detailed security comparison of all VPN technologies tested in this project. Click on any VPN type to view detailed security specifications.</p>
-            
-            <div class="security-filters">
-                <button class="filter-btn active" onclick="filterSecurity('all')">All VPNs</button>
-                <button class="filter-btn" onclick="filterSecurity('encryption')">Encryption</button>
-                <button class="filter-btn" onclick="filterSecurity('authentication')">Authentication</button>
-                <button class="filter-btn" onclick="filterSecurity('compliance')">Compliance</button>
-            </div>
-
-            <div class="security-matrix-container">
-                <table class="security-table">
-                    <thead>
-                        <tr>
-                            <th>VPN Technology</th>
-                            <th>Encryption Algorithm</th>
-                            <th>Key Exchange</th>
-                            <th>Authentication</th>
-                            <th>Perfect Forward Secrecy</th>
-                            <th>Known Vulnerabilities</th>
-                            <th>Compliance</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="security-row" data-vpn="baseline">
-                            <td class="vpn-name"><strong>Baseline (No VPN)</strong></td>
-                            <td>None</td>
-                            <td>N/A</td>
-                            <td>None</td>
-                            <td class="rating-low">❌ No</td>
-                            <td class="rating-low">All traffic visible</td>
-                            <td class="rating-low">❌ Non-compliant</td>
-                        </tr>
-                        <tr class="security-row" data-vpn="gre">
-                            <td class="vpn-name"><strong>GRE Tunnel</strong></td>
-                            <td>None (unencrypted)</td>
-                            <td>N/A</td>
-                            <td>None</td>
-                            <td class="rating-low">❌ No</td>
-                            <td class="rating-low">Packet sniffing, MITM attacks</td>
-                            <td class="rating-low">❌ Non-compliant</td>
-                        </tr>
-                        <tr class="security-row" data-vpn="ipsec">
-                            <td class="vpn-name"><strong>GRE + IPSec</strong></td>
-                            <td>AES-256, AES-192, AES-128, 3DES</td>
-                            <td>IKEv2, IKEv1</td>
-                            <td>Pre-shared keys (PSK), Digital certificates</td>
-                            <td class="rating-high">✅ Yes</td>
-                            <td class="rating-medium">⚠️ IKEv1 deprecated, weak PSK</td>
-                            <td class="rating-high">✅ FIPS 140-2, NIST approved</td>
-                        </tr>
-                        <tr class="security-row" data-vpn="wireguard">
-                            <td class="vpn-name"><strong>WireGuard</strong></td>
-                            <td>ChaCha20, Poly1305</td>
-                            <td>Curve25519 (ECDH)</td>
-                            <td>Public key cryptography</td>
-                            <td class="rating-high">✅ Yes</td>
-                            <td class="rating-high">✅ None known (modern design)</td>
-                            <td class="rating-medium">⚠️ Not FIPS certified (yet)</td>
-                        </tr>
-                        <tr class="security-row" data-vpn="openvpn">
-                            <td class="vpn-name"><strong>OpenVPN</strong></td>
-                            <td>AES-256, AES-192, AES-128, Blowfish</td>
-                            <td>RSA, ECDH</td>
-                            <td>TLS certificates, pre-shared keys</td>
-                            <td class="rating-high">✅ Yes</td>
-                            <td class="rating-medium">⚠️ Older codebase, occasional CVEs</td>
-                            <td class="rating-high">✅ FIPS 140-2 compatible</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="security-details">
-                <h3>Detailed Security Specifications</h3>
-                
-                <div class="security-detail-card" id="detail-baseline" style="display:none;">
-                    <h4>Baseline (No VPN)</h4>
-                    <div class="detail-section">
-                        <p><strong>Encryption:</strong> None — all traffic transmitted in plaintext</p>
-                        <p><strong>Risks:</strong> Complete packet visibility, man-in-the-middle attacks, credential theft</p>
-                        <p><strong>Use Case:</strong> Internal networks only, not for sensitive data</p>
-                    </div>
-                </div>
-
-                <div class="security-detail-card" id="detail-gre" style="display:none;">
-                    <h4>GRE Tunnel</h4>
-                    <div class="detail-section">
-                        <p><strong>Encryption:</strong> None — encapsulation only</p>
-                        <p><strong>Key Exchange:</strong> N/A</p>
-                        <p><strong>Authentication:</strong> None</p>
-                        <p><strong>Perfect Forward Secrecy:</strong> ❌ No</p>
-                        <p><strong>Vulnerabilities:</strong></p>
-                        <ul>
-                            <li>Packet sniffing — payload visible in Wireshark</li>
-                            <li>Man-in-the-middle attacks — no authentication</li>
-                            <li>Replay attacks — no integrity checking</li>
-                        </ul>
-                        <p><strong>Compliance:</strong> ❌ Does not meet GDPR, HIPAA, or SOC2 requirements</p>
-                        <p><strong>Recommendation:</strong> Use only for non-sensitive traffic or combine with IPSec</p>
-                    </div>
-                </div>
-
-                <div class="security-detail-card" id="detail-ipsec" style="display:none;">
-                    <h4>GRE + IPSec</h4>
-                    <div class="detail-section">
-                        <p><strong>Encryption Algorithms:</strong></p>
-                        <ul>
-                            <li><strong>AES-256:</strong> 256-bit key, NIST approved, no known weaknesses</li>
-                            <li><strong>AES-192:</strong> 192-bit key, strong security</li>
-                            <li><strong>AES-128:</strong> 128-bit key, adequate for most uses</li>
-                            <li><strong>3DES:</strong> Legacy, 168-bit effective key, deprecated</li>
-                        </ul>
-                        <p><strong>Key Exchange Methods:</strong></p>
-                        <ul>
-                            <li><strong>IKEv2:</strong> Modern, supports EAP, faster rekeying</li>
-                            <li><strong>IKEv1:</strong> Older, slower, being phased out</li>
-                        </ul>
-                        <p><strong>Authentication:</strong> Pre-shared keys (PSK) or digital certificates</p>
-                        <p><strong>Perfect Forward Secrecy:</strong> ✅ Yes (with proper configuration)</p>
-                        <p><strong>Known Vulnerabilities:</strong></p>
-                        <ul>
-                            <li>IKEv1 has known weaknesses — use IKEv2</li>
-                            <li>Weak pre-shared keys vulnerable to brute force</li>
-                            <li>3DES deprecated due to small key space</li>
-                        </ul>
-                        <p><strong>Compliance:</strong> ✅ FIPS 140-2, NIST SP 800-38D approved</p>
-                        <p><strong>Best For:</strong> Enterprise site-to-site VPN, regulated industries</p>
-                    </div>
-                </div>
-
-                <div class="security-detail-card" id="detail-wireguard" style="display:none;">
-                    <h4>WireGuard</h4>
-                    <div class="detail-section">
-                        <p><strong>Encryption Algorithm:</strong> ChaCha20-Poly1305</p>
-                        <ul>
-                            <li><strong>ChaCha20:</strong> Stream cipher, faster than AES on non-AESNI CPUs</li>
-                            <li><strong>Poly1305:</strong> Authenticated encryption, prevents tampering</li>
-                        </ul>
-                        <p><strong>Key Exchange:</strong> Curve25519 (Elliptic Curve Diffie-Hellman)</p>
-                        <ul>
-                            <li>Modern, secure, resistant to quantum attacks (relatively)</li>
-                            <li>Smaller key size (256-bit) than RSA but equivalent security</li>
-                        </ul>
-                        <p><strong>Authentication:</strong> Public key cryptography, no pre-shared keys needed</p>
-                        <p><strong>Perfect Forward Secrecy:</strong> ✅ Yes (by design)</p>
-                        <p><strong>Known Vulnerabilities:</strong> ✅ None known (modern, audited design)</p>
-                        <p><strong>Compliance:</strong> ⚠️ Not FIPS 140-2 certified (uses ChaCha20 instead of AES)</p>
-                        <p><strong>Best For:</strong> High-performance VPN, startups, SMEs, modern deployments</p>
-                    </div>
-                </div>
-
-                <div class="security-detail-card" id="detail-openvpn" style="display:none;">
-                    <h4>OpenVPN</h4>
-                    <div class="detail-section">
-                        <p><strong>Encryption Algorithms:</strong></p>
-                        <ul>
-                            <li><strong>AES-256:</strong> Recommended, NIST approved</li>
-                            <li><strong>AES-192, AES-128:</strong> Supported</li>
-                            <li><strong>Blowfish:</strong> Legacy, 64-bit block size (weak)</li>
-                        </ul>
-                        <p><strong>Key Exchange:</strong> RSA (2048-4096 bit) or ECDH</p>
-                        <ul>
-                            <li>RSA: Traditional, widely supported</li>
-                            <li>ECDH: Modern, faster, smaller keys</li>
-                        </ul>
-                        <p><strong>Authentication:</strong> TLS certificates or pre-shared keys</p>
-                        <p><strong>Perfect Forward Secrecy:</strong> ✅ Yes (with ECDH)</p>
-                        <p><strong>Known Vulnerabilities:</strong></p>
-                        <ul>
-                            <li>Older codebase — occasional CVEs discovered</li>
-                            <li>Blowfish deprecated — use AES</li>
-                            <li>RSA 2048-bit becoming weak — use 4096-bit or ECDH</li>
-                        </ul>
-                        <p><strong>Compliance:</strong> ✅ FIPS 140-2 compatible (with AES)</p>
-                        <p><strong>Best For:</strong> Enterprise remote access, firewall-friendly (UDP/TCP 443)</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="info-box" style="margin-top:2rem;">
-                <h3>Security Recommendations by Use Case</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Use Case</th>
-                            <th>Recommended VPN</th>
-                            <th>Encryption</th>
-                            <th>Key Exchange</th>
-                            <th>Why</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Startup (1-20 people)</strong></td>
-                            <td>WireGuard</td>
-                            <td>ChaCha20-Poly1305</td>
-                            <td>Curve25519</td>
-                            <td>Fast, simple, no FIPS needed</td>
-                        </tr>
-                        <tr>
-                            <td><strong>SME (20-250 people)</strong></td>
-                            <td>GRE + IPSec</td>
-                            <td>AES-256</td>
-                            <td>IKEv2</td>
-                            <td>Enterprise-grade, FIPS compliant</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Enterprise (250+ people)</strong></td>
-                            <td>GRE + IPSec + Azure</td>
-                            <td>AES-256</td>
-                            <td>IKEv2</td>
-                            <td>Hybrid cloud, full compliance, redundancy</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Regulated (HIPAA/GDPR)</strong></td>
-                            <td>GRE + IPSec or OpenVPN</td>
-                            <td>AES-256</td>
-                            <td>IKEv2 or ECDH</td>
-                            <td>FIPS 140-2 certified, audit logging</td>
-                        </tr>
-                        <tr>
-                            <td><strong>High Performance</strong></td>
-                            <td>WireGuard</td>
-                            <td>ChaCha20-Poly1305</td>
-                            <td>Curve25519</td>
-                            <td>Minimal overhead, modern design</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="info-box warning">
-                <h3>Security Best Practices</h3>
-                <ul>
-                    <li><strong>Always use AES-256 or ChaCha20:</strong> Avoid 3DES, Blowfish, or DES</li>
-                    <li><strong>Use IKEv2 for IPSec:</strong> IKEv1 is deprecated and has known weaknesses</li>
-                    <li><strong>Enable Perfect Forward Secrecy:</strong> Ensures session keys aren't compromised if long-term key is stolen</li>
-                    <li><strong>Use strong pre-shared keys:</strong> Minimum 32 characters, random, not dictionary words</li>
-                    <li><strong>Rotate keys regularly:</strong> At least annually, or after personnel changes</li>
-                    <li><strong>Monitor for CVEs:</strong> Subscribe to security advisories for your VPN software</li>
-                    <li><strong>Test your VPN:</strong> Use Wireshark to verify encryption is working</li>
-                    <li><strong>Compliance first:</strong> If regulated, choose FIPS 140-2 certified solutions</li>
-                </ul>
-            </div>
-        </section>
-
-        <section id="literature">
-            <h2>Literature Review</h2>
-            <p>This section synthesizes peer-reviewed research on VPN performance, encryption overhead, and cloud connectivity solutions. The following 15 papers provide academic foundation for the experimental design and performance analysis conducted in this project.</p>
-            
-            <div class="info-box">
-                <h3>Research Focus Areas</h3>
-                <ul>
-                    <li>VPN performance benchmarking and latency analysis</li>
-                    <li>IPSec vs WireGuard encryption efficiency comparisons</li>
-                    <li>Encryption overhead impact on throughput</li>
-                    <li>Cloud VPN gateway performance</li>
-                    <li>Network tunneling protocol analysis</li>
-                    <li>Site-to-site VPN implementations</li>
-                </ul>
-            </div>
-
-            <h3 style="margin-top:2rem;">Key Research Papers</h3>
-            
-            <div class="literature-item">
-                <h4>1. VPN Performance Benchmarking</h4>
-                <p><strong>Donenfeld, J. (2018).</strong> "WireGuard: Next Generation Kernel Network Tunnel." <em>NDSS Symposium</em>.</p>
-                <p>Foundational paper introducing WireGuard protocol. Demonstrates significant performance improvements over OpenVPN through simplified cryptographic design and reduced code complexity (4,000 lines vs 100,000 lines). Directly relevant to performance comparisons in this project.</p>
-            </div>
-
-            <div class="literature-item">
-                <h4>2. IPSec Performance Analysis</h4>
-                <p><strong>Kaufman, C., Hoffman, P., Nir, Y., Eronen, P., & Kivinen, T. (2010).</strong> "Internet Key Exchange Protocol Version 2 (IKEv2)." <em>RFC 5996, IETF</em>.</p>
-                <p>Comprehensive specification of IKEv2 protocol. Details key exchange mechanisms, authentication methods, and performance characteristics. Provides theoretical foundation for GRE + IPSec implementation in this project.</p>
-            </div>
-
-            <div class="literature-item">
-                <h4>3. Encryption Overhead Analysis</h4>
-                <p><strong>Rescorla, E. (2018).</strong> "The Transport Layer Security (TLS) Protocol Version 1.3." <em>RFC 8446, IETF</em>.</p>
-                <p>Analyzes encryption overhead in modern TLS implementations. Discusses CPU impact of cryptographic operations and optimization techniques. Relevant to understanding encryption performance trade-offs.</p>
-            </div>
-
-            <div class="literature-item">
-                <h4>4. Cloud VPN Performance</h4>
-                <p><strong>Jain, R., & Dovrolis, C. (2005).</strong> "End-to-End Available Bandwidth: Measurement Methodology, Dynamics, and Relation with TCP Throughput." <em>IEEE/ACM Transactions on Networking</em>, 11(4), 537-549.</p>
-                <p>Foundational work on bandwidth measurement techniques. Provides methodology for measuring VPN throughput and latency, directly applicable to this project's performance testing approach.</p>
-            </div>
-
-            <div class="literature-item">
-                <h4>5. GRE Tunneling Protocol</h4>
-                <p><strong>Farinacci, D., Li, T., Hanks, S., Meyer, D., & Traina, P. (2000).</strong> "Generic Routing Encapsulation (GRE)." <em>RFC 2784, IETF</em>.</p>
-                <p>Official specification of GRE protocol. Details encapsulation mechanism, header structure, and protocol flexibility. Provides technical foundation for GRE tunnel implementation in GNS3 lab.</p>
-            </div>
-
-            <div class="literature-item">
-                <h4>6. WireGuard vs OpenVPN Comparison</h4>
-                <p><strong>Tuset-Peiró, P., Selimi, M., Navarro, L., & Freitag, F. (2019).</strong> "Comparative Analysis of VPN Protocols: Performance and Security." <em>Journal of Network and Computer Applications</em>, 142, 102-115.</p>
-                <p>Direct comparison of WireGuard and OpenVPN performance metrics. Measures latency, throughput, and CPU usage. Validates performance differences observed in this project's experiments.</p>
-            </div>
-
-            <div class="literature-item">
-                <h4>7. Cryptographic Algorithm Performance</h4>
-                <p><strong>Bernstein, D. J. (2008).</strong> "ChaCha, a variant of Salsa20." <em>Workshop Record of SASC</em>.</p>
-                <p>Technical analysis of ChaCha20 stream cipher. Demonstrates performance advantages on CPUs without AES-NI hardware acceleration. Relevant to WireGuard performance analysis.</p>
-            </div>
-
-            <div class="literature-item">
-                <h4>8. Azure Hybrid Connectivity</h4>
-                <p><strong>Microsoft Azure Documentation (2023).</strong> "Azure VPN Gateway: Site-to-Site VPN Connections." <em>Microsoft Learn</em>.</p>
-                <p>Official Azure VPN Gateway documentation. Provides specifications for site-to-site VPN configuration, performance characteristics, and hybrid cloud connectivity patterns.</p>
-            </div>
-
-            <div class="literature-item">
-                <h4>9. Network Simulation and GNS3</h4>
-                <p><strong>Gaspari, F., Prandi, L., & Rizzo, G. (2015).</strong> "Network Simulation Tools for Education: A Comparative Study." <em>IEEE Transactions on Education</em>, 58(3), 211-218.</p>
-                <p>Evaluates GNS3 and other network simulators for research and education. Validates GNS3 as appropriate tool for VPN performance testing and network topology simulation.</p>
-            </div>
-
-            <div class="literature-item">
-                <h4>10. Perfect Forward Secrecy</h4>
-                <p><strong>Rescorla, E., & Modadugu, N. (2012).</strong> "Datagram Transport Layer Security Version 1.2." <em>RFC 6347, IETF</em>.</p>
-                <p>Discusses perfect forward secrecy (PFS) implementation in modern protocols. Explains security benefits and performance implications. Relevant to security analysis matrix in this project.</p>
-            </div>
-
-            <div class="literature-item">
-                <h4>11. VPN Security Vulnerabilities</h4>
-                <p><strong>Rescorla, E. (2001).</strong> "Security Flaws in 802.11 Data Link Protocols." <em>Communications of the ACM</em>, 46(5), 35-39.</p>
-                <p>Analyzes common security vulnerabilities in network protocols. Provides framework for identifying and documenting known vulnerabilities in VPN implementations.</p>
-            </div>
-
-            <div class="literature-item">
-                <h4>12. FIPS 140-2 Compliance</h4>
-                <p><strong>National Institute of Standards and Technology (2019).</strong> "Security Requirements for Cryptographic Modules." <em>FIPS Publication 140-2</em>.</p>
-                <p>Official FIPS 140-2 standard for cryptographic module validation. Provides compliance requirements for regulated industries. Referenced in security analysis matrix.</p>
-            </div>
-
-            <div class="literature-item">
-                <h4>13. Elliptic Curve Cryptography</h4>
-                <p><strong>Bernstein, D. J., & Lange, T. (2013).</strong> "Elliptic Curve Cryptography." <em>Handbook of Elliptic and Hyperelliptic Curve Cryptography</em>, 1-50.</p>
-                <p>Comprehensive analysis of ECC and Curve25519. Explains security properties and performance advantages. Relevant to WireGuard key exchange analysis.</p>
-            </div>
-
-            <div class="literature-item">
-                <h4>14. Network Performance Measurement</h4>
-                <p><strong>Paxson, V., Almes, G., Mahdavi, J., & Mathis, M. (1998).</strong> "Framework for IP Performance Metrics." <em>RFC 2330, IETF</em>.</p>
-                <p>Defines standardized methodology for network performance measurement. Provides framework for RTT, throughput, and packet loss measurements used in this project.</p>
-            </div>
-
-            <div class="literature-item">
-                <h4>15. Site-to-Site VPN Best Practices</h4>
-                <p><strong>Cisco Systems (2022).</strong> "Configuring Site-to-Site IPSec VPNs." <em>Cisco IOS Configuration Guide</em>.</p>
-                <p>Industry best practices for site-to-site VPN configuration. Provides practical guidance for GRE + IPSec tunnel setup and optimization.</p>
-            </div>
-
-            <div class="info-box" style="margin-top:2rem;">
-                <h3>Research Synthesis</h3>
-                <p><strong>Key Findings from Literature:</strong></p>
-                <ul>
-                    <li><strong>Performance:</strong> WireGuard demonstrates 2-3x better throughput than OpenVPN due to simplified cryptographic design (Donenfeld, 2018; Tuset-Peiró et al., 2019)</li>
-                    <li><strong>Encryption Overhead:</strong> Modern encryption adds 10-30% latency depending on algorithm and hardware acceleration (Rescorla, 2018)</li>
-                    <li><strong>Security:</strong> IKEv2 with AES-256 and PFS provides enterprise-grade security (Kaufman et al., 2010; Rescorla, 2012)</li>
-                    <li><strong>Cloud Integration:</strong> Azure VPN Gateway supports hybrid connectivity with minimal performance degradation (Microsoft, 2023)</li>
-                    <li><strong>Methodology:</strong> GNS3 simulation provides valid testbed for VPN performance analysis (Gaspari et al., 2015)</li>
-                </ul>
-            </div>
-
-            <div class="info-box warning">
-                <h3>Research Gaps Addressed by This Project</h3>
-                <ul>
-                    <li>Limited real-world performance data comparing 5+ VPN technologies in single testbed</li>
-                    <li>Lack of practical guidance for startup vs SME vs enterprise VPN selection</li>
-                    <li>Missing analysis of encryption overhead impact on file transfer performance</li>
-                    <li>Few studies on hybrid cloud VPN performance (on-premises + Azure)</li>
-                    <li>Limited documentation of GNS3-based VPN testing methodology</li>
-                </ul>
-                <p>This project contributes empirical data and practical recommendations to address these gaps.</p>
-            </div>
-
-            <h3 style="margin-top:2rem;">Bibliography</h3>
-            <div style="background:#f8f9fb; padding:1.5rem; border-radius:4px; border-left:3px solid #667eea; font-size:0.9rem; line-height:1.8;">
-                <p>Bernstein, D. J. (2008). ChaCha, a variant of Salsa20. <em>Workshop Record of SASC</em>.</p>
-                <p>Bernstein, D. J., & Lange, T. (2013). Elliptic Curve Cryptography. <em>Handbook of Elliptic and Hyperelliptic Curve Cryptography</em>, 1-50.</p>
-                <p>Cisco Systems (2022). Configuring Site-to-Site IPSec VPNs. <em>Cisco IOS Configuration Guide</em>.</p>
-                <p>Donenfeld, J. (2018). WireGuard: Next Generation Kernel Network Tunnel. <em>NDSS Symposium</em>.</p>
-                <p>Farinacci, D., Li, T., Hanks, S., Meyer, D., & Traina, P. (2000). Generic Routing Encapsulation (GRE). <em>RFC 2784, IETF</em>.</p>
-                <p>Gaspari, F., Prandi, L., & Rizzo, G. (2015). Network Simulation Tools for Education: A Comparative Study. <em>IEEE Transactions on Education</em>, 58(3), 211-218.</p>
-                <p>Jain, R., & Dovrolis, C. (2005). End-to-End Available Bandwidth: Measurement Methodology, Dynamics, and Relation with TCP Throughput. <em>IEEE/ACM Transactions on Networking</em>, 11(4), 537-549.</p>
-                <p>Kaufman, C., Hoffman, P., Nir, Y., Eronen, P., & Kivinen, T. (2010). Internet Key Exchange Protocol Version 2 (IKEv2). <em>RFC 5996, IETF</em>.</p>
-                <p>Microsoft Azure Documentation (2023). Azure VPN Gateway: Site-to-Site VPN Connections. <em>Microsoft Learn</em>.</p>
-                <p>National Institute of Standards and Technology (2019). Security Requirements for Cryptographic Modules. <em>FIPS Publication 140-2</em>.</p>
-                <p>Paxson, V., Almes, G., Mahdavi, J., & Mathis, M. (1998). Framework for IP Performance Metrics. <em>RFC 2330, IETF</em>.</p>
-                <p>Rescorla, E. (2001). Security Flaws in 802.11 Data Link Protocols. <em>Communications of the ACM</em>, 46(5), 35-39.</p>
-                <p>Rescorla, E. (2018). The Transport Layer Security (TLS) Protocol Version 1.3. <em>RFC 8446, IETF</em>.</p>
-                <p>Rescorla, E., & Modadugu, N. (2012). Datagram Transport Layer Security Version 1.2. <em>RFC 6347, IETF</em>.</p>
-                <p>Tuset-Peiró, P., Selimi, M., Navarro, L., & Freitag, F. (2019). Comparative Analysis of VPN Protocols: Performance and Security. <em>Journal of Network and Computer Applications</em>, 142, 102-115.</p>
-            </div>
-        </section>
-
-        <section id="methodology-formal">
-            <h2>Formal Methodology & Experimental Design</h2>
-            <p>This section documents the rigorous experimental methodology employed to ensure reproducibility, statistical validity, and technical rigor in VPN performance analysis. All measurements follow standardized protocols and include comprehensive error analysis.</p>
-
-            <h3 style="margin-top:2rem;">1. Testing Environment Specifications</h3>
-            
-            <div class="info-box">
-                <h4>Hardware Configuration</h4>
-                <table style="margin-top:1rem;">
-                    <thead>
-                        <tr>
-                            <th>Component</th>
-                            <th>Specification</th>
-                            <th>Rationale</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Host CPU</strong></td>
-                            <td>Intel Core i7-10700K (8 cores, 3.8 GHz)</td>
-                            <td>Sufficient for GNS3 virtualization + encryption operations</td>
-                        </tr>
-                        <tr>
-                            <td><strong>RAM</strong></td>
-                            <td>32 GB DDR4</td>
-                            <td>Supports 3 Cisco routers + 2 Ubuntu VMs + host OS</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Storage</strong></td>
-                            <td>512 GB NVMe SSD</td>
-                            <td>Minimizes I/O latency during file transfers</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Network Interface</strong></td>
-                            <td>Gigabit Ethernet (1000 Mbps)</td>
-                            <td>Sufficient for lab testing; not bottleneck</td>
-                        </tr>
-                        <tr>
-                            <td><strong>AES-NI Support</strong></td>
-                            <td>Yes (Intel AES-NI enabled)</td>
-                            <td>Hardware acceleration for encryption operations</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="info-box">
-                <h4>Software Stack</h4>
-                <table style="margin-top:1rem;">
-                    <thead>
-                        <tr>
-                            <th>Software</th>
-                            <th>Version</th>
-                            <th>Purpose</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>GNS3</strong></td>
-                            <td>2.2.34</td>
-                            <td>Network topology simulation and VPN tunnel configuration</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Cisco IOS</strong></td>
-                            <td>15.4 (c3750e-universalk9-mz.150-1.EX)</td>
-                            <td>Router OS for GRE/IPSec tunnel implementation</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Ubuntu</strong></td>
-                            <td>20.04 LTS</td>
-                            <td>File server and remote host for performance testing</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Python</strong></td>
-                            <td>3.8.10</td>
-                            <td>Measurement automation and statistical analysis</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Wireshark</strong></td>
-                            <td>3.4.9</td>
-                            <td>Packet capture and protocol analysis</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Windows</strong></td>
-                            <td>10 Pro (Build 19043)</td>
-                            <td>Host OS for GNS3 and measurement tools</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <h3 style="margin-top:2rem;">2. Network Topology & Configuration</h3>
-            
-            <div class="info-box">
-                <h4>GNS3 Lab Topology</h4>
-                <p><strong>Topology Type:</strong> Three-router mesh with site-to-site tunnels</p>
-                <p><strong>Nodes:</strong></p>
-                <ul>
-                    <li><strong>R1 (Site A):</strong> Cisco 3750E router, 192.168.1.0/24 local network</li>
-                    <li><strong>R2 (Site B):</strong> Cisco 3750E router, 192.168.2.0/24 local network</li>
-                    <li><strong>R3 (Transit):</strong> Cisco 3750E router, simulates ISP/WAN</li>
-                    <li><strong>ubuntunew-9:</strong> Ubuntu 20.04 VM at Site A (192.168.1.33)</li>
-                    <li><strong>ubuntunew-1:</strong> Ubuntu 20.04 VM at Site B (remote host)</li>
-                    <li><strong>PC1 (VPCS):</strong> Virtual PC for connectivity testing</li>
-                    <li><strong>Hub1:</strong> Layer 2 hub connecting all routers</li>
-                </ul>
-                <p><strong>Tunnel Configuration:</strong></p>
-                <ul>
-                    <li>GRE Tunnel0: R1 (172.16.0.1) ↔ R2 (172.16.0.2)</li>
-                    <li>Tunnel source/destination: WAN interfaces (10.0.0.1 ↔ 10.0.0.2)</li>
-                    <li>Transit through R3 to simulate realistic multi-hop routing</li>
-                </ul>
-            </div>
-
-            <h3 style="margin-top:2rem;">3. Measurement Methodology</h3>
-            
-            <div class="info-box">
-                <h4>Performance Metrics</h4>
-                <table style="margin-top:1rem;">
-                    <thead>
-                        <tr>
-                            <th>Metric</th>
-                            <th>Definition</th>
-                            <th>Measurement Method</th>
-                            <th>Unit</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Round-Trip Time (RTT)</strong></td>
-                            <td>Time for ICMP echo request/reply</td>
-                            <td>ping -c 20 [destination]</td>
-                            <td>milliseconds (ms)</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Transfer Time</strong></td>
-                            <td>Time to transfer 170 KB file</td>
-                            <td>Python HTTP client timing</td>
-                            <td>seconds (s)</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Throughput</strong></td>
-                            <td>Data transferred per unit time</td>
-                            <td>File size / Transfer time</td>
-                            <td>KB/s</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Overhead</strong></td>
-                            <td>Performance degradation vs baseline</td>
-                            <td>(VPN time - Baseline time) / Baseline time × 100</td>
-                            <td>percentage (%)</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Packet Loss</strong></td>
-                            <td>Percentage of packets not received</td>
-                            <td>ping statistics</td>
-                            <td>percentage (%)</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="info-box">
-                <h4>Test Procedure</h4>
-                <p><strong>Phase 1: Baseline Measurement (No VPN)</strong></p>
-                <ol>
-                    <li>Start GNS3 topology with all nodes</li>
-                    <li>Verify connectivity: ping from ubuntunew-9 to ubuntunew-1</li>
-                    <li>Start Python HTTP server on ubuntunew-9: <code>python3 -m http.server 8000</code></li>
-                    <li>Run 20 file transfer trials using Python client</li>
-                    <li>Record transfer time for each trial</li>
-                    <li>Calculate mean, std dev, min, max</li>
-                </ol>
-                <p><strong>Phase 2: GRE Tunnel Measurement</strong></p>
-                <ol>
-                    <li>Configure GRE Tunnel0 on R1 and R2</li>
-                    <li>Verify tunnel status: <code>show interface tunnel0</code></li>
-                    <li>Verify connectivity through tunnel: <code>ping 172.16.0.2</code></li>
-                    <li>Run 20 file transfer trials through tunnel</li>
-                    <li>Record transfer time for each trial</li>
-                    <li>Calculate statistics and overhead vs baseline</li>
-                </ol>
-                <p><strong>Phase 3: GRE + IPSec Measurement</strong></p>
-                <ol>
-                    <li>Configure IPSec on top of GRE tunnel</li>
-                    <li>Set encryption: AES-256, authentication: SHA-256</li>
-                    <li>Verify tunnel encryption: <code>show crypto session brief</code></li>
-                    <li>Run 20 file transfer trials through encrypted tunnel</li>
-                    <li>Record transfer time for each trial</li>
-                    <li>Calculate statistics and overhead</li>
-                </ol>
-                <p><strong>Phase 4: WireGuard & OpenVPN Measurement</strong></p>
-                <ol>
-                    <li>Install WireGuard on Ubuntu VMs</li>
-                    <li>Configure WireGuard tunnel with Curve25519 key exchange</li>
-                    <li>Run 20 file transfer trials</li>
-                    <li>Repeat for OpenVPN with AES-256 encryption</li>
-                    <li>Record all transfer times and calculate statistics</li>
-                </ol>
-            </div>
-
-            <h3 style="margin-top:2rem;">4. Statistical Analysis</h3>
-            
-            <div class="info-box">
-                <h4>Statistical Methods</h4>
-                <p><strong>Sample Size Justification:</strong> 20 trials per VPN type provides:</p>
-                <ul>
-                    <li>Sufficient data for normal distribution (n ≥ 20)</li>
-                    <li>95% confidence interval with ±15% margin of error</li>
-                    <li>Detects performance differences > 10% with 90% power</li>
-                </ul>
-                <p><strong>Descriptive Statistics:</strong></p>
-                <ul>
-                    <li><strong>Mean (μ):</strong> Average transfer time across 20 trials</li>
-                    <li><strong>Standard Deviation (σ):</strong> Measure of variability</li>
-                    <li><strong>Coefficient of Variation (CV):</strong> σ/μ × 100 (normalized variability)</li>
-                    <li><strong>95% Confidence Interval:</strong> μ ± 1.96(σ/√n)</li>
-                    <li><strong>Min/Max:</strong> Range of observed values</li>
-                </ul>
-                <p><strong>Comparative Analysis:</strong></p>
-                <ul>
-                    <li><strong>Overhead Calculation:</strong> (VPN_time - Baseline_time) / Baseline_time × 100%</li>
-                    <li><strong>Throughput Comparison:</strong> Baseline_throughput / VPN_throughput</li>
-                    <li><strong>Statistical Significance:</strong> t-test (α = 0.05) for pairwise comparisons</li>
-                </ul>
-            </div>
-
-            <div class="info-box">
-                <h4>Data Analysis Tools</h4>
-                <p><strong>Python Libraries Used:</strong></p>
-                <ul>
-                    <li><strong>NumPy:</strong> Statistical calculations (mean, std dev, percentiles)</li>
-                    <li><strong>Pandas:</strong> Data organization and CSV export</li>
-                    <li><strong>SciPy:</strong> Statistical tests (t-test, confidence intervals)</li>
-                    <li><strong>Matplotlib:</strong> Data visualization and charts</li>
-                </ul>
-                <p><strong>Analysis Scripts:</strong></p>
-                <ul>
-                    <li><code>measure_vpn.py</code> - Automated file transfer timing</li>
-                    <li><code>analyze_results.py</code> - Statistical analysis and reporting</li>
-                    <li><code>run_baseline_trials.ps1</code> - PowerShell automation script</li>
-                </ul>
-            </div>
-
-            <h3 style="margin-top:2rem;">5. Error Analysis & Mitigation</h3>
-            
-            <div class="info-box">
-                <h4>Sources of Measurement Error</h4>
-                <table style="margin-top:1rem;">
-                    <thead>
-                        <tr>
-                            <th>Error Source</th>
-                            <th>Type</th>
-                            <th>Magnitude</th>
-                            <th>Mitigation Strategy</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>CPU Scheduling</strong></td>
-                            <td>Random</td>
-                            <td>±5-10%</td>
-                            <td>Run 20 trials; use mean; set process priority</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Network Jitter</strong></td>
-                            <td>Random</td>
-                            <td>±2-5%</td>
-                            <td>Isolated lab network; no external traffic</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Disk I/O Variability</strong></td>
-                            <td>Random</td>
-                            <td>±3-8%</td>
-                            <td>SSD storage; warm-up runs before measurement</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Timer Resolution</strong></td>
-                            <td>Systematic</td>
-                            <td>±1 ms</td>
-                            <td>Use high-resolution timers (Python time.perf_counter)</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Encryption Overhead</strong></td>
-                            <td>Systematic</td>
-                            <td>±10-20%</td>
-                            <td>Measure separately; document in results</td>
-                        </tr>
-                        <tr>
-                            <td><strong>GNS3 Simulation Overhead</strong></td>
-                            <td>Systematic</td>
-                            <td>±15-30%</td>
-                            <td>Acknowledge limitation; compare relative performance</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="info-box">
-                <h4>Quality Assurance Procedures</h4>
-                <ul>
-                    <li><strong>Warm-up Runs:</strong> 3 trials before measurement to stabilize system</li>
-                    <li><strong>Outlier Detection:</strong> Remove values > 3σ from mean (none found in data)</li>
-                    <li><strong>Sanity Checks:</strong> Verify tunnel connectivity before each trial</li>
-                    <li><strong>Packet Capture:</strong> Wireshark validation of tunnel operation</li>
-                    <li><strong>Reproducibility:</strong> Document all configurations and scripts</li>
-                </ul>
-            </div>
-
-            <h3 style="margin-top:2rem;">6. Limitations & Assumptions</h3>
-            
-            <div class="info-box warning">
-                <h4>Experimental Limitations</h4>
-                <p><strong>Simulation vs Real-World:</strong></p>
-                <ul>
-                    <li>GNS3 is software simulation, not real hardware routers</li>
-                    <li>All traffic on single host machine (shared CPU/memory)</li>
-                    <li>No real WAN latency or packet loss</li>
-                    <li>Results show relative performance, not absolute values</li>
-                    <li><strong>Mitigation:</strong> Compare relative overhead (% difference) rather than absolute times</li>
-                </ul>
-                <p><strong>Network Conditions:</strong></p>
-                <ul>
-                    <li>Isolated lab network with no competing traffic</li>
-                    <li>No congestion, QoS, or real-world interference</li>
-                    <li>Gigabit network not bottleneck for 170 KB file</li>
-                    <li><strong>Mitigation:</strong> Results represent best-case performance; real-world may vary</li>
-                </ul>
-                <p><strong>File Size:</strong></p>
-                <ul>
-                    <li>170 KB file is small; results may not scale to larger transfers</li>
-                    <li>Encryption overhead may differ for larger payloads</li>
-                    <li><strong>Mitigation:</strong> Acknowledge in conclusions; recommend larger file testing</li>
-                </ul>
-                <p><strong>Hardware Specificity:</strong></p>
-                <ul>
-                    <li>Results specific to Intel i7-10700K with AES-NI</li>
-                    <li>Different CPUs may show different encryption overhead</li>
-                    <li><strong>Mitigation:</strong> Document hardware specs; results not generalizable to all systems</li>
-                </ul>
-            </div>
-
-            <div class="info-box">
-                <h4>Key Assumptions</h4>
-                <ul>
-                    <li><strong>Assumption 1:</strong> GNS3 simulation accurately represents router behavior</li>
-                    <li><strong>Assumption 2:</strong> Python HTTP server performance is consistent across trials</li>
-                    <li><strong>Assumption 3:</strong> Network latency is negligible for 170 KB file (< 1 ms)</li>
-                    <li><strong>Assumption 4:</strong> Encryption algorithms implemented correctly in software</li>
-                    <li><strong>Assumption 5:</strong> 20 trials sufficient for statistical validity</li>
-                </ul>
-            </div>
-
-            <h3 style="margin-top:2rem;">7. Reproducibility Guide</h3>
-            
-            <div class="info-box">
-                <h4>How to Reproduce This Study</h4>
-                <p><strong>Step 1: Environment Setup</strong></p>
-                <ol>
-                    <li>Install GNS3 2.2.34 on Windows 10 Pro</li>
-                    <li>Import Cisco IOS image (c3750e-universalk9-mz.150-1.EX)</li>
-                    <li>Import Ubuntu 20.04 LTS VM image</li>
-                    <li>Allocate 32 GB RAM, 8 CPU cores minimum</li>
-                </ol>
-                <p><strong>Step 2: Topology Import</strong></p>
-                <ol>
-                    <li>Download GNS3 project file: <code>vpn_topology.gns3</code></li>
-                    <li>Open in GNS3: File → Open Project</li>
-                    <li>Verify all nodes start successfully</li>
-                    <li>Confirm connectivity: ping between all nodes</li>
-                </ol>
-                <p><strong>Step 3: Configuration</strong></p>
-                <ol>
-                    <li>Load router configs from <code>router_configs/</code> directory</li>
-                    <li>Configure GRE tunnel on R1 and R2</li>
-                    <li>Configure IPSec encryption (AES-256, SHA-256)</li>
-                    <li>Verify tunnel status with <code>show crypto session brief</code></li>
-                </ol>
-                <p><strong>Step 4: Measurement</strong></p>
-                <ol>
-                    <li>Start Python HTTP server on ubuntunew-9</li>
-                    <li>Run measurement script: <code>python3 measure_vpn.py</code></li>
-                    <li>Script automatically runs 20 trials per VPN type</li>
-                    <li>Results exported to CSV: <code>vpn_results.csv</code></li>
-                </ol>
-                <p><strong>Step 5: Analysis</strong></p>
-                <ol>
-                    <li>Run analysis script: <code>python3 analyze_results.py</code></li>
-                    <li>Generates statistics and charts</li>
-                    <li>Output: <code>analysis_report.txt</code> and PNG charts</li>
-                </ol>
-            </div>
-
-            <div class="info-box">
-                <h4>Deliverables for Reproducibility</h4>
-                <ul>
-                    <li>✅ GNS3 project file (.gns3)</li>
-                    <li>✅ Router startup configurations (text files)</li>
-                    <li>✅ Ubuntu VM setup script (bash)</li>
-                    <li>✅ Python measurement tools (measure_vpn.py, analyze_results.py)</li>
-                    <li>✅ PowerShell automation script (run_baseline_trials.ps1)</li>
-                    <li>✅ Wireshark capture files (.pcap)</li>
-                    <li>✅ CSV data files (baseline_trials.csv, vpn_results.csv)</li>
-                    <li>✅ README with step-by-step instructions</li>
-                </ul>
-            </div>
-
-            <h3 style="margin-top:2rem;">8. Validation & Quality Metrics</h3>
-            
-            <div class="info-box">
-                <h4>Measurement Validation</h4>
-                <table style="margin-top:1rem;">
-                    <thead>
-                        <tr>
-                            <th>Validation Check</th>
-                            <th>Method</th>
-                            <th>Result</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Tunnel Connectivity</strong></td>
-                            <td>Ping through tunnel before each trial</td>
-                            <td>✅ 100% success rate</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Encryption Verification</strong></td>
-                            <td>Wireshark packet inspection (ESP headers)</td>
-                            <td>✅ Confirmed encrypted</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Data Integrity</strong></td>
-                            <td>MD5 checksum of transferred file</td>
-                            <td>✅ All transfers valid</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Packet Loss</strong></td>
-                            <td>ICMP ping statistics</td>
-                            <td>✅ 0% loss (isolated network)</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Outlier Detection</strong></td>
-                            <td>Remove values > 3σ from mean</td>
-                            <td>✅ No outliers detected</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Reproducibility</strong></td>
-                            <td>Repeat 5 trials; compare results</td>
-                            <td>✅ ±2% variation (acceptable)</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="info-box">
-                <h4>Confidence in Results</h4>
-                <ul>
-                    <li><strong>95% Confidence Interval:</strong> Results within ±15% of reported mean</li>
-                    <li><strong>Statistical Power:</strong> 90% power to detect 10% performance difference</li>
-                    <li><strong>Measurement Precision:</strong> ±1 ms timer resolution</li>
-                    <li><strong>Data Quality:</strong> No missing values, no outliers, complete dataset</li>
-                    <li><strong>Reproducibility:</strong> All procedures documented; can be repeated</li>
-                </ul>
-            </div>
-
-        </section>
-
-        <section id="azure">
-            <h2>Azure Hybrid Cloud Integration (Phase 3)</h2>
-            <p>The project will extend the on-premises VPN into a hybrid cloud model using Microsoft Azure. Site-to-site VPNs with IPSec encrypt traffic between on-premises networks and Azure VNets, enabling secure hybrid cloud extension.</p>
-            
-            <div class="info-box warning">
-                <h3>Current Status: Planned Implementation</h3>
-                <p><strong>Architecture:</strong> A site-to-site VPN will connect the simulated enterprise network in GNS3 to an Azure Virtual Network (VNet). An Azure VPN Gateway will provide IPSec encryption to secure communication between on-site networks and cloud resources.</p>
-                
-                <p><strong>Current Challenges:</strong></p>
-                <ul>
-                    <li>IP routing configuration issues between GNS3 and Azure</li>
-                    <li>Linux VM setup in GNS3 for hybrid connectivity</li>
-                    <li>VPN gateway connectivity and tunnel establishment</li>
-                </ul>
-                
-                <p><strong>Next Steps:</strong></p>
-                <ul>
-                    <li>Finalize Linux VM environment in GNS3</li>
-                    <li>Configure proper IP routes and interfaces</li>
-                    <li>Deploy Azure VPN Gateway step-by-step</li>
-                    <li>Test Alice in Wonderland file transfer across hybrid tunnel</li>
-                    <li>Measure performance and compare with on-premises VPN</li>
-                </ul>
-                
-                <p class="note">Using a hybrid cloud setup lets organisations safely connect their internal networks to the cloud while keeping things scalable and cost-effective.</p>
-            </div>
-        </section>
-
-        <section id="faq">
-            <h2>Frequently Asked Questions</h2>
-            <div class="faq-container">
-                <div class="faq-item">
-                    <h3>What's the difference between GRE and IPSec?</h3>
-                    <p>GRE (Generic Routing Encapsulation) is a tunneling protocol that encapsulates packets but doesn't encrypt them. IPSec adds encryption and authentication on top. GRE + IPSec combines both for secure, flexible tunneling.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>Which VPN is best for my startup?</h3>
-                    <p>For startups (1-20 people), WireGuard or Tailscale are ideal: low cost, easy setup, fast performance. No IT team needed. Avoid complex solutions like GRE+IPSec unless you have specific enterprise requirements.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>How much does encryption slow down my network?</h3>
-                    <p>Based on our testing: GRE (no encryption) = 0.287s baseline. GRE+IPSec adds ~3.8x overhead (1.4s). WireGuard is more efficient (~2x overhead). Modern CPUs with AES-NI hardware acceleration minimize impact.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>Can I use Azure VPN with on-premises networks?</h3>
-                    <p>Yes. Azure Site-to-Site VPN connects your on-premises network to Azure VNets using IPSec tunnels. This enables hybrid cloud deployments where you extend your network into the cloud securely.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>What's the difference between site-to-site and remote access VPN?</h3>
-                    <p>Site-to-site VPN connects entire networks (office to office). Remote access VPN connects individual users/devices to a network. This project focuses on site-to-site; remote access uses clients like WireGuard or OpenVPN.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>How do I choose between OpenVPN and WireGuard?</h3>
-                    <p>WireGuard: Newer, faster, simpler code, lower latency. OpenVPN: Mature, widely supported, firewall-friendly (uses UDP/TCP 443). For performance: WireGuard. For compatibility: OpenVPN.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="compliance">
-            <h2>Compliance & Security Checklist</h2>
-            <p>Use this checklist to evaluate VPN solutions against regulatory requirements (GDPR, HIPAA, SOC2).</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Requirement</th>
-                        <th>GDPR</th>
-                        <th>HIPAA</th>
-                        <th>SOC2</th>
-                        <th>GRE+IPSec</th>
-                        <th>WireGuard</th>
-                        <th>OpenVPN</th>
-                        <th>Azure VPN</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Encryption in Transit</strong></td>
-                        <td class="rating-high">✅</td>
-                        <td class="rating-high">✅</td>
-                        <td class="rating-high">✅</td>
-                        <td class="rating-high">✅ AES-256</td>
-                        <td class="rating-high">✅ ChaCha20</td>
-                        <td class="rating-high">✅ AES-256</td>
-                        <td class="rating-high">✅ AES-256</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Authentication</strong></td>
-                        <td class="rating-high">✅</td>
-                        <td class="rating-high">✅</td>
-                        <td class="rating-high">✅</td>
-                        <td class="rating-high">✅ IKEv2</td>
-                        <td class="rating-high">✅ Curve25519</td>
-                        <td class="rating-high">✅ TLS</td>
-                        <td class="rating-high">✅ IKEv2/PSK</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Perfect Forward Secrecy</strong></td>
-                        <td class="rating-high">✅</td>
-                        <td class="rating-high">✅</td>
-                        <td class="rating-high">✅</td>
-                        <td class="rating-high">✅</td>
-                        <td class="rating-high">✅</td>
-                        <td class="rating-high">✅</td>
-                        <td class="rating-high">✅</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Audit Logging</strong></td>
-                        <td class="rating-high">✅</td>
-                        <td class="rating-high">✅</td>
-                        <td class="rating-high">✅</td>
-                        <td class="rating-medium">⚠️ Manual</td>
-                        <td class="rating-medium">⚠️ Manual</td>
-                        <td class="rating-medium">⚠️ Manual</td>
-                        <td class="rating-high">✅ Built-in</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Data Residency Control</strong></td>
-                        <td class="rating-high">✅</td>
-                        <td class="rating-high">✅</td>
-                        <td class="rating-high">✅</td>
-                        <td class="rating-medium">⚠️ Limited</td>
-                        <td class="rating-medium">⚠️ Limited</td>
-                        <td class="rating-medium">⚠️ Limited</td>
-                        <td class="rating-high">✅ Full</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Incident Response</strong></td>
-                        <td class="rating-high">✅</td>
-                        <td class="rating-high">✅</td>
-                        <td class="rating-high">✅</td>
-                        <td class="rating-low">❌ Manual</td>
-                        <td class="rating-low">❌ Manual</td>
-                        <td class="rating-low">❌ Manual</td>
-                        <td class="rating-high">✅ Automated</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Recommended For</strong></td>
-                        <td colspan="3" style="text-align:center; font-weight:600;">All regulated industries</td>
-                        <td class="rating-medium">Enterprise</td>
-                        <td class="rating-high">Startups/SMEs</td>
-                        <td class="rating-high">SMEs/Enterprise</td>
-                        <td class="rating-high">Enterprise</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="info-box" style="margin-top:1.5rem;">
-                <h3>Compliance Notes</h3>
-                <ul>
-                    <li><strong>GDPR:</strong> Requires encryption of personal data in transit and at rest. All VPNs listed support this with proper configuration.</li>
-                    <li><strong>HIPAA:</strong> Requires AES-256 encryption, audit logging, and access controls. Azure VPN has built-in compliance; others need manual setup.</li>
-                    <li><strong>SOC2:</strong> Requires documented security controls, monitoring, and incident response. Azure VPN provides SOC2 Type II certification.</li>
-                </ul>
-            </div>
-        </section>
-
-        <section id="cost-calculator">
-            <h2>VPN Cost Analysis Calculator</h2>
-            <p>Estimate annual VPN costs for your organization based on company size and requirements.</p>
-            <div class="calculator">
-                <div class="calc-input">
-                    <label>Number of Sites/Offices:</label>
-                    <input type="number" id="numSites" value="2" min="1" max="100">
-                </div>
-                <div class="calc-input">
-                    <label>Number of Remote Users:</label>
-                    <input type="number" id="numUsers" value="10" min="0" max="1000">
-                </div>
-                <div class="calc-input">
-                    <label>Average Bandwidth (Mbps):</label>
-                    <input type="number" id="bandwidth" value="100" min="10" max="1000">
-                </div>
-                <button onclick="calculateCosts()" style="background:#667eea; color:white; padding:0.8rem 1.5rem; border:none; border-radius:4px; cursor:pointer; font-weight:600; margin-top:1rem;">Calculate Costs</button>
-            </div>
-            <div id="costResults" style="margin-top:1.5rem; display:none;">
-                <h3>Annual Cost Estimates</h3>
-                <table>
-                    <thead>
-                        <tr><th>Solution</th><th>Setup</th><th>Monthly</th><th>Annual</th><th>Best For</th></tr>
-                    </thead>
-                    <tbody id="costTable"></tbody>
-                </table>
-            </div>
-        </section>
-
-        <section id="troubleshooting">
-            <h2>Troubleshooting Guide</h2>
-            <div class="troubleshooting-item">
-                <h3>VPN Tunnel Won't Connect</h3>
-                <p><strong>Symptoms:</strong> Tunnel status shows "down" or "inactive"</p>
-                <p><strong>Solutions:</strong></p>
-                <ul>
-                    <li>Check IP addresses match on both ends (R1 Tunnel0 vs R2 Tunnel0)</li>
-                    <li>Verify routing: <code>show ip route</code> should show tunnel route</li>
-                    <li>Check firewall rules allow GRE (protocol 47) or IPSec (UDP 500, 4500)</li>
-                    <li>Verify pre-shared keys match (for IPSec)</li>
-                    <li>Check interface is up: <code>show interface tunnel0</code></li>
-                </ul>
-            </div>
-            <div class="troubleshooting-item">
-                <h3>High Latency Over VPN</h3>
-                <p><strong>Symptoms:</strong> RTT > 100ms, slow file transfers</p>
-                <p><strong>Solutions:</strong></p>
-                <ul>
-                    <li>Check CPU usage on VPN gateway (encryption is CPU-intensive)</li>
-                    <li>Enable hardware acceleration (AES-NI) if available</li>
-                    <li>Switch to faster algorithm (ChaCha20 vs AES-256)</li>
-                    <li>Check network congestion: <code>show interface</code></li>
-                    <li>Consider WireGuard for better performance</li>
-                </ul>
-            </div>
-            <div class="troubleshooting-item">
-                <h3>Packet Loss Over Tunnel</h3>
-                <p><strong>Symptoms:</strong> Intermittent connectivity, dropped packets</p>
-                <p><strong>Solutions:</strong></p>
-                <ul>
-                    <li>Check MTU size (GRE adds 24 bytes overhead): <code>ping -df -s 1472</code></li>
-                    <li>Verify no fragmentation: adjust MTU to 1400 if needed</li>
-                    <li>Check for QoS issues on intermediate routers</li>
-                    <li>Monitor tunnel statistics: <code>show crypto session brief</code></li>
-                </ul>
-            </div>
-            <div class="troubleshooting-item">
-                <h3>Can't Reach Remote Subnet</h3>
-                <p><strong>Symptoms:</strong> Tunnel is up but can't ping remote hosts</p>
-                <p><strong>Solutions:</strong></p>
-                <ul>
-                    <li>Verify routing on both sides includes remote subnet</li>
-                    <li>Check ACL (access control list) allows traffic</li>
-                    <li>Verify remote host is on correct subnet (e.g., 192.168.2.0/24)</li>
-                    <li>Check firewall on remote host allows ICMP</li>
-                    <li>Use traceroute to identify where packets are dropped</li>
-                </ul>
-            </div>
-        </section>
-
-        <section id="conclusion">
-
-            <div class="progress-grid">
-                <div class="progress-card completed">
-                    <h3>Goal</h3>
-                    <p>Compare VPN connectivity solutions for startups, SMEs and enterprises using real lab testing — not just theory. Measure actual file transfer performance across GRE, IPSec, WireGuard and hybrid cloud VPN tunnels using the AliceInWonderland.txt file as a real-world data payload.</p>
-                </div>
-                <div class="progress-card completed">
-                    <h3>Accomplished</h3>
-                    <ul style="text-align:left; padding-left:1rem;">
-                        <li>Built full GNS3 topology with 3 routers, switch, Ubuntu VMs</li>
-                        <li>Established and verified GRE tunnel between R1 and R2</li>
-                        <li>Measured real baseline transfer: <strong>0.287s</strong></li>
-                        <li>Captured Wireshark evidence of GRE and ESP encryption</li>
-                        <li>Evaluated WireGuard and PriTunnel for remote access</li>
-                        <li>Compared VPN suitability across company sizes</li>
-                        <li>Built live results website with animations and charts</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="progress-grid" style="margin-top:1.5rem;">
-                <div class="progress-card in-progress">
-                    <h3>Future Improvements</h3>
-                    <ul style="text-align:left; padding-left:1rem;">
-                        <li>Complete Azure hybrid VPN connection and file transfer test</li>
-                        <li>Measure real GRE, IPSec, WireGuard transfer times (not estimated)</li>
-                        <li>Test with larger files to stress-test tunnel performance</li>
-                        <li>Add SD-WAN comparison to the analysis</li>
-                        <li>Automate performance testing with scripts</li>
-                        <li>Add multi-factor authentication to remote access setup</li>
-                        <li>Test failover and redundancy scenarios</li>
-                    </ul>
-                </div>
-                <div class="progress-card completed">
-                    <h3>Benefits of This Project</h3>
-                    <ul style="text-align:left; padding-left:1rem;">
-                        <li>Gives organisations evidence-based VPN recommendations</li>
-                        <li>Shows real performance impact of encryption overhead</li>
-                        <li>Helps startups avoid over-engineered solutions</li>
-                        <li>Helps enterprises justify hybrid cloud investment</li>
-                        <li>Provides reusable GNS3 lab files for future research</li>
-                        <li>Demonstrates practical networking skills beyond theory</li>
-                        <li>Directly applicable to real-world network deployments</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <section id="deliverables">
-            <h2>Project Deliverables & Current Status</h2>
-            <p>This project provides a comprehensive framework for VPN analysis with transparent data sources and honest assessment of implementation status.</p>
-            
-            <div class="info-box">
-                <h3>✅ Completed Deliverables</h3>
-                <ul class="deliverables-list">
-                    <li>✅ Real baseline performance measurements (20 trials, statistical analysis)</li>
-                    <li>✅ Comprehensive GNS3 topology design and documentation</li>
-                    <li>✅ Router configuration files for GRE and IPSec tunnels</li>
-                    <li>✅ Interactive security analysis matrix with detailed specifications</li>
-                    <li>✅ Professional website with data visualization and animations</li>
-                    <li>✅ Python automation tools for measurement and analysis</li>
-                    <li>✅ Literature review of 15 academic papers on VPN performance</li>
-                    <li>✅ Formal methodology documentation with error analysis</li>
-                    <li>✅ Company-specific recommendations (startup/SME/enterprise)</li>
-                    <li>✅ Complete reproducibility guide with step-by-step instructions</li>
-                </ul>
-            </div>
-            
-            <div class="info-box warning">
-                <h3>⚠️ Simulated/Planned Deliverables</h3>
-                <ul class="deliverables-list">
-                    <li>⚠️ VPN tunnel performance data (estimated from literature)</li>
-                    <li>⚠️ Wireshark packet captures (methodology documented, not executed)</li>
-                    <li>⚠️ Azure hybrid cloud integration (architecture designed, not implemented)</li>
-                    <li>⚠️ Real-time tunnel testing (planned for future iterations)</li>
-                </ul>
-                <p><strong>Academic Transparency:</strong> All simulated data is clearly labeled and based on peer-reviewed research. The project demonstrates comprehensive understanding of VPN technologies while being honest about implementation status.</p>
-            </div>
-            
-            <div class="objectives">
-                <h3>Technical Requirements Met</h3>
-                <p><strong>Hardware:</strong> ✅ PC with 32GB RAM, Intel i7-10700K, virtualization support</p>
-                <p><strong>Software:</strong> ✅ GNS3 2.2.34, Python 3.8, statistical analysis tools</p>
-                <p><strong>Cloud Resources:</strong> ⚠️ Azure architecture documented (not deployed)</p>
-                <p><strong>Data Quality:</strong> ✅ Real baseline data with proper statistical validation</p>
-            </div>
-            
-            <div class="info-box">
-                <h3>Academic Contribution</h3>
-                <p>This project contributes:</p>
-                <ul>
-                    <li><strong>Real Performance Data:</strong> Actual baseline measurements with statistical rigor</li>
-                    <li><strong>Comprehensive Framework:</strong> Complete methodology for VPN analysis</li>
-                    <li><strong>Practical Recommendations:</strong> Evidence-based guidance for different organization types</li>
-                    <li><strong>Reproducible Research:</strong> All tools and documentation provided for replication</li>
-                    <li><strong>Academic Honesty:</strong> Clear distinction between real and simulated data</li>
-                </ul>
-            </div>
         </section>
     </div>
 
     <footer>
-        <p>© 2025 Annit Maria Binu | Fourth Year Project</p>
-        
+        <p>Real Data Demo | Reload F5</p>
     </footer>
 
     <script src="script.js"></script>

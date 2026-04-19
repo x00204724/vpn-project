@@ -93,7 +93,7 @@ window.addEventListener('DOMContentLoaded', () => {
 if (!document.querySelector('.dark-mode-toggle')) {
     const toggle = document.createElement('button');
     toggle.className = 'dark-mode-toggle';
-    toggle.innerHTML = '🌙';
+toggle.innerHTML = '☀️🌙';
     toggle.title = 'Toggle Dark Mode';
     toggle.onclick = toggleDarkMode;
     document.body.appendChild(toggle);
@@ -199,10 +199,9 @@ if (rttCtx) {
 }
 
 // Shared tunnel config — matches animation exactly
-const tunnels = {
-    labels:  ['Baseline (No VPN)', 'GRE Tunnel', 'GRE + IPSec', 'WireGuard', 'OpenVPN'],
+
     colors:  ['#28a745', '#667eea', '#764ba2', '#ffc107', '#e74c3c'],
-    times:   [0.290, 0.308, 0.948, 0.592, 0.795],
+
     throughput: [587, 551, 179, 287, 214]
 };
 

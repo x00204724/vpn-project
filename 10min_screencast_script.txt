@@ -1,0 +1,51 @@
+VPN Performance Analysis - 10 Minute Screencast Script
+
+[0:00 - 0:30] INTRO
+- Screen: Project folder
+- Terminal: dir vpn_tools
+- Voice: "Welcome to VPN Performance Analysis. Today I'll demo GRE, IPSec, WireGuard file transfers using AliceInWonderland.txt 170KB."
+
+[0:30 - 1:30] DATA OVERVIEW
+- Cmd: type vpn_measurements.json
+- Voice: "20 trials per protocol. Baseline 0.29s 587KB/s. IPSec 0.94s 181KB/s – 3.3x overhead. WireGuard best at 0.60s 285KB/s."
+
+[1:30 - 2:30] TERMINAL PERF MEASURE
+- Cmd: cd vpn_tools && python perf_measure.py
+- Voice: "Live baseline measurement – HTTP server + wget local transfer. No VPN overhead."
+
+[2:30 - 3:30] DASHBOARD LIVE
+- Cmd: python dashboard.py
+- Browser: localhost:5001
+- Voice: "Flask dashboard loads JSON real-time. Health status, perf charts update automatically."
+
+[3:30 - 7:30] HTML LIVE SIM (4 mins)
+- Cmd: start website\vpn-live-demo.html
+- Click each tunnel:
+  * Baseline → anim → 0.29s / 587KB/s
+  * GRE → 0.31s / 551KB/s
+  * GRE+IPSec → 0.94s / 181KB/s
+  * WireGuard → 0.60s / 285KB/s
+  * PriTunnel → 0.80s / 213KB/s
+- Voice: "Interactive simulation matches real measurements. Watch progress bars + logs."
+
+[7:30 - 8:30] WSL WIREGUARD
+- Cmd: .\demo_screencast.bat
+- Voice: "WSL Ubuntu – WireGuard tunnel up/down, handshake, ping test."
+
+[8:30 - 9:00] RESULTS JSON
+- Cmd: type perf_results.json && type demo_log.json
+- Voice: "Raw JSON exports for analysis."
+
+[9:00 - 10:00] OUTRO & CALL TO ACTION
+- Screen: Full folder
+- Voice: "Reproducible VPN comparison. Best: WireGuard. Code: GitHub. Questions?"
+
+Cmds Summary:
+dir vpn_tools
+type vpn_measurements.json
+cd vpn_tools
+python perf_measure.py
+python dashboard.py
+..\website\vpn-live-demo.html
+.\demo_screencast.bat
+type *.json

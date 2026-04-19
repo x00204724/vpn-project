@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VPN Dashboard - Real Performance Analysis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <style>
+        /* Enhanced visual styles - floating particles */
+        body::before {
+            content: '';
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 20% 80%, rgba(120,119,198,0.2) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255,119,198,0.2) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, rgba(120,219,255,0.2) 0%, transparent 50%);
+            pointer-events: none; z-index: -1; animation: float 25s infinite ease-in-out;
+        }
+        @keyframes float { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-25px) scale(1.05); } }
+        /* Glassmorphism cards */
+        .glass-card {
+            background: rgba(255,255,255,0.25);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 24px;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.15);
+        }
+        /* Complete inline styles combining analyzed CSS - blue/navy theme, responsive */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --navy: #0f1b2d; --navy2: #1a2e4a; --accent: #4a6fa5; --accent2: #6b8cba;
+            --cream: #f5f7fa; --white: #ffffff; --text: #2c2c2c; --muted: #6b7280; --border: #e2e8f0;
+        }
+        body { font-family: 'Inter', sans-serif; background: var(--cream); color: var(--text); line-height: 1.6; }
+        body.dark-mode { --cream: #1a1f2e; --white: #2d3748; --text: #e2e8f0; --muted: #a0aec0; --border: #4a5568; }
+        .sidebar { position: fixed; top: 0; left: 0; width: 240px; height: 100vh; background: var(--navy); overflow-y: auto; }
+        .sidebar-title { color: var(--accent2); padding: 1.5rem 1.5rem 1rem; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #2d4a6a; }
+        .sidebar a { display: block; color: #8a9bb5; padding: 1rem 1.5rem; text-decoration: none; transition: all 0.2s; }
+        .sidebar a:hover, .sidebar a.active { color: white; background: rgba(74,111,165,0.2); border-right: 3px solid var(--accent); }
+.main { margin-left: 240px; padding: 3rem 2rem; min-height: 100vh; }
+        .hero { 
+            background: linear-gradient(135deg, rgba(74,111,165,0.9), rgba(26,46,74,0.9)); 
+            color: white; padding: 4rem 3rem; border-radius: 24px; margin-bottom: 3rem; 
+            backdrop-filter: blur(20px); box-shadow: 0 25px 80px rgba(0,0,0,0.3); 
+            text-align: center; position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: conic-gradient(from 0deg, transparent 0deg, rgba(255,255,255,0.1) 180deg, transparent 360deg);
+            animation: rotate 8s linear infinite;
+        }
+        @keyframes rotate { to { transform: rotate(360deg); } }
+        .hero h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 1rem; text-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .hero p { font-size: 1.3rem; max-width: 800px; margin: 0 auto; opacity: 0.95; }
+        section { display: none; background: var(--white); padding: 2.5rem; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.1); margin-bottom: 2rem; border-top: 4px solid var(--accent); }
+        section.active { display: block; }
+        h1 { font-size: 2.5rem; color: var(--navy); margin-bottom: 1rem; font-weight: 700; }
+        h2 { font-size: 1.8rem; color: var(--navy2); margin-bottom: 1.5rem; }
+        .transfer-demo { background: #fafbfc; padding: 2rem; border-radius: 12px; border: 1px solid var(--border); margin: 2rem 0; }
+        .tunnel-buttons { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; }
+        .tunnel-buttons button { padding: 1rem 1.5rem; border: none; border-radius: 8px; color: white; font-weight: 600; cursor: pointer; font-size: 1rem; transition: all 0.3s; background: var(--accent); }
+        .tunnel-buttons button:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(74,111,165,0.4); }
+        .network-animation { display: flex; align-items: center; gap: 2rem; }
+        .anim-node { flex: 1; text-align: center; font-weight: 600; }
+        .anim-track { flex: 2; }
+        .anim-road { height: 60px; background: linear-gradient(90deg, var(--cream) 0%, var(--border) 100%); border-radius: 8px; position: relative; overflow: hidden; margin: 1rem 0; }
+        .anim-packet { position: absolute; left: -50px; top: 50%; transform: translateY(-50%); background: var(--accent); color: white; padding: 0.75rem 1.5rem; border-radius: 25px; font-weight: 700; white-space: nowrap; transition: left linear; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+        .stat-box { background: var(--white); padding: 1.5rem; border-radius: 12px; text-align: center; border: 1px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .stat-label { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }
+        .stat-value { font-size: 2.5rem; font-weight: 700; color: var(--navy); }
+        table { width: 100%; border-collapse: collapse; margin: 2rem 0; font-size: 1rem; }
+        th, td { padding: 1.25rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: var(--navy); color: white; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        tr:hover { background: #f8f9fa; }
+        .code-block { background: #f8f9fa; padding: 1.5rem; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.95rem; border-left: 4px solid var(--accent); margin: 1.5rem 0; overflow-x: auto; }
+        .btn { background: var(--accent); color: white; padding: 1rem 2rem; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s; font-size: 1rem; }
+        .btn:hover { background: var(--navy2); transform: translateY(-2px); }
+        .btn-success { background: #28a745; }
+        .btn-danger { background: #dc3545; }
+        .log-box { background: #1e1e1e; color: #00ff88; padding: 1.5rem; border-radius: 8px; font-family: 'Courier New', monospace; height: 300px; overflow-y: auto; margin: 1rem 0; }
+        .dark-toggle { position: fixed; top: 20px; right: 20px; background: var(--accent); color: white; border: none; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; font-size: 1.2rem; z-index: 1000; }
+        @media (max-width: 768px) { .sidebar { transform: translateX(-100%); } .main { margin-left: 0; } .network-animation { flex-direction: column; } }
+        .vpn-node { display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 8px; margin: 1rem 0; }
+        .status { padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; font-size: 0.85rem; }
+        .status-online { background: #d4edda; color: #155724; }
+        .status-connected { background: #d1ecf1; color: #0c5460; }
+    </style>
+</head>
+<body>
+    <button class="dark-toggle" onclick="toggleDarkMode()">🌙</button>
+    
+    <nav class="sidebar">
+        <div class="sidebar-title">VPN Dashboard</div>
+        <a href="#live-demo" class="active" onclick="showSection('live-demo')">Live VPN Demo</a>
+        <a href="#benchmarks" onclick="showSection('benchmarks')">Benchmarks</a>
+        <a href="#charts" onclick="showSection('charts')">Charts</a>
+        <a href="#calculator" onclick="showSection('calculator')">Calculator</a>
+        <a href="#instructions" onclick="showSection('instructions')">Run Real VPN</a>
+    </nav>
+
+    <main class="main">
+        <!-- Live VPN Demo Section -->
+        <section id="live-demo" class="active">
+            <h1>Live VPN Demo</h1>
+            <p>Interactive simulation with real timings from measurements.</p>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <div>
+                    <div class="vpn-node">
+                        <span>VPN Server</span>
+                        <span class="status status-online" id="server-status">OFFLINE</span>
+                    </div>
+                    <div class="vpn-node">
+                        <span>Encrypted Tunnel</span>
+                        <span class="status status-online" id="tunnel-status">IDLE</span>
+                    </div>
+                    <div class="vpn-node">
+                        <span>VPN Client</span>
+                        <span class="status status-online" id="client-status">OFFLINE</span>
+                    </div>
+                </div>
+                <div class="log-box" id="log-box">
+                    [INFO] Dashboard loaded with real data<br>
+                    [INFO] Click Start Server to simulate
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 1rem; margin: 2rem 0;">
+                <button class="btn btn-success" onclick="startServer()">Start Server</button>
+                <button class="btn" onclick="connectClient()">Connect Client</button>
+                <button class="btn btn-success" onclick="simulateTransfer()">Transfer 170KB</button>
+                <button class="btn btn-danger" onclick="stopServer()">Stop</button>
+            </div>
+            
+            <div class="stat-grid">
+                <div class="stat-box">
+                    <div class="stat-label">Clients</div>
+                    <div class="stat-value" id="client-count">0</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Data</div>
+                    <div class="stat-value" id="data-transferred">0 KB</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Avg Latency</div>
+                    <div class="stat-value">2.1ms</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Uptime</div>
+                    <div class="stat-value" id="uptime">0s</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Benchmarks Section -->
+        <section id="benchmarks">
+            <h1>Real Benchmarks</h1>
+            <p>170KB Alice.txt transfer times (20 trials each from GNS3).</p>
+            
+            <div class="transfer-demo">
+                <div class="tunnel-buttons">
+                    <button onclick="runBenchmark('Baseline', 0.286, '#28a745', 594)">Baseline 0.286s</button>
+                    <button onclick="runBenchmark('GRE', 0.309, '#4a6fa5', 551)">GRE 0.309s</button>
+                    <button onclick="runBenchmark('GRE+IPSec', 0.941, '#764ba2', 181)">GRE+IPSec 0.941s</button>
+                    <button onclick="runBenchmark('WireGuard', 0.597, '#ffc107', 285)">WireGuard 0.597s</button>
+                    <button onclick="runBenchmark('OpenVPN', 0.799, '#e74c3c', 213)">OpenVPN 0.799s</button>
+                </div>
+                
+                <div class="network-animation">
+                    <div class="anim-node">
+                        <div style="font-size: 2rem;">🐧</div>
+                        <strong>Ubuntu VM</strong><br><small>192.168.1.33</small>
+                    </div>
+                    <div class="anim-track">
+                        <div class="anim-tunnel-label" id="bench-label">Select Tunnel</div>
+                        <div class="anim-road">
+                            <div class="anim-packet" id="bench-packet">170 KB</div>
+                        </div>
+                    </div>
+                    <div class="anim-node">
+                        <div style="font-size: 2rem;">🪟</div>
+                        <strong>Windows</strong><br><small>192.168.1.16</small>
+                    </div>
+                </div>
+                
+                <div class="stat-grid">
+                    <div class="stat-box"><div class="stat-label">Tunnel</div><div class="stat-value" id="bench-tunnel">-</div></div>
+                    <div class="stat-box"><div class="stat-label">Time (20 trials)</div><div class="stat-value" id="bench-time">-</div></div>
+                    <div class="stat-box"><div class="stat-label">Throughput</div><div class="stat-value" id="bench-speed">-</div></div>
+                    <div class="stat-box"><div class="stat-label">Status</div><div class="stat-value" id="bench-status">Ready</div></div>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr><th>VPN Type</th><th>Mean Time</th><th>Std Dev</th><th>Throughput</th><th>Slowdown</th></tr>
+                </thead>
+                <tbody id="bench-table">
+                    <!-- Populated by JS with real data -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Charts Section -->
+        <section id="charts">
+            <h1>Interactive Charts</h1>
+            <p>Visualized from vpn_measurements.json (real GNS3 data).</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <div class="chart-container">
+                    <canvas id="transferChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <canvas id="throughputChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Calculator Section -->
+        <section id="calculator">
+            <h1>VPN Performance Calculator</h1>
+            <p>Enter your parameters for custom predictions.</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin: 2rem 0;">
+                <div>
+                    <label>File Size (KB): <input type="number" id="fileSize" value="170"></label>
+                </div>
+                <div>
+                    <label>Base Latency (ms): <input type="number" id="baseLatency" value="10" step="0.1"></label>
+                </div>
+                <div>
+                    <label>Bandwidth (Mbps): <input type="number" id="bandwidth" value="100" step="10"></label>
+                </div>
+                <div>
+                    <label>CPU Overhead (%): <input type="number" id="cpuOverhead" value="5" step="1"></label>
+                </div>
+            </div>
+            
+            <button class="btn" onclick="runCalculator()" style="font-size: 1.2rem; padding: 1rem 3rem;">Calculate All VPNs</button>
+            
+            <div id="calcResults" style="margin-top: 2rem;">
+                <table>
+                    <thead>
+                        <tr><th>VPN</th><th>Overhead</th><th>Latency</th><th>Throughput KB/s</th><th>Transfer Time</th></tr>
+                    </thead>
+                    <tbody id="calcTable"></tbody>
+                </table>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;">
+                    <canvas id="calcLatencyChart"></canvas>
+                    <canvas id="calcThroughputChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Instructions Section -->
+        <section id="instructions">
+            <h1>Run Real VPN Backend</h1>
+            <p>These Python scripts provide actual encryption/tunneling. No install needed.</p>
+            
+            <div class="code-block">
+Terminal 1: <strong>python simple_vpn_server.py server</strong><br>
+Terminal 2: <strong>python simple_vpn_server.py client localhost user1 password123</strong>
+            </div>
+            
+            <div class="code-block">
+Dashboard: <strong>python simple_vpn_dashboard.py</strong><br>
+Open: http://localhost:8000
+            </div>
+            
+            <div class="code-block">
+Quick menu: <strong>python start_vpn.py</strong>
+            </div>
+            
+            <table>
+                <thead><tr><th>Username</th><th>Password</th><th>Role</th></tr></thead>
+                <tbody>
+                    <tr><td>user1</td><td>password123</td><td>User</td></tr>
+                    <tr><td>admin</td><td>admin789</td><td>Admin</td></tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script>
+        // Real data from vpn_measurements.json
+        const realData = {
+            baseline: { time: 0.286, stdev: 0.0087, throughput: 594 },
+            gre: { time: 0.309, stdev: 0.0148, throughput: 551 },
+            greipsec: { time: 0.941, stdev: 0.0528, throughput: 181 },
+            wireguard: { time: 0.597, stdev: 0.0281, throughput: 285 },
+            openvpn: { time: 0.799, stdev: 0.034, throughput: 213 }
+        };
+
+        let serverRunning = false, clientConnected = false, dataTransferred = 0, uptimeStart = 0;
+
+        // Navigation
+        function showSection(id) {
+            document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        // Dark mode
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+
+        // Live demo functions
+        function log(msg, type = 'info') {
+            const logBox = document.getElementById('log-box');
+            const ts = new Date().toLocaleTimeString();
+            logBox.innerHTML += `<div>[${ts}] ${msg}</div>`;
+            logBox.scrollTop = logBox.scrollHeight;
+        }
+
+        function startServer() {
+            if (serverRunning) return log('Server running', 'warning');
+            serverRunning = true; uptimeStart = Date.now();
+            document.getElementById('server-status').textContent = 'ONLINE';
+            log('VPN Server started (sim)', 'success');
+            setInterval(() => {
+                if (serverRunning) {
+                    const uptime = Math.floor((Date.now() - uptimeStart) / 1000);
+                    document.getElementById('uptime').textContent = uptime + 's';
+                }
+            }, 1000);
+        }
+
+        function stopServer() {
+            serverRunning = false; clientConnected = false;
+            document.getElementById('server-status').textContent = 'OFFLINE';
+            document.getElementById('client-status').textContent = 'OFFLINE';
+            document.getElementById('client-count').textContent = '0';
+            document.getElementById('data-transferred').textContent = '0 KB';
+            log('Stopped', 'warning');
+        }
+
+        function connectClient() {
+            if (!serverRunning) return log('Start server first', 'error');
+            clientConnected = true;
+            document.getElementById('client-status').textContent = 'CONNECTED';
+            document.getElementById('client-count').textContent = '1';
+            log('Client connected (10.8.0.2)', 'success');
+        }
+
+        function simulateTransfer() {
+            if (!clientConnected) return log('Connect client', 'error');
+            const time = realData.greipsec.time; // Example GRE+IPSec
+            log(`Transferring 170KB (${time.toFixed(3)}s real avg)`);
+            // Animate progress...
+            setTimeout(() => log('Transfer complete', 'success'), time * 1000);
+            dataTransferred += 170;
+            document.getElementById('data-transferred').textContent = dataTransferred + ' KB';
+        }
+
+        // Benchmarks
+        function runBenchmark(name, time, color, kbs) {
+            const packet = document.getElementById('bench-packet');
+            const label = document.getElementById('bench-label');
+            document.getElementById('bench-tunnel').textContent = name;
+            document.getElementById('bench-time').textContent = time.toFixed(3) + 's';
+            document.getElementById('bench-speed').textContent = kbs + ' KB/s';
+            label.textContent = name; label.style.color = color;
+            packet.style.background = color;
+            packet.style.left = '-50px';
+            setTimeout(() => {
+                packet.style.transition = `left ${time}s linear`;
+                packet.style.left = '100%';
+            }, 100);
+            setTimeout(() => {
+                document.getElementById('bench-status').textContent = '✅ Complete';
+                document.getElementById('bench-status').style.color = '#28a745';
+            }, time * 1000 + 500);
+        }
+
+        // Load real data & charts
+        async function initCharts() {
+            try {
+                const res = await fetch('vpn_measurements.json');
+                const data = await res.json();
+                populateBenchTable(data.results[0]); // First result
+                createTransferChart(data.results[0]);
+                createThroughputChart(data.results[0]);
+            } catch {
+                // Fallback real data
+                const fallback = [
+                    {vpn_name: 'Baseline', transfer_time: {mean: 0.286}, throughput: {mean: 594}},
+                    {vpn_name: 'GRE', transfer_time: {mean: 0.309}, throughput: {mean: 551}},
+                    {vpn_name: 'GRE+IPSec', transfer_time: {mean: 0.941}, throughput: {mean: 181}},
+                    {vpn_name: 'WireGuard', transfer_time: {mean: 0.597}, throughput: {mean: 285}},
+                    {vpn_name: 'OpenVPN', transfer_time: {mean: 0.799}, throughput: {mean: 213}}
+                ];
+                populateBenchTable(fallback);
+                createTransferChart(fallback);
+                createThroughputChart(fallback);
+            }
+        }
+
+        function populateBenchTable(results) {
+            const tbody = document.getElementById('bench-table');
+            tbody.innerHTML = results.map(r => 
+                `<tr><td>${r.vpn_name}</td><td>${r.transfer_time.mean.toFixed(3)}s</td><td>${r.transfer_time.stdev?.toFixed(3) || 'N/A'}</td><td>${r.throughput.mean.toFixed(0)} KB/s</td><td>${((r.transfer_time.mean / 0.286 - 1)*100).toFixed(0)}%</td></tr>`
+            ).join('');
+        }
+
+        function createTransferChart(data) {
+            new Chart(document.getElementById('transferChart'), {
+                type: 'bar', data: {
+                    labels: data.map(d => d.vpn_name),
+                    datasets: [{label: 'Transfer Time (s)', data: data.map(d => d.transfer_time.mean), backgroundColor: ['#28a745','#4a6fa5','#764ba2','#ffc107','#e74c3c']}]
+                }, options: {responsive: true, scales: {y: {beginAtZero: true}}}
+            });
+        }
+
+        function createThroughputChart(data) {
+            new Chart(document.getElementById('throughputChart'), {
+                type: 'bar', data: {
+                    labels: data.map(d => d.vpn_name),
+                    datasets: [{label: 'Throughput (KB/s)', data: data.map(d => d.throughput.mean), backgroundColor: ['#28a745','#4a6fa5','#764ba2','#ffc107','#e74c3c']}]
+                }, options: {responsive: true, scales: {y: {beginAtZero: true}}}
+            });
+        }
+
+        // Calculator
+        function runCalculator() {
+            const fileSize = parseFloat(document.getElementById('fileSize').value);
+            const baseLatency = parseFloat(document.getElementById('baseLatency').value);
+            const bandwidth = parseFloat(document.getElementById('bandwidth').value);
+            const cpuOverhead = parseFloat(document.getElementById('cpuOverhead').value);
+            
+            const vpns = [
+                {name: 'Baseline', overhead: 1.0, latencyAdd: 0, cpu: 0},
+                {name: 'GRE', overhead: 1.05, latencyAdd: 2, cpu: 0.2},
+                {name: 'GRE+IPSec', overhead: 1.35, latencyAdd: 5, cpu: 1.0},
+                {name: 'WireGuard', overhead: 1.10, latencyAdd: 3, cpu: 0.5},
+                {name: 'OpenVPN', overhead: 1.25, latencyAdd: 4, cpu: 0.8}
+            ];
+            
+            const tbody = document.getElementById('calcTable');
+            tbody.innerHTML = vpns.map(v => {
+                const effBW = bandwidth / v.overhead;
+                const tp = (effBW * 1000) / 8;
+                const lat = baseLatency + v.latencyAdd + (cpuOverhead * v.cpu);
+                const tt = (fileSize / tp) + (lat / 1000);
+                return `<tr><td>${v.name}</td><td>${(v.overhead*100).toFixed(0)}%</td><td>${lat.toFixed(1)}ms</td><td>${tp.toFixed(0)}</td><td>${tt.toFixed(2)}s</td></tr>`;
+            }).join('');
+            
+            document.getElementById('calcResults').style.display = 'block';
+        }
+
+        // Init
+        initCharts();
+    </script>
+</body>
+</html>
+

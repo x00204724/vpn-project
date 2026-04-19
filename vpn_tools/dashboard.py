@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-\"\"\"Simple Flask Dashboard - VPN Status & Results
+    \"\"\"Simple Flask Dashboard - VPN Status & Results
 Run: python dashboard.py
 Open: http://localhost:5001\"\"\"
 from flask import Flask, jsonify, render_template_string

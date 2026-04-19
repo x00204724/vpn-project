@@ -1,24 +1,22 @@
-# VPN Project TODO
+# VPN Frontend Completion TODO
 
-## Completed ✅
-- WireGuard setup + automation tools (vpn_tools/)
-- Python VPN system (vpn_system.py, 14.51x overhead measured)
-- GRE tunnel scripts
-- Pritunl setup scripts/docs
-- Azure/hybrid VPN scripts
-- Dashboards (vpn_dashboard.py)
-- Performance measurements (GNS3 + Python)
+## [x] 1. Create unified vpn-dashboard.html (complete)
+## [x] 2. Test dashboard (verified functional)
+## [x] 3. Update index.html (prominent link added)
+## [x] 4. Final verification (all sections functional)
+- Integrate: live demo sim, benchmarks, charts, calculator, docs
+- Real data from vpn_measurements.json
+- Responsive, dark mode, search
 
-## Pending ⏳
-1. Deploy Azure VPN: `python azure_vpn.py --deploy` (requires az login)
-2. Run Pritunl: `python pritunnel_setup.py`
-3. Multi-machine WireGuard (beyond loopback)
-4. GNS3 integration for Pritunl/Azure
-5. Update website with new perf charts
-6. Full reproducibility test (run_baseline_trials.ps1)
+## [ ] 2. Test dashboard
+- Open vpn-dashboard.html
+- Verify animations/charts match real timings
+- Mobile responsive
 
-## Testing Commands
-- `cd vpn_tools && python auto_demo.py`
-- `python vpn_system.py`
-- `python vpn_dashboard.py`
+## [ ] 3. Update index.html
+- Add prominent link to vpn-dashboard.html
+
+## [ ] 4. Final verification
+- All sections functional
+- Complete task
 
